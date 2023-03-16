@@ -1,0 +1,35 @@
+{
+  "starting_msg"                  : "Estimado/a, <BR><BR>",
+  "ending_msg"                    : "Saludos, <BR> El equipo de Fili <BR>",
+  
+  "payements_msgs" : {
+    "subject"                       : "PAGO - Recordatorio de vencimientos",
+    "no_invoice_today_msg"          : "<u><b>NO</b></u> tiene facturas a pagar que vencen HOY. <BR><BR>",
+    "invoice_today_msg"             : "Le recordamos que las siguientes facturas a pagar <u><b>vencen HOY</b></u>: <BR>",
+    "hint_invoice_today_msg"        : "Sugerimos comunicarse con sus proveedores para expresarles la intención de pago, el medio y la fecha esperada del mismo. <BR><BR>",
+
+    "no_invoice_expired_msg"        : "<u><b>NO</b></u> tiene facturas vencidas pendientes de pago. <BR><BR>",
+    "invoice_expired_msg"           : "Las siguientes facturas por pagar se encuentran <u><b>vencidas y pendientes de pago</b></u>: <BR>",
+    "hint_invoice_expired_msg"      : "Sugerimos comunicarse con sus proveedores para expresarles la intención de pago, el medio y la fecha esperada del mismo. <BR><BR>",
+
+    "no_invoice_to_expire_msg"      : "<u><b>NO</b></u> tiene facturas a pagar por vencer en los próximos INSERTAR VARIABLE <BR><BR>", 
+    "invoice_to_expire_msg"         : "Las siguientes facturas por pagar <u><b>vencerán en los próximos INSERTAR VARIABLE</b></u>: <BR>",
+    "hint_invoice_to_expire_msg"    : "Recomendamos planificar el pago de estas facturas y comunicárselo a sus proveedores. <BR><BR>"
+  },
+
+  "receipts_msgs" : {
+    "subject"                       : "COBRO - Recordatorio de vencimientos",
+
+    "no_invoice_today_msg"          : "<u><b>NO</b></u> tiene facturas a cobrar que vencen HOY. <BR><BR>",
+    "invoice_today_msg"             : "Le recordamos que las siguientes facturas a cobrar <u><b>vencen HOY</b></u>: <BR>",
+    "hint_invoice_today_msg"        : "Sugerimos un seguimiento cercano por Whatsapp/SMS al contacto principal de estos clientes indagando por la fecha de cobro estimada. <BR><BR>",
+
+    "no_invoice_expired_msg"        : "<u><b>NO</b></u> tiene facturas vencidas pendientes de cobro. <BR><BR>",
+    "invoice_expired_msg"           : "Las siguientes facturas por cobrar se encuentran <u><b>vencidas y pendientes de cobro</b></u>: <BR>",
+    "hint_invoice_expired_msg"      : "SUGERENCIAS PENDIENTES. <BR><BR>",
+
+    "no_invoice_to_expire_msg"      : "<u><b>NO</b></u> tiene facturas a cobrar por vencer en los próximos INSERTAR VARIABLE <BR><BR>", 
+    "invoice_to_expire_msg"         : "Las siguientes facturas por cobrar <u><b>vencerán en los próximos INSERTAR VARIABLE</b></u>: <BR>",
+    "hint_invoice_to_expire_msg"    : "Recomendamos utilizar las herramientas de notificación automática personalizable de Fili una vez llegado el día de vencimiento para evitar abrumar a su cliente. <BR><BR>"
+  }
+}
