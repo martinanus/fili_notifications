@@ -45,16 +45,21 @@ def build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv):
     
     if '0' in internal_pre_notif: internal_pre_notif.remove('0')
     
-    if internal_pre_notif:
-        invoice_pre_exp_l   = df[df.days_to_pay != 0].reset_index()
-        if invoice_pre_exp_l.size:
-            html_table      =  invoice_pre_exp_l.to_html(columns=['counterpart', 'amount', 'invoice_id', 'due_date', 'contact_email'], justify='center')
-            html_table      = utils.format_html_table(html_table)
-            body            += receipts_msgs["invoice_to_expire_msg"]
-            body            += html_table
-            body            += receipts_msgs["hint_invoice_to_expire_msg"]
-        else: 
-            body            += receipts_msgs["no_invoice_to_expire_msg"]
+    highest_notif_day = utils.get_highest_value_in_list(internal_pre_notif)
+
+    invoice_pre_exp_l   = df[df.days_to_pay != 0].reset_index()
+    if invoice_pre_exp_l.size:
+        html_table      =  invoice_pre_exp_l.to_html(columns=['counterpart', 'amount', 'invoice_id', 'due_date', 'contact_email'], justify='center')
+        html_table      = utils.format_html_table(html_table)            
+        body            += receipts_msgs["invoice_to_expire_msg_1"]
+        body            += highest_notif_day
+        body            += receipts_msgs["invoice_to_expire_msg_2"]
+        body            += html_table
+        body            += receipts_msgs["hint_invoice_to_expire_msg"]
+    else: 
+        body            += receipts_msgs["no_invoice_to_expire_msg_1"]
+        body            += highest_notif_day
+        body            += receipts_msgs["no_invoice_to_expire_msg_2"]
 
     return body
 
@@ -131,15 +136,22 @@ def build_internal_payements_notif_to_expire(paymements_msgs, df_config, df_inv)
 
     if '0' in internal_pre_notif: internal_pre_notif.remove('0')
 
+    highest_notif_day = utils.get_highest_value_in_list(internal_pre_notif)
+
     invoice_pre_exp_l   = df[df.days_to_pay != 0].reset_index()
     if invoice_pre_exp_l.size:
         html_table      =  invoice_pre_exp_l.to_html(columns=['counterpart', 'amount', 'invoice_id', 'due_date', 'contact_email'], justify='center')
         html_table      = utils.format_html_table(html_table)
-        body            += paymements_msgs["invoice_to_expire_msg"]
+        body            += paymements_msgs["invoice_to_expire_msg_1"]
+        body            += highest_notif_day
+        body            += paymements_msgs["invoice_to_expire_msg_2"]
         body            += html_table
         body            += paymements_msgs["hint_invoice_to_expire_msg"]
     else: 
-        body            += paymements_msgs["no_invoice_to_expire_msg"]
+        body            += paymements_msgs["no_invoice_to_expire_msg_1"]
+        body            += highest_notif_day
+        body            += paymements_msgs["no_invoice_to_expire_msg_2"]
+
 
     return body
 

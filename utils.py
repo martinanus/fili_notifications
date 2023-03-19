@@ -43,7 +43,7 @@ def get_days_as_list(df_config, column):
 
 # ------------------------------------------------------------------------
 # function: 
-#   get_mails_as_list()
+#   get_mails_as_list(df_config)
 # ------------------------------------------------------------------------
 def get_mails_as_list(df_config):
     vals            = df_config["internal_email"].values[-1]
@@ -53,3 +53,15 @@ def get_mails_as_list(df_config):
     str_l_no_empty  = [i for i in str_l if i]
     
     return str_l_no_empty
+
+# ------------------------------------------------------------------------
+# function: 
+#   get_mails_as_list()
+# ------------------------------------------------------------------------
+def get_highest_value_in_list(list_str):
+    list_int = [int(i) for i in list_str]
+    list_int.sort(reverse=True)
+    if not list_int:
+        return ''
+    
+    return str(list_int[0])
