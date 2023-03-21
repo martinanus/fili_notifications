@@ -28,8 +28,10 @@
 
     "no_invoice_expired_msg"        : "<u><b>NO</b></u> tiene facturas vencidas pendientes de cobro. <BR><BR>",
     "invoice_expired_msg"           : "Las siguientes facturas por cobrar se encuentran <u><b>vencidas y pendientes de cobro</b></u>: <BR>",
-    "hint_invoice_expired_msg"      : "Aquí hay algunas recomendaciones para las facturas vencidas en base a su plazo: <BR>    &emsp; &#x2022; <u>Vencidas hace 10 a 30 días:</u> realizar un llamado a sus clientes expresando su preocupación por el atraso, el monto adeudado y un pedido de fecha de pago.<BR>       &emsp; &#x2022; <u>Vencidas hace 30 a 60 días:</u> repetir el llamado a sus clientes expresando su preocupación y un pedido de fecha estimada de pago. Considerar disponibilizar medios de pago a través de nuestra plataforma.<BR>   &emsp; &#x2022; <u>Vencidas hace 60 a 90 días:</u> planificar una reestructuración del pago para asegurar el cobro de una porción del monto y comunicárselo a sus clientes.<BR>       &emsp; &#x2022; <u>Vencidas hace 90 a 120 días:</u> comunicarse con sus clientes expresando la necesidad de pago para evitar el riesgo de iniciar acciones legales dada la importancia del cobro de las facturas pendientes.<BR><BR>",
-
+    "hint_invoice_expired_msg_1"    : "Aquí hay algunas recomendaciones para las facturas vencidas en base a su plazo: <BR>    &emsp; &#x2022; <u>Vencidas hace 10 a 30 días:</u> realizar un llamado a sus clientes expresando su preocupación por el atraso, el monto adeudado y un pedido de fecha de pago.<BR>       &emsp; &#x2022; <u>Vencidas hace 30 a 60 días:</u> repetir el llamado a sus clientes expresando su preocupación y un pedido de fecha estimada de pago. Considerar disponibilizar medios de pago a través de ",
+    "hint_invoice_expired_msg_2"    : "nuestra plataforma.",
+    "hint_invoice_expired_msg_3"    : "<BR>   &emsp; &#x2022; <u>Vencidas hace 60 a 90 días:</u> planificar una reestructuración del pago para asegurar el cobro de una porción del monto y comunicárselo a sus clientes.<BR>       &emsp; &#x2022; <u>Vencidas hace 90 a 120 días:</u> comunicarse con sus clientes expresando la necesidad de pago para evitar el riesgo de iniciar acciones legales dada la importancia del cobro de las facturas pendientes.<BR><BR>",
+    
     "no_invoice_to_expire_msg_1"    : "<u><b>NO</b></u> tiene facturas a cobrar por vencer en los próximos ", 
     "no_invoice_to_expire_msg_2"    : " días <BR><BR>", 
     "invoice_to_expire_msg_1"       : "Las siguientes facturas por cobrar <u><b>vencerán en los próximos ",

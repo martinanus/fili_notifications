@@ -4,13 +4,13 @@ import utils
 # function: 
 #   build_internal_receipt_notif()
 # ------------------------------------------------------------------------
-def build_internal_receipt_notif(notif_msgs, df_config, df_inv, inv_notified):
+def build_internal_receipt_notif(notif_msgs, df_config, df_inv, inv_notified, looker_config_link):
     mail_data  = {}
     receipts_msgs       = notif_msgs["receipts_msgs"]
 
     mail_body  = notif_msgs["starting_msg"]
     mail_body += build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv_notified)
-    mail_body += build_internal_receipt_notif_expired(receipts_msgs, df_config, df_inv, inv_notified)
+    mail_body += build_internal_receipt_notif_expired(receipts_msgs, df_config, df_inv, inv_notified, looker_config_link)
     mail_body += notif_msgs["ending_msg"]
     
     mail_data["body"]    = mail_body
@@ -69,7 +69,7 @@ def build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv
 # function: 
 #   build_internal_receipt_notif_expired()
 # ------------------------------------------------------------------------
-def build_internal_receipt_notif_expired(receipts_msgs, df_config, df_inv, inv_notified):
+def build_internal_receipt_notif_expired(receipts_msgs, df_config, df_inv, inv_notified, looker_config_link):
     body = ''
     internal_post_notif     = utils.get_days_as_list(df_config, "internal_post_notif_collect")
     internal_post_notif     = ['-'+day for day in internal_post_notif]
@@ -85,7 +85,9 @@ def build_internal_receipt_notif_expired(receipts_msgs, df_config, df_inv, inv_n
         html_table      = utils.format_html_table(html_table)
         body            += receipts_msgs["invoice_expired_msg"]
         body            += html_table
-        body            += receipts_msgs["hint_invoice_expired_msg"]
+        body            += receipts_msgs["hint_invoice_expired_msg_1"]
+        body            += '<a href="'+ looker_config_link +'">'+ receipts_msgs["hint_invoice_expired_msg_2"] +'</a>'
+        body            += receipts_msgs["hint_invoice_expired_msg_3"]
         [inv_notified.append(id) for id in invoice_expired_df.invoice_id.values]
     else: 
         body            += receipts_msgs["no_invoice_expired_msg"]
