@@ -60,7 +60,6 @@ def main(request):
     #print("external_pre_notif:", external_pre_notif)
     #print("external_post_notif: " ,cexternal_post_notif)
 
-    # adds 'día del vencimiento' as 0 days
     # trigger on mondays (don't forget dues on weekend)
     # external notif w payement link
 

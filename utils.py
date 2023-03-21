@@ -38,6 +38,8 @@ def get_days_as_list(df_config, column):
     vals_trim       = re.sub("[^0-9,-]", "", vals)
     str_l           = re.split(',|-', vals_trim)
     str_l_no_empty  = [i for i in str_l if i]
+    if 'Día del vencimiento' in vals:
+        str_l_no_empty.append('0')
 
     return str_l_no_empty
 
