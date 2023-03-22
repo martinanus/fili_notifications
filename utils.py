@@ -1,5 +1,7 @@
 import json
 import re
+import datetime
+from pytz import timezone 
 
 # ------------------------------------------------------------------------
 # function: 
@@ -12,7 +14,6 @@ def read_json_file(path):
     f.close()
 
     return data
-
 
 # ------------------------------------------------------------------------
 # function: 
@@ -31,7 +32,7 @@ def format_html_table(table):
 # function: 
 #   get_days_as_list(df_config, column)
 # ------------------------------------------------------------------------
-def get_days_as_list(df_config, column):
+def get_days_as_list(df_config, column, neg_list=False):
     vals            = df_config[column].values[-1]
     if (vals is None) or (vals[0:7] is 'Ninguna'):
         return []
@@ -41,7 +42,15 @@ def get_days_as_list(df_config, column):
     if 'Día del vencimiento' in vals:
         str_l_no_empty.append('0')
 
-    return str_l_no_empty
+    list_int = [int(i) for i in str_l_no_empty]
+    
+    if neg_list:
+        list_int = [-i for i in list_int]
+
+    if is_monday():
+        list_int = append_two_prev_days(list_int, neg_list)
+
+    return list_int
 
 # ------------------------------------------------------------------------
 # function: 
@@ -67,3 +76,30 @@ def get_highest_value_in_list(list_str):
         return ''
     
     return str(list_int[0])
+
+# ------------------------------------------------------------------------
+# function: 
+#   is_monday()
+# ------------------------------------------------------------------------
+def is_monday():
+    tz       = timezone('America/Argentina/Buenos_Aires')
+    now      = datetime.datetime.now(tz)
+    weekday  = now.weekday()
+    
+    return (weekday is 0)      
+
+# ------------------------------------------------------------------------
+# function: 
+#   append_two_prev_days
+# ------------------------------------------------------------------------
+def append_two_prev_days(day_l, neg_list=False):
+    app_list = []
+    for day in day_l:      
+        app_list.append(day)
+        app_list.append(day-1)
+        app_list.append(day-2)
+    if not neg_list:
+        app_list = [day for day in app_list if (day >= 0)]        
+    else:
+        app_list = [day for day in app_list if (day < 0)]        
+    return app_list  

@@ -4,7 +4,7 @@ import requests
 
 # File imports
 import trigger_logic as trig
-import notification_build as nb
+import internal_notif_build as inb
 import big_query as bq
 import utils
 import smtp
@@ -35,8 +35,8 @@ def main(request):
     internal_email          = utils.get_mails_as_list(df_config)
     inv_notified            = []
 
-    if (trig.trigger_receipt_notif(df_config, df_inv)):
-        internal_receipt_mail = nb.build_internal_receipt_notif(notif_msgs, df_config, df_inv, inv_notified, looker_config_link)
+    if trig.trigger_receipt_notif(df_config, df_inv):
+        internal_receipt_mail = inb.build_internal_receipt_notif(notif_msgs, df_config, df_inv, inv_notified, looker_config_link)
         print(internal_receipt_mail["body"], '\n\n\n')        
         smtp.send_email_smtp(internal_receipt_mail, email_sender, internal_email)
         print("Receipt notification triggered")
@@ -44,8 +44,8 @@ def main(request):
         print("Receipt notification not triggered")
 
     
-    if (trig.trigger_payement_notif(df_config, df_inv)):
-        internal_payements_mail  = nb.build_internal_payements_notif(notif_msgs, df_config, df_inv, inv_notified)
+    if trig.trigger_payement_notif(df_config, df_inv):
+        internal_payements_mail  = inb.build_internal_payements_notif(notif_msgs, df_config, df_inv, inv_notified)
         print(internal_payements_mail["body"], '\n\n\n')
         smtp.send_email_smtp(internal_payements_mail, email_sender, internal_email)
         print("Payement notification triggered")
@@ -55,12 +55,6 @@ def main(request):
     bq.update_notification_status(invoice_table_id, client, inv_notified)
     print("Notification status has been updated in BQ")
     
-    #external_pre_notif      = utils.get_days_as_list(df_config, "external_pre_notif")
-    #external_post_notif     = utils.get_days_as_list(df_config, "external_post_notif")
-    #print("external_pre_notif:", external_pre_notif)
-    #print("external_post_notif: " ,cexternal_post_notif)
-
-    # trigger on mondays (don't forget dues on weekend)
     # external notif w payement link
 
     return "Las notificaciones fueron enviadas!"
