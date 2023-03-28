@@ -1,0 +1,39 @@
+{
+  "starting_msg"                  : "Estimado/a, <BR><BR>",
+  "ending_msg"                    : "Saludos, <BR> El equipo de Fili <BR>",
+  
+  "pre_exp_msgs" : {
+    "subject"                       : "{nombre_de_su_empresa}: ${monto adeudado por vencer en la fecha próxima} vencerán el {fecha de vencimiento}",
+
+    "body"                          : "<u><b>NO</b></u> tiene facturas a pagar que vencen HOY. <BR><BR>",
+    "otro"                          : "<u><b>NO</b></u> tiene facturas a pagar que vencen HOY. <BR><BR>"    
+  },
+
+  "expired_1_msgs" : {
+    "subject"                       : "{nombre_de_su_empresa}: ${monto adeudado vencido} adeudado",
+    
+    "body"                          : "<u><b>NO</b></u> tiene facturas a pagar que vencen HOY. <BR><BR>",
+    "otro"                          : "<u><b>NO</b></u> tiene facturas a pagar que vencen HOY. <BR><BR>"    
+  },
+
+  "expired_2_msgs" : {
+    "subject"                       : "[Recordatorio] {nombre_de_su_empresa}: ${monto adeudado vencido} vencido",
+    
+    "body"                          : "<u><b>NO</b></u> tiene facturas a pagar que vencen HOY. <BR><BR>",
+    "otro"                          : "<u><b>NO</b></u> tiene facturas a pagar que vencen HOY. <BR><BR>"    
+  },
+
+  "expired_3_msgs" : {
+    "subject"                       : "[URGENTE] {nombre_de_su_empresa}: $ atrasado",
+    
+    "body"                          : "<u><b>NO</b></u> tiene facturas a pagar que vencen HOY. <BR><BR>",
+    "otro"                          : "<u><b>NO</b></u> tiene facturas a pagar que vencen HOY. <BR><BR>"    
+  },
+
+  "expired_4_msgs" : {
+    "subject"                       : "Carta de emplazamiento por deuda de $",
+    
+    "body"                          : "<u><b>NO</b></u> tiene facturas a pagar que vencen HOY. <BR><BR>",
+    "otro"                          : "<u><b>NO</b></u> tiene facturas a pagar que vencen HOY. <BR><BR>"    
+  }
+}

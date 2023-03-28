@@ -2,10 +2,10 @@ from google.cloud import bigquery
 from google.oauth2 import service_account
 
 # ------------------------------------------------------------------------
-# function: 
+# function:
 #   get_client()
 # ------------------------------------------------------------------------
-def get_client(key_path):    
+def get_client(key_path):
     credentials = service_account.Credentials.from_service_account_file(
         key_path, scopes=["https://www.googleapis.com/auth/cloud-platform"],
     )
@@ -14,7 +14,7 @@ def get_client(key_path):
     return client_bq
 
 # ------------------------------------------------------------------------
-# function: 
+# function:
 #   get_configuration()
 # ------------------------------------------------------------------------
 def get_configuration(table_id, client):
@@ -31,35 +31,35 @@ def get_configuration(table_id, client):
 
 
 # ------------------------------------------------------------------------
-# function: 
+# function:
 #   get_pending_invoices()
 # ------------------------------------------------------------------------
 def get_pending_invoices(table_id, client):
-    
+
     query = """
-    SELECT relation, counterpart, amount, invoice_id, due_date, contact_email, days_to_pay, notification_status
+    SELECT relation, counterpart, amount, invoice_id, due_date, contact_email, days_to_pay,
+            notification_status_int, notification_status_ext
     FROM `""" + table_id + """`
     WHERE status!='aprobada'"""
 
-    query_job       = client.query(query)  
+    query_job       = client.query(query)
     result          = query_job.result()
     df              = result.to_dataframe()
-    
+
     return df
 
 
 # ------------------------------------------------------------------------
-# function: 
+# function:
 #   update_notification_status()
 # ------------------------------------------------------------------------
 def update_notification_status(table_id, client, inv_notified):
-    
+
     invoices_id = ','.join([str(i) for i in inv_notified])
 
     query = """
     UPDATE `""" + table_id + """`
-    SET   notification_status='notified'
+    SET   notification_status_int='notified'
     WHERE invoice_id in (""" + invoices_id + """)"""
 
-    client.query(query)  
-    
+    client.query(query)
