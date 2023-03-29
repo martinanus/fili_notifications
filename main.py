@@ -25,7 +25,7 @@ looker_config_link          = 'https://lookerstudio.google.com/u/0/reporting/6d0
 
 # ------------------------------------------------------------------------
 # function:
-#   main(request)
+#   main()
 # ------------------------------------------------------------------------
 @functions_framework.http
 def main(request):

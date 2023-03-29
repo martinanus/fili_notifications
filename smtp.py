@@ -7,8 +7,8 @@ from email.mime.text import MIMEText
 
 
 # ------------------------------------------------------------------------
-# function: 
-#   send_email_smtp(data)
+# function:
+#   send_email_smtp()
 # ------------------------------------------------------------------------
 def send_email_smtp(data, email_sender, email_to):
     html_body = "<html>                 \

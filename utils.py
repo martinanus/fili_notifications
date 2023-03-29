@@ -17,7 +17,16 @@ def read_json_file(path):
 
 # ------------------------------------------------------------------------
 # function:
-#   format_html_table(table)
+#   get_df_as_html_table()
+# ------------------------------------------------------------------------
+def get_df_as_html_table(df):
+    html_table = df.to_html(columns=['counterpart', 'amount', 'invoice_id', 'due_date', 'contact_email'], justify='center')
+
+    return html_table
+
+# ------------------------------------------------------------------------
+# function:
+#   format_html_table()
 # ------------------------------------------------------------------------
 def format_html_table(table):
     table = table.replace('counterpart', 'Cliente')
@@ -30,7 +39,7 @@ def format_html_table(table):
 
 # ------------------------------------------------------------------------
 # function:
-#   get_days_as_list(df_config, column)
+#   get_days_as_list()
 # ------------------------------------------------------------------------
 def get_days_as_list(df_config, column, neg_list=False):
     vals            = df_config[column].values[-1]
@@ -54,7 +63,7 @@ def get_days_as_list(df_config, column, neg_list=False):
 
 # ------------------------------------------------------------------------
 # function:
-#   get_mails_as_list(df_config)
+#   get_mails_as_list()
 # ------------------------------------------------------------------------
 def get_mails_as_list(df_config):
     vals            = df_config["internal_email"].values[-1]
@@ -90,7 +99,7 @@ def is_monday():
 
 # ------------------------------------------------------------------------
 # function:
-#   append_two_prev_days
+#   append_two_prev_days()
 # ------------------------------------------------------------------------
 def append_two_prev_days(day_l, neg_list=False):
     app_list = []

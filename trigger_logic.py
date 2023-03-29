@@ -2,7 +2,7 @@ import utils
 
 # ------------------------------------------------------------------------
 # function:
-#   trigger_receipt_notif(df_config, df_inv)
+#   trigger_receipt_notif()
 # ------------------------------------------------------------------------
 def trigger_receipt_notif(df_config, df_inv):
 
@@ -19,7 +19,7 @@ def trigger_receipt_notif(df_config, df_inv):
 
 # ------------------------------------------------------------------------
 # function:
-#   trigger_payement_notif(df_config, df_inv)
+#   trigger_payement_notif()
 # ------------------------------------------------------------------------
 def trigger_payement_notif(df_config, df_inv):
 
@@ -37,7 +37,7 @@ def trigger_payement_notif(df_config, df_inv):
 
 # ------------------------------------------------------------------------
 # function:
-#   get_clients_to_notify(df_config, df_inv)
+#   get_clients_to_notify()
 # ------------------------------------------------------------------------
 def get_clients_to_notify(df_config, df_inv):
 
