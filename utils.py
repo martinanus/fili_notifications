@@ -115,3 +115,123 @@ def append_two_prev_days(day_l, neg_list=False):
         app_list = [day for day in app_list if (day < 0)]
 
     return app_list
+
+
+# ------------------------------------------------------------------------
+# function:
+#   get_inv_relation_days_prepost()
+# ------------------------------------------------------------------------
+def get_inv_relation_days_prepost (df_inv, relation, days, is_pre):
+    if is_pre:
+        df                  = df_inv[(df_inv.relation==relation) &
+                                ( (df_inv.days_to_pay.isin(days) |
+                                ( (df_inv.notification_status_int=='notified') & (df_inv.days_to_pay >= 0)))) ]
+    else:
+        df                  = df_inv[(df_inv.relation==relation) &
+                                ( (df_inv.days_to_pay.isin(days) |
+                                ( (df_inv.notification_status_int=='notified') & (df_inv.days_to_pay < 0)))) ]
+    df                  = df.sort_values(by='days_to_pay', ascending=True).reset_index()
+
+    return df
+
+# ------------------------------------------------------------------------
+# function:
+#   get_total_debt()
+# ------------------------------------------------------------------------
+def get_total_debt(client, df_inv):
+    df_client = df_inv[(df_inv.relation=='Cliente') & (df_inv.counterpart==client)]
+    total_debt = df_client.amount.sum()
+    return total_debt
+
+# ------------------------------------------------------------------------
+# function:
+#   get_due_debt()
+# ------------------------------------------------------------------------
+def get_due_debt(client, df_inv):
+    df_client = df_inv[(df_inv.relation=='Cliente') & (df_inv.counterpart==client)
+                       & (df_inv.days_to_pay<0)]
+    due_debt = df_client.amount.sum()
+    return due_debt
+
+
+# ------------------------------------------------------------------------
+# function:
+#   get_clients_to_notify()
+# ------------------------------------------------------------------------
+def get_clients_to_notify(df_config, df_inv):
+    external_pre_notif_days      = get_days_as_list(df_config, "external_pre_notif_collect")
+    external_post_notif_days     = get_days_as_list(df_config, "external_post_notif_collect", neg_list=True)
+    external_notif_days          = external_pre_notif_days + external_post_notif_days
+
+    df = df_inv[(df_inv.relation=='Cliente') &
+                (df_inv.days_to_pay.isin(external_notif_days)) &
+                (df_inv.notification_status_ext!='exclude')]
+
+    clients = df['counterpart'].unique()
+
+    return clients
+
+
+# ------------------------------------------------------------------------
+# function:
+#   get_external_inv_to_notify()
+# ------------------------------------------------------------------------
+def get_external_inv_to_notify(df_config, df_inv):
+    external_pre_notif_days      = get_days_as_list(df_config, "external_pre_notif_collect")
+    external_post_notif_days     = get_days_as_list(df_config, "external_post_notif_collect", neg_list=True)
+    external_notif_days         = external_pre_notif_days + external_post_notif_days
+
+    df = df_inv[(df_inv.relation=='Cliente') &
+                (df_inv.days_to_pay.isin(external_notif_days)) &
+                (df_inv.notification_status_ext!='exclude')]
+
+    return df
+
+# ------------------------------------------------------------------------
+# function:
+#   get_inv_to_notify_by_client()
+# ------------------------------------------------------------------------
+def get_inv_to_notify_by_client(df_inv, client, external_notif_days):
+    df = df_inv[(df_inv.relation=='Cliente') &
+                (df_inv.counterpart==client) &
+                (df_inv.notification_status_ext!='exclude') &
+                ((df_inv.days_to_pay.isin(external_notif_days)) | (df_inv.notification_status_ext!='non_notified'))]
+    return df
+
+
+# ------------------------------------------------------------------------
+# function:
+#   get_due_invoices()
+# ------------------------------------------------------------------------
+def get_due_invoices(df_in):
+    df_out = df_in[(df_in.days_to_pay < 0)]
+    df_out = df_out.sort_values(by='days_to_pay', ascending=True).reset_index()
+    return df_out
+
+# ------------------------------------------------------------------------
+# function:
+#   get_pre_exp_invoices()
+# ------------------------------------------------------------------------
+def get_pre_exp_invoices(df_in):
+    df_out = df_in[(df_in.days_to_pay >= 0)]
+    df_out = df_out.sort_values(by='days_to_pay', ascending=True).reset_index()
+    return df_out
+
+# ------------------------------------------------------------------------
+# function:
+#   get_total_amout()
+# ------------------------------------------------------------------------
+def get_total_amout(df_in):
+    total_amount = df_in.amount.sum()
+    return total_amount
+
+
+# ------------------------------------------------------------------------
+# function:
+#   get_external_notification_days()
+# ------------------------------------------------------------------------
+def get_external_notification_days(df_config):
+    external_pre_notif_days      = get_days_as_list(df_config, "external_pre_notif_collect")
+    external_post_notif_days     = get_days_as_list(df_config, "external_post_notif_collect", neg_list=True)
+    external_notif_days          = external_pre_notif_days + external_post_notif_days
+    return external_notif_days

@@ -1,10 +1,16 @@
 {
   "starting_msg"                  : "Estimado/a, <BR><BR>",
   "ending_msg"                    : "Saludos, <BR> El equipo de Fili <BR>",
+
+  "payment_link_msg"              : "Además, encuentre medios de pago adicionales en este link para pagar sus facturas:<BR>",
+  "payment_confirmation_msg"      : "Si utiliza estos medios por favor envíe un comprobante de pago al realizar el mismo a {e-mail de nuestro usuario}. Si su pago ya está en curso, le rogamos que haga caso omiso de este aviso<BR><BR>",
   
   "pre_exp_msgs" : {
     "subject"                       : "{nombre_de_su_empresa}: ${monto adeudado por vencer en la fecha próxima} vencerán el {fecha de vencimiento}",
 
+    "invoice_to_expire_msg"         : "Le recuerdo con antelación el vencimiento venidero de las siguientes facturas: <BR><BR>",
+    "invoice_expired_msg"           : "En términos de facturas <b><u>vencidas y pendientes de pago </u></b>, quisiera recordarle que aún quedan pendientes las siguientes: <BR><BR>",
+    
     "body"                          : "<u><b>NO</b></u> tiene facturas a pagar que vencen HOY. <BR><BR>",
     "otro"                          : "<u><b>NO</b></u> tiene facturas a pagar que vencen HOY. <BR><BR>"    
   },

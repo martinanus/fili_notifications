@@ -17,12 +17,12 @@ def get_client(key_path):
 # function:
 #   get_configuration()
 # ------------------------------------------------------------------------
-def get_configuration(table_id, client):
+def get_configuration(table_id, bq_client):
     query = """
     SELECT *
     FROM `"""+ table_id + """`"""
 
-    query_job       = client.query(query)  # Make an API request.
+    query_job       = bq_client.query(query)  # Make an API request.
     result          = query_job.result()
     df              = result.to_dataframe()
     df              = df.sort_values(by='timestamp', ascending=True)
@@ -34,7 +34,7 @@ def get_configuration(table_id, client):
 # function:
 #   get_pending_invoices()
 # ------------------------------------------------------------------------
-def get_pending_invoices(table_id, client):
+def get_pending_invoices(table_id, bq_client):
 
     query = """
     SELECT relation, counterpart, amount, invoice_id, due_date, contact_email, days_to_pay,
@@ -42,7 +42,7 @@ def get_pending_invoices(table_id, client):
     FROM `""" + table_id + """`
     WHERE status!='aprobada'"""
 
-    query_job       = client.query(query)
+    query_job       = bq_client.query(query)
     result          = query_job.result()
     df              = result.to_dataframe()
 
@@ -53,13 +53,13 @@ def get_pending_invoices(table_id, client):
 # function:
 #   update_notification_status()
 # ------------------------------------------------------------------------
-def update_notification_status(table_id, client, inv_notified):
+def update_notification_status(table_id, bq_client, inv_notified_int):
 
-    invoices_id = ','.join([str(i) for i in inv_notified])
+    invoices_id = ','.join([str(i) for i in inv_notified_int])
 
     query = """
     UPDATE `""" + table_id + """`
     SET   notification_status_int='notified'
     WHERE invoice_id in (""" + invoices_id + """)"""
 
-    client.query(query)
+    bq_client.query(query)

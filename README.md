@@ -9,3 +9,4 @@
     - [ ] separate intimation contact
     - [ ] configure email msgs
     - [ ] add payement link
+      - [ ] check hide if not configured
