@@ -13,8 +13,9 @@ def build_internal_receipt_notif(notif_msgs, df_config, df_inv, inv_notified_int
     mail_body += build_internal_receipt_notif_expired(receipts_msgs, df_config, df_inv, inv_notified_int, looker_config_link)
     mail_body += notif_msgs["ending_msg"]
 
-    mail_data["body"]    = mail_body
-    mail_data["subject"] = receipts_msgs["subject"]
+    mail_data["body"]       = mail_body
+    mail_data["subject"]    = receipts_msgs["subject"]
+    mail_data["email_to"]   = utils.get_internal_mails_as_list(df_config)
 
     return mail_data
 
@@ -31,7 +32,7 @@ def build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv
 
     invoice_exp_today_df = df[df.days_to_pay == 0].reset_index()
     if invoice_exp_today_df.size:
-        html_table      =  utils.get_df_as_html_table(invoice_exp_today_df)
+        html_table      =  utils.get_df_as_internal_html_table(invoice_exp_today_df)
         html_table      =  utils.format_html_table(html_table)
         body            += receipts_msgs["invoice_today_msg"]
         body            += html_table
@@ -46,7 +47,7 @@ def build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv
 
     invoice_pre_exp_df   = df[df.days_to_pay != 0].reset_index()
     if invoice_pre_exp_df.size:
-        html_table      =  utils.get_df_as_html_table(invoice_pre_exp_df)
+        html_table      =  utils.get_df_as_internal_html_table(invoice_pre_exp_df)
         html_table      =  utils.format_html_table(html_table)
         body            += receipts_msgs["invoice_to_expire_msg_1"]
         body            += highest_notif_day
@@ -72,7 +73,7 @@ def build_internal_receipt_notif_expired(receipts_msgs, df_config, df_inv, inv_n
     invoice_expired_df = utils.get_inv_relation_days_prepost (df_inv, 'Cliente', internal_post_notif_days, is_pre=False)
 
     if invoice_expired_df.size:
-        html_table      =  utils.get_df_as_html_table(invoice_expired_df)
+        html_table      =  utils.get_df_as_internal_html_table(invoice_expired_df)
         html_table      =  utils.format_html_table(html_table)
         body            += receipts_msgs["invoice_expired_msg"]
         body            += html_table
@@ -99,8 +100,9 @@ def build_internal_payements_notif(notif_msgs, df_config, df_inv, inv_notified_i
     mail_body += notif_msgs["ending_msg"]
 
 
-    mail_data["body"]    = mail_body
-    mail_data["subject"] = paymements_msgs["subject"]
+    mail_data["body"]       = mail_body
+    mail_data["subject"]    = paymements_msgs["subject"]
+    mail_data["email_to"]   = utils.get_internal_mails_as_list(df_config)
 
     return mail_data
 
@@ -116,7 +118,7 @@ def build_internal_payements_notif_to_expire(paymements_msgs, df_config, df_inv,
 
     invoice_exp_today_df = df[df.days_to_pay == 0].reset_index()
     if invoice_exp_today_df.size:
-        html_table      =  utils.get_df_as_html_table(invoice_exp_today_df)
+        html_table      =  utils.get_df_as_internal_html_table(invoice_exp_today_df)
         html_table      =  utils.format_html_table(html_table)
         body            += paymements_msgs["invoice_today_msg"]
         body            += html_table
@@ -131,7 +133,7 @@ def build_internal_payements_notif_to_expire(paymements_msgs, df_config, df_inv,
 
     invoice_pre_exp_df   = df[df.days_to_pay != 0].reset_index()
     if invoice_pre_exp_df.size:
-        html_table      =  utils.get_df_as_html_table(invoice_pre_exp_df)
+        html_table      =  utils.get_df_as_internal_html_table(invoice_pre_exp_df)
         html_table      =  utils.format_html_table(html_table)
         body            += paymements_msgs["invoice_to_expire_msg_1"]
         body            += highest_notif_day
@@ -159,7 +161,7 @@ def build_internal_payements_notif_expired(paymements_msgs, df_config, df_inv, i
     invoice_expired_df = utils.get_inv_relation_days_prepost (df_inv, 'Proveedor', internal_post_notif_days, is_pre=False)
 
     if invoice_expired_df.size:
-        html_table      =  utils.get_df_as_html_table(invoice_expired_df)
+        html_table      =  utils.get_df_as_internal_html_table(invoice_expired_df)
         html_table      =  utils.format_html_table(html_table)
         body            += paymements_msgs["invoice_expired_msg"]
         body            += html_table

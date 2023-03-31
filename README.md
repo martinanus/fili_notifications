@@ -1,12 +1,13 @@
 ### We are developing a nice notification system for your cashflow!
 
 #### TODO List
-  - [ ] configure email msgs
   - [x] internal notification
   - [ ] external notification
     - [x] trigger logic
-    - [ ] build emails
+    - [x] build emails
+    - [ ] set msgs in json
+    - [ ] select right tone
     - [ ] separate intimation contact
-    - [ ] configure email msgs
+    - [x] configure email msgs
     - [ ] add payement link
       - [ ] check hide if not configured

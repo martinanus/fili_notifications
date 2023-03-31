@@ -17,10 +17,20 @@ def read_json_file(path):
 
 # ------------------------------------------------------------------------
 # function:
-#   get_df_as_html_table()
+#   get_df_as_internal_html_table()
 # ------------------------------------------------------------------------
-def get_df_as_html_table(df):
+def get_df_as_internal_html_table(df):
     html_table = df.to_html(columns=['counterpart', 'amount', 'invoice_id', 'due_date', 'contact_email'], justify='center')
+
+    return html_table
+
+# ------------------------------------------------------------------------
+# function:
+#   get_df_as_external_html_table()
+# ------------------------------------------------------------------------
+def get_df_as_external_html_table(df):
+    df['days_to_pay'] = df['days_to_pay'].abs()
+    html_table = df.to_html(columns=['invoice_id', 'amount', 'due_date', 'days_to_pay'], justify='center')
 
     return html_table
 
@@ -28,12 +38,18 @@ def get_df_as_html_table(df):
 # function:
 #   format_html_table()
 # ------------------------------------------------------------------------
-def format_html_table(table):
+def format_html_table(table, ext_expired=False):
     table = table.replace('counterpart', 'Cliente')
     table = table.replace('amount', 'Monto ($)')
     table = table.replace('invoice_id', 'ID factura')
     table = table.replace('due_date', 'Fecha de vencimiento')
     table = table.replace('contact_email', 'E-mail')
+
+    if ext_expired:
+        table = table.replace('days_to_pay', 'Días de atraso')
+    else:
+        table = table.replace('days_to_pay', 'Días hasta el vencimiento')
+
 
     return table
 
@@ -63,9 +79,9 @@ def get_days_as_list(df_config, column, neg_list=False):
 
 # ------------------------------------------------------------------------
 # function:
-#   get_mails_as_list()
+#   get_internal_mails_as_list()
 # ------------------------------------------------------------------------
-def get_mails_as_list(df_config):
+def get_internal_mails_as_list(df_config):
     vals            = df_config["internal_email"].values[-1]
     if (vals is None) or ('@' not in vals) or ('.' not in vals):
         return []
@@ -76,7 +92,20 @@ def get_mails_as_list(df_config):
 
 # ------------------------------------------------------------------------
 # function:
-#   get_mails_as_list()
+#   get_contact_mails_as_list()
+# ------------------------------------------------------------------------
+def get_contact_mails_as_list(df_client):
+    vals            = df_client["contact_email"].values[-1]
+    if (vals is None) or ('@' not in vals) or ('.' not in vals):
+        return []
+    str_l           = vals.split(',')
+    str_l_no_empty  = [i for i in str_l if i]
+
+    return str_l_no_empty
+
+# ------------------------------------------------------------------------
+# function:
+#   get_highest_value_in_list()
 # ------------------------------------------------------------------------
 def get_highest_value_in_list(list_str):
     list_int = [int(i) for i in list_str]

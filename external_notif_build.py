@@ -21,8 +21,9 @@ def build_external_notif(notif_msgs, df_config, df_inv, client, inv_notified_ext
 
     mail_body += notif_msgs["ending_msg"]
 
-    mail_data["body"]    = mail_body
-    mail_data["subject"] = external_msgs["subject"]
+    mail_data["body"]       = mail_body
+    mail_data["subject"]    = external_msgs["subject"]
+    mail_data["email_to"]   = utils.get_contact_mails_as_list(df_client)
 
     return mail_data
 
@@ -37,8 +38,8 @@ def build_external_notif_expired(external_msgs, df_client, inv_notified_ext):
     df_due      = utils.get_due_invoices(df_client)
 
     if df_due.size:
-        html_table      =  utils.get_df_as_html_table(df_due)
-        html_table      =  utils.format_html_table(html_table)
+        html_table      =  utils.get_df_as_external_html_table(df_due)
+        html_table      =  utils.format_html_table(html_table, ext_expired=True)
         body            += external_msgs["invoice_expired_msg"]
         body            += html_table
 
@@ -56,7 +57,7 @@ def build_external_notif_to_expire(external_msgs, df_client, inv_notified_ext):
     df_pre_exp  = utils.get_pre_exp_invoices(df_client)
 
     if df_pre_exp.size:
-        html_table      =  utils.get_df_as_html_table(df_pre_exp)
+        html_table      =  utils.get_df_as_external_html_table(df_pre_exp)
         html_table      =  utils.format_html_table(html_table)
         body            += external_msgs["invoice_to_expire_msg"]
         body            += html_table
