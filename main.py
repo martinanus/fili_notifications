@@ -62,7 +62,7 @@ def main(request):
     clients_to_notify = trig.get_clients_to_notify(df_config, df_inv)
     for client in clients_to_notify:
         external_mail = enb.build_external_notif(external_notif_msgs, df_config, df_inv, client, inv_notified_ext)
-        # smtp.send_email_smtp(external_mail, email_sender)
+        smtp.send_email_smtp(external_mail, email_sender)
         print("\n \n External notification sent to ", client)
         print(external_mail['body'])
 

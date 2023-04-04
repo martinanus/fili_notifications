@@ -5,9 +5,11 @@
   - [ ] external notification
     - [x] trigger logic
     - [x] build emails
-    - [ ] set msgs in json
+    - [x] set msgs in json
+    - [ ] set variables in msgs
     - [ ] select right tone
     - [ ] separate intimation contact
     - [x] configure email msgs
-    - [ ] add payement link
-      - [ ] check hide if not configured
+    - [x] add payement link
+      - [x] check hide if not configured
+  - [ ] add env variable for clients
