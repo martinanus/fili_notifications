@@ -182,6 +182,38 @@ def get_due_debt(client, df_inv):
     due_debt = df_client.amount.sum()
     return due_debt
 
+# ------------------------------------------------------------------------
+# function:
+#   get_to_expire_debt()
+# ------------------------------------------------------------------------
+def get_to_expire_debt(client, df_inv):
+    df_client = df_inv[(df_inv.relation=='Cliente') & (df_inv.counterpart==client)
+                       & (df_inv.days_to_pay>=0)]
+    to_expire_debt = df_client.amount.sum()
+    return to_expire_debt
+
+# ------------------------------------------------------------------------
+# function:
+#   get_oldest_invoice_id()
+# ------------------------------------------------------------------------
+def get_oldest_invoice_id(client, df_inv):
+    df_client = df_inv[(df_inv.relation=='Cliente') & (df_inv.counterpart==client)
+                       & (df_inv.days_to_pay<0)]
+    df_client = df_client.sort_values(by='days_to_pay', ascending=True).reset_index()
+    oldest_invoice_id = df_client.invoice_id.values[0]
+    return oldest_invoice_id
+
+# ------------------------------------------------------------------------
+# function:
+#   get_oldest_invoice_date()
+# ------------------------------------------------------------------------
+def get_oldest_invoice_date(client, df_inv):
+    df_client = df_inv[(df_inv.relation=='Cliente') & (df_inv.counterpart==client)
+                       & (df_inv.days_to_pay<0)]
+    df_client = df_client.sort_values(by='days_to_pay', ascending=True).reset_index()
+    oldest_invoice_date = df_client.due_date.values[0]
+    return oldest_invoice_date
+
 
 # ------------------------------------------------------------------------
 # function:
@@ -264,3 +296,12 @@ def get_external_notification_days(df_config):
     external_post_notif_days     = get_days_as_list(df_config, "external_post_notif_collect", neg_list=True)
     external_notif_days          = external_pre_notif_days + external_post_notif_days
     return external_notif_days
+
+# ------------------------------------------------------------------------
+# function:
+#   get_max_day_pre_notif_config()
+# ------------------------------------------------------------------------
+def get_max_day_pre_notif_config(df_config):
+    external_pre_notif_days      = get_days_as_list(df_config, "external_pre_notif_collect")
+    max_day_pre_notif_config = get_highest_value_in_list(external_pre_notif_days)
+    return max_day_pre_notif_config

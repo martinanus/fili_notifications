@@ -51,9 +51,9 @@ def get_pending_invoices(table_id, bq_client):
 
 # ------------------------------------------------------------------------
 # function:
-#   update_notification_status()
+#   update_notification_status_int()
 # ------------------------------------------------------------------------
-def update_notification_status(table_id, bq_client, inv_notified_int):
+def update_notification_status_int(table_id, bq_client, inv_notified_int):
 
     invoices_id = ','.join([str(i) for i in inv_notified_int])
 

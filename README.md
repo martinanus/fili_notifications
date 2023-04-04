@@ -6,7 +6,7 @@
     - [x] trigger logic
     - [x] build emails
     - [x] set msgs in json
-    - [ ] set variables in msgs
+    - [x] set variables in msgs
     - [ ] select right tone
     - [ ] separate intimation contact
     - [x] configure email msgs
