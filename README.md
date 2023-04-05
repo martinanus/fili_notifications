@@ -7,9 +7,9 @@
     - [x] build emails
     - [x] set msgs in json
     - [x] set variables in msgs
-    - [ ] select right tone
+    - [x] select right tone
     - [ ] separate intimation contact
     - [x] configure email msgs
     - [x] add payement link
-      - [x] check hide if not configured
+    - [ ] update external notif status 
   - [ ] add env variable for clients

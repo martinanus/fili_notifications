@@ -92,16 +92,17 @@ def get_internal_mails_as_list(df_config):
 
 # ------------------------------------------------------------------------
 # function:
-#   get_contact_mails_as_list()
+#   get_contact_mail_as_list()
 # ------------------------------------------------------------------------
-def get_contact_mails_as_list(df_client):
+def get_contact_mail_as_list(df_client):
     vals            = df_client["contact_email"].values[-1]
     if (vals is None) or ('@' not in vals) or ('.' not in vals):
         return []
     str_l           = vals.split(',')
     str_l_no_empty  = [i for i in str_l if i]
+    contact_mail_l  = [str_l_no_empty[0]]
 
-    return str_l_no_empty
+    return contact_mail_l
 
 # ------------------------------------------------------------------------
 # function:
@@ -167,8 +168,7 @@ def get_inv_relation_days_prepost (df_inv, relation, days, is_pre):
 # function:
 #   get_total_debt()
 # ------------------------------------------------------------------------
-def get_total_debt(client, df_inv):
-    df_client = df_inv[(df_inv.relation=='Cliente') & (df_inv.counterpart==client)]
+def get_total_debt(df_client):
     total_debt = df_client.amount.sum()
     return total_debt
 
@@ -176,9 +176,8 @@ def get_total_debt(client, df_inv):
 # function:
 #   get_due_debt()
 # ------------------------------------------------------------------------
-def get_due_debt(client, df_inv):
-    df_client = df_inv[(df_inv.relation=='Cliente') & (df_inv.counterpart==client)
-                       & (df_inv.days_to_pay<0)]
+def get_due_debt(df_client):
+    df_client = df_client[(df_client.days_to_pay<0)]
     due_debt = df_client.amount.sum()
     return due_debt
 
@@ -186,9 +185,8 @@ def get_due_debt(client, df_inv):
 # function:
 #   get_to_expire_debt()
 # ------------------------------------------------------------------------
-def get_to_expire_debt(client, df_inv):
-    df_client = df_inv[(df_inv.relation=='Cliente') & (df_inv.counterpart==client)
-                       & (df_inv.days_to_pay>=0)]
+def get_to_expire_debt(df_client):
+    df_client = df_client[(df_client.days_to_pay>=0)]
     to_expire_debt = df_client.amount.sum()
     return to_expire_debt
 
@@ -196,9 +194,8 @@ def get_to_expire_debt(client, df_inv):
 # function:
 #   get_oldest_invoice_id()
 # ------------------------------------------------------------------------
-def get_oldest_invoice_id(client, df_inv):
-    df_client = df_inv[(df_inv.relation=='Cliente') & (df_inv.counterpart==client)
-                       & (df_inv.days_to_pay<0)]
+def get_oldest_invoice_id(df_client):
+    df_client = df_client[(df_client.days_to_pay<0)]
     df_client = df_client.sort_values(by='days_to_pay', ascending=True).reset_index()
     oldest_invoice_id = df_client.invoice_id.values[0]
     return oldest_invoice_id
@@ -207,9 +204,8 @@ def get_oldest_invoice_id(client, df_inv):
 # function:
 #   get_oldest_invoice_date()
 # ------------------------------------------------------------------------
-def get_oldest_invoice_date(client, df_inv):
-    df_client = df_inv[(df_inv.relation=='Cliente') & (df_inv.counterpart==client)
-                       & (df_inv.days_to_pay<0)]
+def get_oldest_invoice_date(df_client):
+    df_client = df_client[(df_client.days_to_pay<0)]
     df_client = df_client.sort_values(by='days_to_pay', ascending=True).reset_index()
     oldest_invoice_date = df_client.due_date.values[0]
     return oldest_invoice_date
@@ -253,11 +249,11 @@ def get_external_inv_to_notify(df_config, df_inv):
 #   get_inv_to_notify_by_client()
 # ------------------------------------------------------------------------
 def get_inv_to_notify_by_client(df_inv, client, external_notif_days):
-    df = df_inv[(df_inv.relation=='Cliente') &
+    df_client = df_inv[(df_inv.relation=='Cliente') &
                 (df_inv.counterpart==client) &
                 (df_inv.notification_status_ext!='exclude') &
                 ((df_inv.days_to_pay.isin(external_notif_days)) | (df_inv.notification_status_ext!='non_notified'))]
-    return df
+    return df_client
 
 
 # ------------------------------------------------------------------------
