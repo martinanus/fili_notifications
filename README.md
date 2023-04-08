@@ -16,7 +16,7 @@
   - [ ] use unique_key instead of invoice_id
     - [ ] consider installments
     - [ ] consider recurrent pays
-  - [ ] configure fili mailbox as sender
+  - [x] configure fili mailbox as sender
   - [x] receive arguments to identify client
     - [x] looker configuration path
 

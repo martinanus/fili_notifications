@@ -10,7 +10,7 @@ from email.mime.text import MIMEText
 # function:
 #   send_email_smtp()
 # ------------------------------------------------------------------------
-def send_email_smtp(data, email_sender):
+def send_email_smtp(data, smtp_sender, smtp_password):
     html_body = "<html>                 \
                     <head></head>       \
                     <body>              \
@@ -19,13 +19,11 @@ def send_email_smtp(data, email_sender):
                     "   </p>            \
                     </body>             \
                 </html>"
-    smtp_user = email_sender
-    smtp_password = 'nwbozkcunjzuphsc'
     server = 'smtp.gmail.com'
     port = 587
     message = MIMEMultipart()
     message['Subject'] = data["subject"]
-    message['From']     = smtp_user
+    message['From']     = smtp_sender
     message['To']       = ", ".join(data["email_to"])
 
 
@@ -35,7 +33,7 @@ def send_email_smtp(data, email_sender):
     s = smtplib.SMTP(server, port)
     s.ehlo()
     s.starttls()
-    s.login(smtp_user, smtp_password)
-    s.sendmail(smtp_user, data["email_to"], message.as_string())
+    s.login(smtp_sender, smtp_password)
+    s.sendmail(smtp_sender, data["email_to"], message.as_string())
     s.quit()
 

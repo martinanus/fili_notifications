@@ -17,7 +17,8 @@ import smtp
 key_path                    = "credentials.json"
 internal_notif_msgs_path    = "internal_notif_msgs.json"
 external_notif_msgs_path    = "external_notif_msgs.json"
-email_sender                = "anusmartin1@gmail.com"
+smtp_sender                 = "soporte@somosfili.com"
+smtp_password               = "pauoevdyxnwxqbvq"
 db_request                     = {'args' : {
                                     'company_name':'sandbox',
                                     'dataset_name': 'fili_sandbox',
@@ -31,7 +32,6 @@ db_request                     = {'args' : {
 # ------------------------------------------------------------------------
 @functions_framework.http
 def main(request):
-
     if request is 'db':
         request_args = db_request["args"]
         print("Debug mode")
@@ -62,8 +62,7 @@ def main(request):
 
     if trig.trigger_receipt_notif(df_config, df_inv):
         internal_receipt_mail = inb.build_internal_receipt_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int, looker_config_link)
-        #print(internal_receipt_mail["body"], '\n\n\n')
-        smtp.send_email_smtp(internal_receipt_mail, email_sender)
+        smtp.send_email_smtp(internal_receipt_mail, smtp_sender, smtp_password)
         print("Receipt notification triggered")
     else:
         print("Receipt notification not triggered")
@@ -71,8 +70,7 @@ def main(request):
 
     if trig.trigger_payement_notif(df_config, df_inv):
         internal_payements_mail  = inb.build_internal_payements_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int)
-        #print(internal_payements_mail["body"], '\n\n\n')
-        smtp.send_email_smtp(internal_payements_mail, email_sender)
+        smtp.send_email_smtp(internal_payements_mail, smtp_sender, smtp_password)
         print("Payement notification triggered")
     else:
         print("Payement notification not triggered")
@@ -84,9 +82,8 @@ def main(request):
     clients_to_notify = trig.get_clients_to_notify(df_config, df_inv)
     for client in clients_to_notify:
         external_mail = enb.build_external_notif(external_notif_msgs, df_config, df_inv, client, inv_notified_ext, company_name)
-        smtp.send_email_smtp(external_mail, email_sender)
+        smtp.send_email_smtp(external_mail, smtp_sender, smtp_password)
         print("\n \n External notification sent to ", client)
-        #print(external_mail['body'])
 
         bq.update_notification_status_ext(invoice_table_id, bq_client, inv_notified_ext)
         print("External notification status has been updated in BQ")
@@ -95,8 +92,8 @@ def main(request):
     return "Las notificaciones fueron enviadas!"
 
 
-# ------------------------------------------------------------------------
-#   Trigger main function execution when this file is run
-# ------------------------------------------------------------------------
+# # ------------------------------------------------------------------------
+# #   Trigger main function execution when this file is run
+# # ------------------------------------------------------------------------
 if __name__ == "__main__":
     main('db')
