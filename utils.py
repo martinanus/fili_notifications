@@ -20,7 +20,7 @@ def read_json_file(path):
 #   get_df_as_internal_html_table()
 # ------------------------------------------------------------------------
 def get_df_as_internal_html_table(df):
-    html_table = df.to_html(columns=['counterpart', 'amount', 'invoice_id', 'due_date', 'contact_email'], justify='center')
+    html_table = df.to_html(columns=['counterpart', 'amount', 'invoice_id', 'due_date', 'contact_email'], justify='center', float_format='%.2f')
 
     return html_table
 
@@ -30,7 +30,7 @@ def get_df_as_internal_html_table(df):
 # ------------------------------------------------------------------------
 def get_df_as_external_html_table(df):
     df['days_to_pay'] = df['days_to_pay'].abs()
-    html_table = df.to_html(columns=['invoice_id', 'amount', 'due_date', 'days_to_pay'], justify='center')
+    html_table = df.to_html(columns=['invoice_id', 'amount', 'due_date', 'days_to_pay'], justify='center', float_format='%.2f')
 
     return html_table
 
