@@ -63,3 +63,46 @@ def update_notification_status_int(table_id, bq_client, inv_notified_int):
     WHERE invoice_id in (""" + invoices_id + """)"""
 
     bq_client.query(query)
+
+# ------------------------------------------------------------------------
+# function:
+#   update_notification_status_ext()
+# ------------------------------------------------------------------------
+def update_notification_status_ext(table_id, bq_client, inv_notified_ext):
+
+    invoices_id = ','.join([str(i) for i in inv_notified_ext])
+
+    query = """
+    CREATE OR REPLACE TABLE   `""" + table_id + """` AS
+    SELECT
+    timestamp,
+    counterpart,
+    relation,
+    invoice_id,
+    installments,
+    invoices_n,
+    periodicity,
+    invoice_date,
+    approved_date,
+    pay_delay,
+    contact_email,
+    url_invoice,
+    status,
+    notification_status_int,
+    CASE
+        WHEN days_to_pay > -1 AND invoice_id IN (""" + invoices_id + """) THEN "notified_0"
+        WHEN days_to_pay < 0 AND days_to_pay > -21 AND invoice_id IN (""" + invoices_id + """) THEN "notified_1"
+        WHEN days_to_pay < -20 AND days_to_pay > -51 AND invoice_id IN (""" + invoices_id + """) THEN "notified_2"
+        WHEN days_to_pay < -50 AND days_to_pay > -81 AND invoice_id IN (""" + invoices_id + """) THEN "notified_3"
+        WHEN days_to_pay < -80 AND invoice_id IN (""" + invoices_id + """) THEN "notified_4"
+        ELSE notification_status_ext
+    END AS notification_status_ext,
+    installment_n,
+    due_date,
+    amount,
+    unique_key,
+    days_to_pay
+    FROM
+    `""" + table_id + """`"""
+
+    bq_client.query(query)

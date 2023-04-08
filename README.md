@@ -8,8 +8,9 @@
     - [x] set msgs in json
     - [x] set variables in msgs
     - [x] select right tone
-    - [ ] separate intimation contact
+    - [ ] ~~separate intimation contact~~ don't use intimation tone
     - [x] configure email msgs
     - [x] add payement link
-    - [ ] update external notif status 
+    - [x] update external notif status 
   - [ ] add env variable for clients
+  - [ ] use unique_key instead of invoice_id

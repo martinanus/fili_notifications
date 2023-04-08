@@ -39,33 +39,36 @@ def main(request):
     inv_notified_int        = []
     inv_notified_ext        = []
 
-    # if trig.trigger_receipt_notif(df_config, df_inv):
-    #     internal_receipt_mail = inb.build_internal_receipt_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int, looker_config_link)
-    #     print(internal_receipt_mail["body"], '\n\n\n')
-    #     smtp.send_email_smtp(internal_receipt_mail, email_sender)
-    #     print("Receipt notification triggered")
-    # else:
-    #     print("Receipt notification not triggered")
+    if trig.trigger_receipt_notif(df_config, df_inv):
+        internal_receipt_mail = inb.build_internal_receipt_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int, looker_config_link)
+        print(internal_receipt_mail["body"], '\n\n\n')
+        smtp.send_email_smtp(internal_receipt_mail, email_sender)
+        print("Receipt notification triggered")
+    else:
+        print("Receipt notification not triggered")
 
 
-    # if trig.trigger_payement_notif(df_config, df_inv):
-    #     internal_payements_mail  = inb.build_internal_payements_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int)
-    #     print(internal_payements_mail["body"], '\n\n\n')
-    #     smtp.send_email_smtp(internal_payements_mail, email_sender)
-    #     print("Payement notification triggered")
-    # else:
-    #     print("Payement notification not triggered")
+    if trig.trigger_payement_notif(df_config, df_inv):
+        internal_payements_mail  = inb.build_internal_payements_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int)
+        print(internal_payements_mail["body"], '\n\n\n')
+        smtp.send_email_smtp(internal_payements_mail, email_sender)
+        print("Payement notification triggered")
+    else:
+        print("Payement notification not triggered")
 
-    # bq.update_notification_status_int(invoice_table_id, bq_client, inv_notified_int)
-    # print("Notification status has been updated in BQ")
+    bq.update_notification_status_int(invoice_table_id, bq_client, inv_notified_int)
+    print("Internal notification status has been updated in BQ")
 
 
     clients_to_notify = trig.get_clients_to_notify(df_config, df_inv)
     for client in clients_to_notify:
         external_mail = enb.build_external_notif(external_notif_msgs, df_config, df_inv, client, inv_notified_ext, company_name)
-        # smtp.send_email_smtp(external_mail, email_sender)
+        smtp.send_email_smtp(external_mail, email_sender)
         print("\n \n External notification sent to ", client)
         print(external_mail['body'])
+
+        bq.update_notification_status_ext(invoice_table_id, bq_client, inv_notified_ext)
+        print("External notification status has been updated in BQ")
 
 
 

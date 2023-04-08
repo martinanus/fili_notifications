@@ -184,7 +184,8 @@ def get_tone_by_days_range(df_client):
     max_day = np.sort(days_to_pay)[0]
 
     if max_day < -80:
-        tone = 4
+        # tone = 4  # This tone will not be allowed at the moment
+        tone = 3
     elif max_day in range(-80, -50):
         tone = 3
     elif max_day in range(-50, -20):
