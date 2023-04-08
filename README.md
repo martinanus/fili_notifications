@@ -14,5 +14,11 @@
     - [x] update external notif status 
     - [x] format amount with two decimals
   - [ ] use unique_key instead of invoice_id
+    - [ ] consider installments
+    - [ ] consider recurrent pays
   - [ ] configure fili mailbox as sender
-  - [ ] receive arguments to identify client
+  - [x] receive arguments to identify client
+    - [x] looker configuration path
+
+#### Bugs
+  - [ ] smtp fails in cloud function if recipient doesn't exist

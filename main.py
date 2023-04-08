@@ -17,12 +17,13 @@ import smtp
 key_path                    = "credentials.json"
 internal_notif_msgs_path    = "internal_notif_msgs.json"
 external_notif_msgs_path    = "external_notif_msgs.json"
-company_name                = "sandbox"
-notif_table_id              = "fili-377220.fili_sandbox.bq_notification_config"
-invoice_table_id            = "fili-377220.fili_sandbox.invoices"
-looker_config_link          = 'https://lookerstudio.google.com/u/0/reporting/6d0fee52-f9c6-495c-b7a1-c778a83a29c0/page/p_hsqtmpj82c'
 email_sender                = "anusmartin1@gmail.com"
-
+db_request                     = {'args' : {
+                                    'company_name':'sandbox',
+                                    'dataset_name': 'fili_sandbox',
+                                    'looker_config_link': 'https://lookerstudio.google.com/u/0/reporting/6d0fee52-f9c6-495c-b7a1-c778a83a29c0/page/p_hsqtmpj82c'
+                                        }
+                                }
 
 # ------------------------------------------------------------------------
 # function:
@@ -30,6 +31,26 @@ email_sender                = "anusmartin1@gmail.com"
 # ------------------------------------------------------------------------
 @functions_framework.http
 def main(request):
+
+    if request is 'db':
+        request_args = db_request["args"]
+        print("Debug mode")
+    else:
+        request_args = request.get_json(silent=True)
+        if request_args is None:
+            return "Error 400 Bad request - No json arguments detected "
+
+    company_name                = request_args["company_name"]
+    dataset_name                = request_args["dataset_name"]
+    looker_config_link          = request_args["looker_config_link"]
+    notif_table_id              = "fili-377220.{0}.bq_notification_config".format(dataset_name)
+    invoice_table_id            = "fili-377220.{0}.invoices".format(dataset_name)
+    print("\
+            company name          : {0} \n\
+            dataset               : {1} \n\
+            looker_config_link    : {2} \n"
+            .format(company_name, dataset_name, looker_config_link))
+
 
     bq_client               = bq.get_client(key_path)
     df_config               = bq.get_configuration(notif_table_id, bq_client)
@@ -41,7 +62,7 @@ def main(request):
 
     if trig.trigger_receipt_notif(df_config, df_inv):
         internal_receipt_mail = inb.build_internal_receipt_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int, looker_config_link)
-        print(internal_receipt_mail["body"], '\n\n\n')
+        #print(internal_receipt_mail["body"], '\n\n\n')
         smtp.send_email_smtp(internal_receipt_mail, email_sender)
         print("Receipt notification triggered")
     else:
@@ -50,7 +71,7 @@ def main(request):
 
     if trig.trigger_payement_notif(df_config, df_inv):
         internal_payements_mail  = inb.build_internal_payements_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int)
-        print(internal_payements_mail["body"], '\n\n\n')
+        #print(internal_payements_mail["body"], '\n\n\n')
         smtp.send_email_smtp(internal_payements_mail, email_sender)
         print("Payement notification triggered")
     else:
@@ -65,11 +86,10 @@ def main(request):
         external_mail = enb.build_external_notif(external_notif_msgs, df_config, df_inv, client, inv_notified_ext, company_name)
         smtp.send_email_smtp(external_mail, email_sender)
         print("\n \n External notification sent to ", client)
-        print(external_mail['body'])
+        #print(external_mail['body'])
 
         bq.update_notification_status_ext(invoice_table_id, bq_client, inv_notified_ext)
         print("External notification status has been updated in BQ")
-
 
 
     return "Las notificaciones fueron enviadas!"
@@ -79,4 +99,4 @@ def main(request):
 #   Trigger main function execution when this file is run
 # ------------------------------------------------------------------------
 if __name__ == "__main__":
-    main('')
+    main('db')
