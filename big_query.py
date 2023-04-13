@@ -38,7 +38,7 @@ def get_pending_invoices(table_id, bq_client):
 
     query = """
     SELECT relation, counterpart, amount, invoice_id, unique_key, due_date, contact_email, days_to_pay,
-            notification_status_int, notification_status_ext, installment_i, installment_total
+            notification_status_int, notification_status_ext, installment_i, installment_total, upload_source
     FROM `""" + table_id + """`
     WHERE status!='aprobada'"""
 
@@ -79,9 +79,10 @@ def update_notification_status_ext(table_id, bq_client, inv_notified_ext):
     counterpart,
     relation,
     invoice_id,
-    installments,
-    invoices_n,
-    periodicity,
+    installment_total,
+    fixcost_total,
+    fixcost_periodicity,
+    installment_periodicity,
     invoice_date,
     approved_date,
     pay_delay,
@@ -89,19 +90,22 @@ def update_notification_status_ext(table_id, bq_client, inv_notified_ext):
     url_invoice,
     status,
     notification_status_int,
+    fixcost_i,
+    installment_i,
+    due_date,
+    amount,
+    days_to_pay,
+    unique_key,
     CASE
         WHEN days_to_pay > -1 AND unique_key IN (""" + invoices_id + """) THEN "notified_0"
         WHEN days_to_pay < 0 AND days_to_pay > -21 AND unique_key IN (""" + invoices_id + """) THEN "notified_1"
         WHEN days_to_pay < -20 AND days_to_pay > -51 AND unique_key IN (""" + invoices_id + """) THEN "notified_2"
         WHEN days_to_pay < -50 AND days_to_pay > -81 AND unique_key IN (""" + invoices_id + """) THEN "notified_3"
         WHEN days_to_pay < -80 AND unique_key IN (""" + invoices_id + """) THEN "notified_4"
-        ELSE notification_status_ext
+    ELSE
+        notification_status_ext
     END AS notification_status_ext,
-    installment_n,
-    due_date,
-    amount,
-    unique_key,
-    days_to_pay
+    upload_source
     FROM
     `""" + table_id + """`"""
 
