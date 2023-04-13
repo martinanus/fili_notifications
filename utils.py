@@ -20,7 +20,10 @@ def read_json_file(path):
 #   get_df_as_internal_html_table()
 # ------------------------------------------------------------------------
 def get_df_as_internal_html_table(df):
-    html_table = df.to_html(columns=['counterpart', 'amount', 'invoice_id', 'due_date', 'contact_email'], justify='center', float_format='%.2f')
+
+    df['installment'] = df['installment_i'].map(str) + ' / ' + df['installment_total'].map(str)
+
+    html_table = df.to_html(columns=['counterpart', 'amount', 'invoice_id', 'due_date', 'contact_email', 'installment'], justify='center', float_format='%.2f')
 
     return html_table
 
@@ -30,7 +33,8 @@ def get_df_as_internal_html_table(df):
 # ------------------------------------------------------------------------
 def get_df_as_external_html_table(df):
     df['days_to_pay'] = df['days_to_pay'].abs()
-    html_table = df.to_html(columns=['invoice_id', 'amount', 'due_date', 'days_to_pay'], justify='center', float_format='%.2f')
+    df['installment'] = df['installment_i'].map(str) + ' / ' + df['installment_total'].map(str)
+    html_table = df.to_html(columns=['invoice_id', 'amount', 'due_date', 'days_to_pay', 'installment'], justify='center', float_format='%.2f')
 
     return html_table
 
@@ -44,6 +48,7 @@ def format_html_table(table, ext_expired=False):
     table = table.replace('invoice_id', 'ID factura')
     table = table.replace('due_date', 'Fecha de vencimiento')
     table = table.replace('contact_email', 'E-mail')
+    table = table.replace('installment', 'N° de cuota')
 
     if ext_expired:
         table = table.replace('days_to_pay', 'Días de atraso')
@@ -192,13 +197,13 @@ def get_to_expire_debt(df_client):
 
 # ------------------------------------------------------------------------
 # function:
-#   get_oldest_invoice_id()
+#   get_oldest_unique_key()
 # ------------------------------------------------------------------------
-def get_oldest_invoice_id(df_client):
+def get_oldest_unique_key(df_client):
     df_client = df_client[(df_client.days_to_pay<0)]
     df_client = df_client.sort_values(by='days_to_pay', ascending=True).reset_index()
-    oldest_invoice_id = df_client.invoice_id.values[0]
-    return oldest_invoice_id
+    oldest_unique_key = df_client.unique_key.values[0]
+    return oldest_unique_key
 
 # ------------------------------------------------------------------------
 # function:

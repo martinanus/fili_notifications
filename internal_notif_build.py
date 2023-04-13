@@ -37,7 +37,7 @@ def build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv
         body            += receipts_msgs["invoice_today_msg"]
         body            += html_table
         body            += receipts_msgs["hint_invoice_today_msg"]
-        [inv_notified_int.append(id) for id in invoice_exp_today_df.invoice_id.values]
+        [inv_notified_int.append(id) for id in invoice_exp_today_df.unique_key.values]
     else:
         body            += receipts_msgs["no_invoice_today_msg"]
 
@@ -54,7 +54,7 @@ def build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv
         body            += receipts_msgs["invoice_to_expire_msg_2"]
         body            += html_table
         body            += receipts_msgs["hint_invoice_to_expire_msg"]
-        [inv_notified_int.append(id) for id in invoice_pre_exp_df.invoice_id.values]
+        [inv_notified_int.append(id) for id in invoice_pre_exp_df.unique_key.values]
     else:
         body            += receipts_msgs["no_invoice_to_expire_msg_1"]
         body            += highest_notif_day
@@ -80,7 +80,7 @@ def build_internal_receipt_notif_expired(receipts_msgs, df_config, df_inv, inv_n
         body            += receipts_msgs["hint_invoice_expired_msg_1"]
         body            += '<a href="'+ looker_config_link +'">'+ receipts_msgs["hint_invoice_expired_msg_2"] +'</a>'
         body            += receipts_msgs["hint_invoice_expired_msg_3"]
-        [inv_notified_int.append(id) for id in invoice_expired_df.invoice_id.values]
+        [inv_notified_int.append(id) for id in invoice_expired_df.unique_key.values]
     else:
         body            += receipts_msgs["no_invoice_expired_msg"]
 
@@ -123,7 +123,7 @@ def build_internal_payements_notif_to_expire(paymements_msgs, df_config, df_inv,
         body            += paymements_msgs["invoice_today_msg"]
         body            += html_table
         body            += paymements_msgs["hint_invoice_today_msg"]
-        [inv_notified_int.append(id) for id in invoice_exp_today_df.invoice_id.values]
+        [inv_notified_int.append(id) for id in invoice_exp_today_df.unique_key.values]
     else:
         body            += paymements_msgs["no_invoice_today_msg"]
 
@@ -140,7 +140,7 @@ def build_internal_payements_notif_to_expire(paymements_msgs, df_config, df_inv,
         body            += paymements_msgs["invoice_to_expire_msg_2"]
         body            += html_table
         body            += paymements_msgs["hint_invoice_to_expire_msg"]
-        [inv_notified_int.append(id) for id in invoice_pre_exp_df.invoice_id.values]
+        [inv_notified_int.append(id) for id in invoice_pre_exp_df.unique_key.values]
     else:
         body            += paymements_msgs["no_invoice_to_expire_msg_1"]
         body            += highest_notif_day
@@ -166,7 +166,7 @@ def build_internal_payements_notif_expired(paymements_msgs, df_config, df_inv, i
         body            += paymements_msgs["invoice_expired_msg"]
         body            += html_table
         body            += paymements_msgs["hint_invoice_expired_msg"]
-        [inv_notified_int.append(id) for id in invoice_expired_df.invoice_id.values]
+        [inv_notified_int.append(id) for id in invoice_expired_df.unique_key.values]
     else:
         body            += paymements_msgs["no_invoice_expired_msg"]
 

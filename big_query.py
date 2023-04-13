@@ -37,8 +37,8 @@ def get_configuration(table_id, bq_client):
 def get_pending_invoices(table_id, bq_client):
 
     query = """
-    SELECT relation, counterpart, amount, invoice_id, due_date, contact_email, days_to_pay,
-            notification_status_int, notification_status_ext
+    SELECT relation, counterpart, amount, invoice_id, unique_key, due_date, contact_email, days_to_pay,
+            notification_status_int, notification_status_ext, installment_i, installment_total
     FROM `""" + table_id + """`
     WHERE status!='aprobada'"""
 
@@ -60,7 +60,7 @@ def update_notification_status_int(table_id, bq_client, inv_notified_int):
     query = """
     UPDATE `""" + table_id + """`
     SET   notification_status_int='notified'
-    WHERE invoice_id in (""" + invoices_id + """)"""
+    WHERE unique_key in (""" + invoices_id + """)"""
 
     bq_client.query(query)
 
@@ -90,11 +90,11 @@ def update_notification_status_ext(table_id, bq_client, inv_notified_ext):
     status,
     notification_status_int,
     CASE
-        WHEN days_to_pay > -1 AND invoice_id IN (""" + invoices_id + """) THEN "notified_0"
-        WHEN days_to_pay < 0 AND days_to_pay > -21 AND invoice_id IN (""" + invoices_id + """) THEN "notified_1"
-        WHEN days_to_pay < -20 AND days_to_pay > -51 AND invoice_id IN (""" + invoices_id + """) THEN "notified_2"
-        WHEN days_to_pay < -50 AND days_to_pay > -81 AND invoice_id IN (""" + invoices_id + """) THEN "notified_3"
-        WHEN days_to_pay < -80 AND invoice_id IN (""" + invoices_id + """) THEN "notified_4"
+        WHEN days_to_pay > -1 AND unique_key IN (""" + invoices_id + """) THEN "notified_0"
+        WHEN days_to_pay < 0 AND days_to_pay > -21 AND unique_key IN (""" + invoices_id + """) THEN "notified_1"
+        WHEN days_to_pay < -20 AND days_to_pay > -51 AND unique_key IN (""" + invoices_id + """) THEN "notified_2"
+        WHEN days_to_pay < -50 AND days_to_pay > -81 AND unique_key IN (""" + invoices_id + """) THEN "notified_3"
+        WHEN days_to_pay < -80 AND unique_key IN (""" + invoices_id + """) THEN "notified_4"
         ELSE notification_status_ext
     END AS notification_status_ext,
     installment_n,

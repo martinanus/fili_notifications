@@ -83,7 +83,7 @@ def main(request):
     for client in clients_to_notify:
         external_mail = enb.build_external_notif(external_notif_msgs, df_config, df_inv, client, inv_notified_ext, company_name)
         smtp.send_email_smtp(external_mail, smtp_sender, smtp_password)
-        print("\n \n External notification sent to ", client)
+        print("\nExternal notification sent to ", client)
 
         bq.update_notification_status_ext(invoice_table_id, bq_client, inv_notified_ext)
         print("External notification status has been updated in BQ")

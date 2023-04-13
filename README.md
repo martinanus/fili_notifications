@@ -13,7 +13,8 @@
     - [x] add payement link
     - [x] update external notif status 
     - [x] format amount with two decimals
-  - [ ] use unique_key instead of invoice_id
+    - [x] add installment in mails
+  - [ ] use unique key instead of invoice id
     - [ ] consider installments
     - [ ] consider recurrent pays
   - [x] configure fili mailbox as sender
