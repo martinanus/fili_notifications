@@ -32,11 +32,11 @@ def get_df_as_internal_html_table(df):
 #   get_df_as_external_html_table()
 # ------------------------------------------------------------------------
 def get_df_as_external_html_table(df):
-    df['days_to_pay'] = df['days_to_pay'].abs()
+    df['days_to_pay'] = df['days_to_pay'].abs().astype({'days_to_pay':'int'})
     df['installment'] = df['installment_i'].map(str) + ' / ' + df['installment_total'].map(str)
 
     df['showable_inv_id'] = df['invoice_id'].map(str)
-    df.loc[df['upload_source'] == 'manual', 'showable_inv_id'] = '-'
+    df.loc[df['is_invoice'] == False, 'showable_inv_id'] = '-'
 
     html_table = df.to_html(columns=['showable_inv_id', 'amount', 'due_date', 'days_to_pay', 'installment'], justify='center', float_format='%.2f')
 
@@ -49,7 +49,7 @@ def get_df_as_external_html_table(df):
 def format_html_table(table, ext_expired=False):
     table = table.replace('counterpart', 'Cliente')
     table = table.replace('amount', 'Monto ($)')
-    table = table.replace('invoice_id', 'ID factura')
+    table = table.replace('invoice_id', 'ID')
     table = table.replace('showable_inv_id', 'ID factura')
     table = table.replace('due_date', 'Fecha de vencimiento')
     table = table.replace('contact_email', 'E-mail')

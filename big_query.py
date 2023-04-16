@@ -38,7 +38,7 @@ def get_pending_invoices(table_id, bq_client):
 
     query = """
     SELECT relation, counterpart, amount, invoice_id, unique_key, due_date, contact_email, days_to_pay,
-            notification_status_int, notification_status_ext, installment_i, installment_total, upload_source
+            notification_status_int, notification_status_ext, installment_i, installment_total, is_invoice
     FROM `""" + table_id + """`
     WHERE status!='aprobada'"""
 
@@ -79,6 +79,7 @@ def update_notification_status_ext(table_id, bq_client, inv_notified_ext):
     counterpart,
     relation,
     invoice_id,
+    is_invoice,
     installment_total,
     fixcost_total,
     fixcost_periodicity,
@@ -105,7 +106,7 @@ def update_notification_status_ext(table_id, bq_client, inv_notified_ext):
     ELSE
         notification_status_ext
     END AS notification_status_ext,
-    upload_source
+    source
     FROM
     `""" + table_id + """`"""
 
