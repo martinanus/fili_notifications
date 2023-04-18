@@ -14,12 +14,15 @@
     - [x] update external notif status 
     - [x] format amount with two decimals
     - [x] add installment in mails
-  - [ ] use unique key instead of invoice id
-    - [ ] consider installments
-    - [ ] consider recurrent pays
+  - [x] use unique key instead of invoice id
+    - [x] consider installments
+    - [x] consider recurrent pays
   - [x] configure fili mailbox as sender
   - [x] receive arguments to identify client
     - [x] looker configuration path
+  - [x] format:
+    - [x] format amount in html tables
+    - [x] format date in html tables
 
 #### Bugs
   - [ ] smtp fails in cloud function if recipient doesn't exist
