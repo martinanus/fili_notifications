@@ -2,6 +2,7 @@ import json
 import re
 import datetime
 from pytz import timezone
+import pandas as pd
 
 # ------------------------------------------------------------------------
 # function:
@@ -17,11 +18,16 @@ def read_json_file(path):
 
 # ------------------------------------------------------------------------
 # function:
-#   get_df_as_internal_html_table()
+#   get_df_as_internal_html_table()s
 # ------------------------------------------------------------------------
 def get_df_as_internal_html_table(df):
 
     df['installment'] = df['installment_i'].map(str) + ' / ' + df['installment_total'].map(str)
+    df = format_date_column(df, 'due_date')
+
+    amount_str = []
+    [amount_str.append("{:,.2f}".format(f)) for f in df['amount']]
+    df['amount'] = amount_str
 
     html_table = df.to_html(columns=['counterpart', 'amount', 'invoice_id', 'due_date', 'contact_email', 'installment'], justify='center', float_format='%.2f')
 
@@ -37,6 +43,12 @@ def get_df_as_external_html_table(df):
 
     df['showable_inv_id'] = df['invoice_id'].map(str)
     df.loc[df['is_invoice'] == False, 'showable_inv_id'] = '-'
+
+    df = format_date_column(df, 'due_date')
+
+    amount_str = []
+    [amount_str.append("{:,.2f}".format(f)) for f in df['amount']]
+    df['amount'] = amount_str
 
     html_table = df.to_html(columns=['showable_inv_id', 'amount', 'due_date', 'days_to_pay', 'installment'], justify='center', float_format='%.2f')
 
@@ -311,3 +323,25 @@ def get_max_day_pre_notif_config(df_config):
     external_pre_notif_days      = get_days_as_list(df_config, "external_pre_notif_collect")
     max_day_pre_notif_config = get_highest_value_in_list(external_pre_notif_days)
     return max_day_pre_notif_config
+
+# ------------------------------------------------------------------------
+# function:
+#   format_date_column()
+# ------------------------------------------------------------------------
+def format_date_column(df_inv, col):
+    df_inv[col] = pd.to_datetime(df_inv[col])
+    df_inv[col] = df_inv[col].dt.strftime("%d-%m-%Y")
+    df_inv[col] = df_inv[col].str.replace('-01-', '-Ene-')
+    df_inv[col] = df_inv[col].str.replace('-02-', '-Feb-')
+    df_inv[col] = df_inv[col].str.replace('-03-', '-Mar-')
+    df_inv[col] = df_inv[col].str.replace('-04-', '-Abr-')
+    df_inv[col] = df_inv[col].str.replace('-05-', '-May-')
+    df_inv[col] = df_inv[col].str.replace('-06-', '-Jun-')
+    df_inv[col] = df_inv[col].str.replace('-07-', '-Jul-')
+    df_inv[col] = df_inv[col].str.replace('-08-', '-Ago-')
+    df_inv[col] = df_inv[col].str.replace('-09-', '-Sep-')
+    df_inv[col] = df_inv[col].str.replace('-10-', '-Oct-')
+    df_inv[col] = df_inv[col].str.replace('-11-', '-Nov-')
+    df_inv[col] = df_inv[col].str.replace('-12-', '-Dic-')
+
+    return df_inv

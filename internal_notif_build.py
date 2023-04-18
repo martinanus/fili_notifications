@@ -9,8 +9,8 @@ def build_internal_receipt_notif(notif_msgs, df_config, df_inv, inv_notified_int
     receipts_msgs       = notif_msgs["receipts_msgs"]
 
     mail_body  = notif_msgs["starting_msg"]
-    mail_body += build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv_notified_int)
     mail_body += build_internal_receipt_notif_expired(receipts_msgs, df_config, df_inv, inv_notified_int, looker_config_link)
+    mail_body += build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv_notified_int)
     mail_body += notif_msgs["ending_msg"]
 
     mail_data["body"]       = mail_body
