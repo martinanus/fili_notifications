@@ -14,7 +14,7 @@ def build_external_notif(notif_msgs, df_config, df_inv, client, inv_notified_ext
     tone                        = get_tone(df_client)
     toned_msgs                  = get_toned_msgs(tone, max_day_pre_notif_config, notif_msgs, company_name, client, df_client)
 
-    mail_body  = notif_msgs["starting_msg"]
+    mail_body  = notif_msgs["starting_msg"].format(client=client)
     mail_body += build_external_notif_expired(toned_msgs, df_client, inv_notified_ext)
     mail_body += build_external_notif_to_expire(toned_msgs, df_client, inv_notified_ext)
     mail_body += build_payment_link(notif_msgs, df_config)

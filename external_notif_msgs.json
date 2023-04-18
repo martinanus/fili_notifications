@@ -1,5 +1,5 @@
 {
-  "starting_msg"                  : "Buen día,<BR><BR>",
+  "starting_msg"                  : "Buen día equipo de {client},<BR><BR>",
   "ending_msg"                    : "No responda a este correo, ante cualquier eventualidad, comuníquese al canal habitual con su contraparte. <BR><BR>Saludos, <BR>El equipo de Fili",
 
   "payment_link_msg"              : "Además, encuentre medios de pago adicionales en este link para pagar sus cuentas:<BR> <a href='{payment_link}'>{payment_link} </a> <BR> <BR>",
