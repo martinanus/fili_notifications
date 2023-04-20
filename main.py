@@ -85,9 +85,8 @@ def main(request):
         smtp.send_email_smtp(external_mail, smtp_sender, smtp_password)
         print("\nExternal notification sent to ", client)
 
-        bq.update_notification_status_ext(invoice_table_id, bq_client, inv_notified_ext)
-        print("External notification status has been updated in BQ")
-
+    bq.update_notification_status_ext(invoice_table_id, bq_client, inv_notified_ext)
+    print("External notification status has been updated in BQ")
 
     return "Las notificaciones fueron enviadas!"
 

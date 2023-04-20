@@ -55,7 +55,7 @@ def get_pending_invoices(table_id, bq_client):
 # ------------------------------------------------------------------------
 def update_notification_status_int(table_id, bq_client, inv_notified_int):
 
-    invoices_id = ','.join([str(i) for i in inv_notified_int])
+    invoices_id = ','.join([("'"+(str(i))+"'") for i in inv_notified_int])
 
     query = """
     UPDATE `""" + table_id + """`
@@ -70,7 +70,7 @@ def update_notification_status_int(table_id, bq_client, inv_notified_int):
 # ------------------------------------------------------------------------
 def update_notification_status_ext(table_id, bq_client, inv_notified_ext):
 
-    invoices_id = ','.join([str(i) for i in inv_notified_ext])
+    invoices_id = ','.join([("'"+(str(i))+"'") for i in inv_notified_ext])
 
     query = """
     CREATE OR REPLACE TABLE   `""" + table_id + """` AS
