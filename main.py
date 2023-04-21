@@ -75,8 +75,9 @@ def main(request):
     else:
         print("Payement notification not triggered")
 
-    bq.update_notification_status_int(invoice_table_id, bq_client, inv_notified_int)
-    print("Internal notification status has been updated in BQ")
+    if inv_notified_int:
+        bq.update_notification_status_int(invoice_table_id, bq_client, inv_notified_int)
+        print("Internal notification status has been updated in BQ")
 
 
     clients_to_notify = trig.get_clients_to_notify(df_config, df_inv)
@@ -85,8 +86,9 @@ def main(request):
         smtp.send_email_smtp(external_mail, smtp_sender, smtp_password)
         print("\nExternal notification sent to ", client)
 
-    bq.update_notification_status_ext(invoice_table_id, bq_client, inv_notified_ext)
-    print("External notification status has been updated in BQ")
+    if inv_notified_ext:
+        bq.update_notification_status_ext(invoice_table_id, bq_client, inv_notified_ext)
+        print("External notification status has been updated in BQ")
 
     return "Las notificaciones fueron enviadas!"
 
