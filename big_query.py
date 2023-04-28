@@ -62,7 +62,8 @@ def update_notification_status_int(table_id, bq_client, inv_notified_int):
     SET   notification_status_int='notified'
     WHERE unique_key in (""" + invoices_id + """)"""
 
-    bq_client.query(query)
+    query_job       = bq_client.query(query)
+    query_job.result()
 
 # ------------------------------------------------------------------------
 # function:
@@ -73,41 +74,20 @@ def update_notification_status_ext(table_id, bq_client, inv_notified_ext):
     invoices_id = ','.join([("'"+(str(i))+"'") for i in inv_notified_ext])
 
     query = """
-    CREATE OR REPLACE TABLE   `""" + table_id + """` AS
-    SELECT
-    timestamp,
-    counterpart,
-    relation,
-    invoice_id,
-    is_invoice,
-    installment_total,
-    fixcost_total,
-    fixcost_periodicity,
-    installment_periodicity,
-    invoice_date,
-    approved_date,
-    pay_delay,
-    contact_email,
-    url_invoice,
-    status,
-    notification_status_int,
-    fixcost_i,
-    installment_i,
-    due_date,
-    amount,
-    days_to_pay,
-    unique_key,
-    CASE
-        WHEN days_to_pay > -1 AND unique_key IN (""" + invoices_id + """) THEN "notified_0"
-        WHEN days_to_pay < 0 AND days_to_pay > -21 AND unique_key IN (""" + invoices_id + """) THEN "notified_1"
-        WHEN days_to_pay < -20 AND days_to_pay > -51 AND unique_key IN (""" + invoices_id + """) THEN "notified_2"
-        WHEN days_to_pay < -50 AND days_to_pay > -81 AND unique_key IN (""" + invoices_id + """) THEN "notified_3"
-        WHEN days_to_pay < -80 AND unique_key IN (""" + invoices_id + """) THEN "notified_4"
-    ELSE
-        notification_status_ext
-    END AS notification_status_ext,
-    source
-    FROM
-    `""" + table_id + """`"""
+    UPDATE `""" + table_id + """`
+    SET
+    notification_status_ext =
+        CASE
+            WHEN days_to_pay >  -1                        THEN "notified_0"
+            WHEN days_to_pay <   0 AND days_to_pay > -21  THEN "notified_1"
+            WHEN days_to_pay < -20 AND days_to_pay > -51  THEN "notified_2"
+            WHEN days_to_pay < -50 AND days_to_pay > -81  THEN "notified_3"
+            WHEN days_to_pay < -80                        THEN "notified_4"
+        ELSE
+            notification_status_ext
+        END
+    WHERE
+    unique_key in  (""" + invoices_id + """);"""
 
-    bq_client.query(query)
+    query_job       = bq_client.query(query)
+    query_job.result()

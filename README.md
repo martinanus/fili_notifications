@@ -25,8 +25,8 @@
     - [x] format date in html tables
 
 #### Bugs
-  - [ ] smtp fails in cloud function if recipient doesn't exist
-  - [ ] BQ query updates are not check to have run ok
+  - [x] smtp fails in cloud function if recipient doesn't exist
+  - [x] BQ query updates are not check to have run ok
    
 Diagram: 
 ![send_notif_diagram](https://user-images.githubusercontent.com/84101337/231532890-990dc944-647a-43c9-b28b-653986f9da40.png)
