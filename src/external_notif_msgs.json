@@ -1,0 +1,52 @@
+{
+  "starting_msg"                  : "Buen día equipo de {client},<BR><BR>",
+  "ending_msg"                    : "No responda a este correo, ante cualquier eventualidad, comuníquese al canal habitual con su contraparte. <BR><BR>Saludos, <BR>El equipo de Fili",
+
+  "payment_link_msg"              : "Además, encuentre medios de pago adicionales en este link para pagar sus cuentas:<BR> <a href='{payment_link}'>{payment_link} </a> <BR> <BR>",
+  "payment_confirmation_msg"      : "Si utiliza estos medios, por favor, envíe el comprobante de pago al realizar el mismo al canal de comunicación utilizado habitualmente.<BR><BR><BR>",
+
+  "pre_exp_msgs" : {
+    "subject"                       : "{company_name}: ${to_expire_amount:,.2f} vencerán el {max_day_pre_notif_config}",
+    "greating"                      : "Espero que se encuentre bien.<BR><BR>",
+    "reminder"                      : "Me pongo en contacto con usted para recordarle sobre sus pagos pendientes con {company_name}<BR><BR>",
+    "invoice_expired_msg"           : "En términos de pagos <b><u>vencidos y pendientes</u></b>, quisiera recordarle que aún quedan pendientes los siguientes: <BR>",
+    "invoice_expired_instruction"   : "Le agradecería un pago a la brevedad dado que eso nos permite operar de manera eficiente <BR><BR>",
+    "invoice_to_expire_msg"         : "Le recuerdo con antelación el vencimiento venidero de los siguientes pagos: <BR>"
+  },
+
+  "expired_1_msgs" : {
+    "subject"                       : "{company_name}: ${due_amount:,.2f} adeudado",
+    "greating"                      : "Espero que se encuentre bien.<BR><BR>",
+    "reminder"                      : "Me pongo en contacto con usted en relación con el saldo de su cuenta, que asciende a ${total_debt:,.2f} con {company_name}, de los cuales ${due_amount:,.2f} están vencidos.<BR><BR>",
+    "invoice_expired_msg"           : "En términos de pagos <b><u>vencidos y pendientes</u></b>, quisiera recordarle que aún quedan pendientes los siguientes: <BR>",
+    "invoice_expired_instruction"   : "Le agradecería un pago rápido a la recepción de este correo electrónico. <BR><BR>",
+    "invoice_to_expire_msg"         : "Le recuerdo con antelación el vencimiento venidero de los siguientes pagos: <BR>"
+  },
+
+  "expired_2_msgs" : {
+    "subject"                       : "[Recordatorio] {company_name}: ${due_amount:,.2f} vencido",
+    "reminder"                      : "Me pongo de nuevo en contacto con usted de parte de {company_name} para informarle sobre los pagos vencidos aún estamos esperando.<BR><BR> Tenga en cuenta que el pago {oldest_unique_key} debía realizarse el {oldest_invoice_date}.<BR><BR>",
+    "greating"                      : "",
+    "invoice_expired_msg"           : "Además, su saldo total vencido asciende ahora a ${due_amount:,.2f}. Le recuerdo que los siguientes pagos se encuentran <b><u>vencidos y pendientes:</u></b><BR>",
+    "invoice_expired_instruction"   : "¿Podría comunicarnos la fecha en la que esperamos recibir su pago?<BR><BR>",
+    "invoice_to_expire_msg"         : "Le recuerdo con antelación el vencimiento venidero de los siguientes pagos: <BR>"
+  },
+
+  "expired_3_msgs" : {
+    "subject"                       : "[URGENTE] {company_name}: ${due_amount:,.2f} atrasado",
+    "reminder"                      : "A pesar de nuestros intentos anteriores para cobrar sus pagos vencidos, nos preocupa ver que su saldo vencido sigue siendo de ${due_amount:,.2f} pendientes con {company_name}.<BR><BR>",
+    "greating"                      : "",
+    "invoice_expired_msg"           : "De hecho, los siguientes pagos continúan <b><u>vencidos y pendientes</u></b>:<BR>",
+    "invoice_expired_instruction"   : "Debemos recordarle que los pagos puntuales son necesarios para que podamos operar de forma sostenible.<BR><BR> ¿Puede comunicarnos una fecha definitiva para lo anterior o hacernos saber si ya ha efectuado el pago? <BR><BR>",
+    "invoice_to_expire_msg"         : "Adicionalmente, le comunico con antelación el vencimiento venidero de los siguientes pagos: <BR>"
+  },
+
+  "expired_4_msgs" : {
+    "subject"                       : "Carta de emplazamiento por deuda de {due_amount:,.2f}",
+    "reminder"                      : "",
+    "greating"                      : "",
+    "invoice_expired_msg"           : "A pesar de varios recordatorios a su empresa, aún no hemos podido cobrar sus pagos pendientes con {company_name}, que ahora se encuentran vencidos, y, que encontrará a continuación:<BR>",
+    "invoice_expired_instruction"   : "Por ello, le exigimos que proceda al pago de {due_amount:,.2f} en los próximos 15 días. <BR><BR> Si no tenemos noticias suyas antes de antes de ese período lamentablemente tendremos que agravar la situación y recurrir a acciones legales.",
+    "invoice_to_expire_msg"         : "Le recuerdo con antelación el vencimiento venidero de los siguientes pagos: <BR>"
+  }
+}

@@ -1,0 +1,58 @@
+<mxfile modified="2023-04-12T17:14:45.698Z" host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36" etag="7KPqfE7mBXQo1wVmKamw" version="21.1.7" type="device">
+  <diagram id="anUY1C8gCAUffh6iYRCk" name="send_notif">
+    <mxGraphModel dx="1500" dy="1075" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ojb7qxbjGaZac4aThCGn-3" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0;entryDx=0;entryDy=58;entryPerimeter=0;fontSize=12;startSize=8;endSize=8;exitX=0.911;exitY=0.327;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="ojb7qxbjGaZac4aThCGn-4" target="ojb7qxbjGaZac4aThCGn-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ojb7qxbjGaZac4aThCGn-20" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="ojb7qxbjGaZac4aThCGn-4" target="ojb7qxbjGaZac4aThCGn-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ojb7qxbjGaZac4aThCGn-21" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.7;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="ojb7qxbjGaZac4aThCGn-4" target="ojb7qxbjGaZac4aThCGn-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ojb7qxbjGaZac4aThCGn-4" value="Función&lt;br&gt;Enviar Notificaciones&lt;br&gt;&lt;font color=&quot;#000099&quot;&gt;[Cloud Function]&lt;/font&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="-276" y="-192" width="257" height="192" as="geometry" />
+        </mxCell>
+        <mxCell id="ojb7qxbjGaZac4aThCGn-9" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.96;entryY=0.7;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="ojb7qxbjGaZac4aThCGn-5" target="ojb7qxbjGaZac4aThCGn-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ojb7qxbjGaZac4aThCGn-10" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.939;entryY=0.592;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="1" source="ojb7qxbjGaZac4aThCGn-5" target="ojb7qxbjGaZac4aThCGn-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ojb7qxbjGaZac4aThCGn-5" value="&lt;font color=&quot;#6666ff&quot;&gt;[BigQuery]&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="334" y="-181.5" width="103" height="171" as="geometry" />
+        </mxCell>
+        <mxCell id="ojb7qxbjGaZac4aThCGn-6" value="Envío de notificaciones" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="-2" y="-293" width="219" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="ojb7qxbjGaZac4aThCGn-8" value="data invoices" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontColor=#FF0F47;" vertex="1" parent="1">
+          <mxGeometry x="95" y="-69" width="111" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="ojb7qxbjGaZac4aThCGn-13" value="data configuraciones" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontColor=#FF0F47;" vertex="1" parent="1">
+          <mxGeometry x="68" y="-111.5" width="166" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="ojb7qxbjGaZac4aThCGn-15" value="actualiza estados notificados" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontColor=#FF0F47;" vertex="1" parent="1">
+          <mxGeometry x="29" y="-164" width="223" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="ojb7qxbjGaZac4aThCGn-19" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="155" y="126" width="135" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ojb7qxbjGaZac4aThCGn-16" value="" style="shape=message;html=1;html=1;outlineConnect=0;labelPosition=center;verticalLabelPosition=bottom;align=center;verticalAlign=top;fontSize=16;" vertex="1" parent="ojb7qxbjGaZac4aThCGn-19">
+          <mxGeometry width="135" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ojb7qxbjGaZac4aThCGn-18" value="&lt;font color=&quot;#4c0099&quot;&gt;[SMTP API]&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;" vertex="1" parent="ojb7qxbjGaZac4aThCGn-19">
+          <mxGeometry x="14" y="42" width="100" height="31" as="geometry" />
+        </mxCell>
+        <mxCell id="ojb7qxbjGaZac4aThCGn-22" value="envio notif &lt;br&gt;internas&lt;br&gt;(cobros&amp;nbsp; + pagos)&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontColor=#FF0000;" vertex="1" parent="1">
+          <mxGeometry x="53" y="-6" width="147" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="ojb7qxbjGaZac4aThCGn-23" value="envio notif &lt;br&gt;externas&lt;br&gt;(1 por cliente)&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontColor=#FF0000;" vertex="1" parent="1">
+          <mxGeometry x="-104" y="48" width="120" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

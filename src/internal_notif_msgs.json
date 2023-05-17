@@ -1,0 +1,41 @@
+{
+  "starting_msg"                  : "Estimado/a, <BR><BR>",
+  "ending_msg"                    : "Saludos, <BR> El equipo de Fili <BR>",
+  
+  "payements_msgs" : {
+    "subject"                       : "PAGO - Recordatorio de vencimientos",
+    "no_invoice_today_msg"          : "<u><b>NO</b></u> tiene cuentas por pagar que vencen HOY. <BR><BR>",
+    "invoice_today_msg"             : "Le recordamos que las siguientes cuentas por pagar <u><b>vencen HOY</b></u>: <BR>",
+    "hint_invoice_today_msg"        : "Sugerimos comunicarse con sus proveedores para expresarles la intención de pago, el medio y la fecha esperada del mismo. <BR><BR>",
+
+    "no_invoice_expired_msg"        : "<u><b>NO</b></u> tiene facturas vencidas pendientes de pago. <BR><BR>",
+    "invoice_expired_msg"           : "Las siguientes cuentas por pagar se encuentran <u><b>vencidas y pendientes de pago</b></u>: <BR>",
+    "hint_invoice_expired_msg"      : "Sugerimos comunicarse con sus proveedores para expresarles la intención de pago, el medio y la fecha esperada del mismo. <BR><BR>",
+
+    "no_invoice_to_expire_msg_1"    : "<u><b>NO</b></u> tiene cuentas por pagar que vencen en los próximos ", 
+    "no_invoice_to_expire_msg_2"    : " días <BR><BR>", 
+    "invoice_to_expire_msg_1"       : "Las siguientes cuentas por pagar <u><b>vencerán en los próximos ",
+    "invoice_to_expire_msg_2"       : " días </b></u>: <BR>", 
+    "hint_invoice_to_expire_msg"    : "Recomendamos planificar el pago de estas cuentas y comunicárselo a sus proveedores. <BR><BR>"
+  },
+
+  "receipts_msgs" : {
+    "subject"                       : "COBRO - Recordatorio de vencimientos",
+
+    "no_invoice_today_msg"          : "<u><b>NO</b></u> tiene cuentas por cobrar que vencen HOY. <BR><BR>",
+    "invoice_today_msg"             : "Le recordamos que las siguientes cuentas por cobrar <u><b>vencen HOY</b></u>: <BR>",
+    "hint_invoice_today_msg"        : "Sugerimos un seguimiento cercano por Whatsapp/SMS al contacto principal de estos clientes indagando por la fecha de cobro estimada. <BR><BR>",
+
+    "no_invoice_expired_msg"        : "<u><b>NO</b></u> tiene cuentas por cobrar vencidas pendientes. <BR><BR>",
+    "invoice_expired_msg"           : "Las siguientes cuentas por cobrar se encuentran <u><b>vencidas y pendientes de cobro</b></u>: <BR>",
+    "hint_invoice_expired_msg_1"    : "Aquí hay algunas recomendaciones para las cuentas por cobrar vencidas en base a su plazo: <BR>    &emsp; &#x2022; <u>Vencidas hace 10 a 30 días:</u> realizar un llamado a sus clientes expresando su preocupación por el atraso, el monto adeudado y un pedido de fecha de pago.<BR>       &emsp; &#x2022; <u>Vencidas hace 31 a 50 días:</u> repetir el llamado a sus clientes expresando su preocupación y un pedido de fecha estimada de pago. Considerar disponibilizar medios de pago a través de ",
+    "hint_invoice_expired_msg_2"    : "nuestra plataforma.",
+    "hint_invoice_expired_msg_3"    : "<BR>   &emsp; &#x2022; <u>Vencidas hace 51 a 80 días:</u> planificar una reestructuración del pago para asegurar el cobro de una porción del monto y comunicárselo a sus clientes.<BR>       &emsp; &#x2022; <u>Vencidas hace 81 a 120 días:</u> comunicarse con sus clientes expresando la necesidad de pago para evitar el riesgo de iniciar acciones legales dada la importancia del cobro de las cuentas pendientes.<BR><BR>",
+    
+    "no_invoice_to_expire_msg_1"    : "<u><b>NO</b></u> tiene cuentas por cobrar que vencen en los próximos ", 
+    "no_invoice_to_expire_msg_2"    : " días <BR><BR>", 
+    "invoice_to_expire_msg_1"       : "Las siguientes cuentas por cobrar <u><b>vencerán en los próximos ",
+    "invoice_to_expire_msg_2"       : " días </b></u>: <BR>", 
+    "hint_invoice_to_expire_msg"    : "Recomendamos utilizar las herramientas de notificación automática personalizable de Fili una vez llegado el día de vencimiento para evitar abrumar a su cliente. <BR><BR>"
+  }
+}
