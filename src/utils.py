@@ -171,15 +171,15 @@ def append_two_prev_days(day_l, neg_list=False):
 
 # ------------------------------------------------------------------------
 # function:
-#   get_inv_relation_days_prepost()
+#   get_inv_in_days()
 # ------------------------------------------------------------------------
-def get_inv_relation_days_prepost (df_inv, relation, days, is_pre):
+def get_inv_in_days(df_inv, days, is_income, is_pre):
     if is_pre:
-        df                  = df_inv[(df_inv.relation==relation) &
+        df                  = df_inv[(df_inv.is_income==is_income) &
                                 ( (df_inv.days_to_pay.isin(days) |
                                 ( (df_inv.notification_status_int=='notified') & (df_inv.days_to_pay >= 0)))) ]
     else:
-        df                  = df_inv[(df_inv.relation==relation) &
+        df                  = df_inv[(df_inv.is_income==is_income) &
                                 ( (df_inv.days_to_pay.isin(days) |
                                 ( (df_inv.notification_status_int=='notified') & (df_inv.days_to_pay < 0)))) ]
     df                  = df.sort_values(by='days_to_pay', ascending=True).reset_index()
@@ -242,7 +242,7 @@ def get_clients_to_notify(df_config, df_inv):
     external_post_notif_days     = get_days_as_list(df_config, "external_post_notif_collect", neg_list=True)
     external_notif_days          = external_pre_notif_days + external_post_notif_days
 
-    df = df_inv[(df_inv.relation=='Cliente') &
+    df = df_inv[(df_inv.is_income==True) &
                 (df_inv.days_to_pay.isin(external_notif_days)) &
                 (df_inv.notification_status_ext!='exclude')]
 
@@ -260,7 +260,7 @@ def get_external_inv_to_notify(df_config, df_inv):
     external_post_notif_days     = get_days_as_list(df_config, "external_post_notif_collect", neg_list=True)
     external_notif_days         = external_pre_notif_days + external_post_notif_days
 
-    df = df_inv[(df_inv.relation=='Cliente') &
+    df = df_inv[(df_inv.is_income==True) &
                 (df_inv.days_to_pay.isin(external_notif_days)) &
                 (df_inv.notification_status_ext!='exclude')]
 
@@ -271,7 +271,7 @@ def get_external_inv_to_notify(df_config, df_inv):
 #   get_inv_to_notify_by_client()
 # ------------------------------------------------------------------------
 def get_inv_to_notify_by_client(df_inv, client, external_notif_days):
-    df_client = df_inv[(df_inv.relation=='Cliente') &
+    df_client = df_inv[(df_inv.is_income==True) &
                 (df_inv.counterpart==client) &
                 (df_inv.notification_status_ext!='exclude') &
                 ((df_inv.days_to_pay.isin(external_notif_days)) | (df_inv.notification_status_ext!='non_notified'))]
