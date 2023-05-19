@@ -28,7 +28,7 @@ def build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv
 
     internal_pre_notif_days  = utils.get_days_as_list(df_config, "internal_pre_notif_collect")
 
-    df = utils.get_inv_relation_days_prepost (df_inv, 'Cliente', internal_pre_notif_days, is_pre=True)
+    df = utils.get_inv_in_days (df_inv, internal_pre_notif_days, is_income=True, is_pre=True)
 
     invoice_exp_today_df = df[df.days_to_pay == 0].reset_index()
     if invoice_exp_today_df.size:
@@ -70,7 +70,7 @@ def build_internal_receipt_notif_expired(receipts_msgs, df_config, df_inv, inv_n
     body = ''
     internal_post_notif_days     = utils.get_days_as_list(df_config, "internal_post_notif_collect", neg_list=True)
 
-    invoice_expired_df = utils.get_inv_relation_days_prepost (df_inv, 'Cliente', internal_post_notif_days, is_pre=False)
+    invoice_expired_df = utils.get_inv_in_days (df_inv, internal_post_notif_days, is_income=True, is_pre=False)
 
     if invoice_expired_df.size:
         html_table      =  utils.get_df_as_internal_html_table(invoice_expired_df)
@@ -114,7 +114,7 @@ def build_internal_payements_notif_to_expire(paymements_msgs, df_config, df_inv,
     body                    = ''
     internal_pre_notif_days      = utils.get_days_as_list(df_config, "internal_pre_notif_pay")
 
-    df = utils.get_inv_relation_days_prepost (df_inv, 'Proveedor', internal_pre_notif_days, is_pre=True)
+    df = utils.get_inv_in_days (df_inv, internal_pre_notif_days, is_income=False, is_pre=True)
 
     invoice_exp_today_df = df[df.days_to_pay == 0].reset_index()
     if invoice_exp_today_df.size:
@@ -158,7 +158,7 @@ def build_internal_payements_notif_expired(paymements_msgs, df_config, df_inv, i
 
     internal_post_notif_days     = utils.get_days_as_list(df_config, "internal_post_notif_pay", neg_list=True)
 
-    invoice_expired_df = utils.get_inv_relation_days_prepost (df_inv, 'Proveedor', internal_post_notif_days, is_pre=False)
+    invoice_expired_df = utils.get_inv_in_days (df_inv, internal_post_notif_days, is_income=False, is_pre=False)
 
     if invoice_expired_df.size:
         html_table      =  utils.get_df_as_internal_html_table(invoice_expired_df)

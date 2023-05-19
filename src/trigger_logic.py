@@ -13,7 +13,7 @@ def trigger_receipt_notif(df_config, df_inv):
     internal_post_notif_days     = utils.get_days_as_list(df_config, "internal_post_notif_collect", neg_list=True)
     internal_notif_days          = internal_pre_notif_days + internal_post_notif_days
 
-    df = df_inv[(df_inv.relation=='Cliente') & (df_inv.days_to_pay.isin(internal_notif_days))]
+    df = df_inv[(df_inv.is_income==True) & (df_inv.days_to_pay.isin(internal_notif_days))]
 
     return df.size
 
@@ -31,7 +31,7 @@ def trigger_payement_notif(df_config, df_inv):
 
     internal_notif_days         = internal_pre_notif_days + internal_post_notif_days
 
-    df = df_inv[(df_inv.relation=='Proveedor') & (df_inv.days_to_pay.isin(internal_notif_days))]
+    df = df_inv[(df_inv.is_income==False) & (df_inv.days_to_pay.isin(internal_notif_days))]
 
     return df.size
 
@@ -45,7 +45,7 @@ def get_clients_to_notify(df_config, df_inv):
     external_post_notif_days     = utils.get_days_as_list(df_config, "external_post_notif_collect", neg_list=True)
     external_notif_days          = external_pre_notif_days + external_post_notif_days
 
-    df = df_inv[(df_inv.relation=='Cliente') &
+    df = df_inv[(df_inv.is_income==True) &
                 (df_inv.days_to_pay.isin(external_notif_days)) &
                 (df_inv.notification_status_ext!='exclude')]
 
