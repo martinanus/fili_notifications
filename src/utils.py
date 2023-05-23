@@ -29,7 +29,14 @@ def get_df_as_internal_html_table(df):
     [amount_str.append("{:,.2f}".format(f)) for f in df['amount']]
     df['amount'] = amount_str
 
-    html_table = df.to_html(columns=['counterpart', 'amount', 'invoice_id', 'due_date', 'contact_email', 'installment'], justify='center', float_format='%.2f')
+    df['showable_url'] = '<a href="'+ df['url_invoice'].map(str) +'"> Click aquí</a>'
+    df.loc[df['url_invoice'].isnull(), 'showable_url'] = '-'
+
+
+    html_table = df.to_html(columns=['counterpart', 'amount', 'invoice_id', 'due_date', 'contact_email', 'installment', 'showable_url'], justify='center', float_format='%.2f')
+
+    html_table = html_table.replace('&lt;', '<')
+    html_table = html_table.replace('&gt;', '>')
 
     return html_table
 
@@ -66,6 +73,8 @@ def format_html_table(table, ext_expired=False):
     table = table.replace('due_date', 'Fecha de vencimiento')
     table = table.replace('contact_email', 'E-mail')
     table = table.replace('installment', 'N° de cuota')
+    table = table.replace('showable_url', 'Factura adjunta')
+
 
     if ext_expired:
         table = table.replace('days_to_pay', 'Días de atraso')
