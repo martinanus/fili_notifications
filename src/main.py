@@ -22,7 +22,7 @@ smtp_password               = "ssoxfgtuaurhtopd"
 db_request                     = {'args' : {
                                     'company_name':'sandbox',
                                     'dataset_name': 'fili_sandbox',
-                                    'looker_config_link': 'https://lookerstudio.google.com/u/0/reporting/6d0fee52-f9c6-495c-b7a1-c778a83a29c0/page/p_hsqtmpj82c'
+                                    'looker_config_link': 'https://lookerstudio.google.com/reporting/4b0c66d1-c215-483c-ba4f-bc03f4c93659/page/p_hsqtmpj82c'
                                         }
                                 }
 

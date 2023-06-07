@@ -237,6 +237,7 @@ def get_oldest_unique_key(df_client):
 def get_oldest_invoice_date(df_client):
     df_client = df_client.sort_values(by='days_to_pay', ascending=True).reset_index()
     oldest_invoice_date = df_client.due_date.values[0]
+    oldest_invoice_date = pd.to_datetime(oldest_invoice_date).strftime("%d-%m-%Y")
     return oldest_invoice_date
 
 

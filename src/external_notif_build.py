@@ -12,7 +12,7 @@ def build_external_notif(notif_msgs, df_config, df_inv, client, inv_notified_ext
     df_client                   = utils.get_inv_to_notify_by_client(df_inv, client, external_notif_days)
     max_day_pre_notif_config    = utils.get_max_day_pre_notif_config(df_config)
     tone                        = get_tone(df_client)
-    toned_msgs                  = get_toned_msgs(tone, max_day_pre_notif_config, notif_msgs, company_name, client, df_client)
+    toned_msgs                  = get_toned_msgs(tone, max_day_pre_notif_config, notif_msgs, company_name, df_client)
 
     mail_body  = notif_msgs["starting_msg"].format(client=client)
     mail_body += build_external_notif_expired(toned_msgs, df_client, inv_notified_ext)
@@ -92,18 +92,15 @@ def build_payment_link(notif_msgs, df_config):
 # function:
 #   get_toned_msgs()
 # ------------------------------------------------------------------------
-def get_toned_msgs(tone, max_day_pre_notif_config, notif_msgs, company_name, client, df_client):
+def get_toned_msgs(tone, max_day_pre_notif_config, notif_msgs, company_name, df_client):
 
-    total_debt                  = utils.get_total_debt(df_client)
-    due_amount                  = utils.get_due_debt(df_client)
-    to_expire_amount            = utils.get_to_expire_debt(df_client)
     oldest_unique_key           = utils.get_oldest_unique_key(df_client)
     oldest_invoice_date         = utils.get_oldest_invoice_date(df_client)
 
     if tone is 0:
         tone_msgs       = notif_msgs["pre_exp_msgs"]
 
-        subject         = tone_msgs["subject"].format(company_name=company_name,to_expire_amount=to_expire_amount, max_day_pre_notif_config=max_day_pre_notif_config)
+        subject         = tone_msgs["subject"].format(company_name=company_name, max_day_pre_notif_config=max_day_pre_notif_config)
         greating        = tone_msgs["greating"]
         reminder        = tone_msgs["reminder"].format(company_name=company_name)
         expired_msg     = tone_msgs["invoice_expired_msg"]
@@ -112,38 +109,38 @@ def get_toned_msgs(tone, max_day_pre_notif_config, notif_msgs, company_name, cli
     elif tone is 1:
         tone_msgs = notif_msgs["expired_1_msgs"]
 
-        subject         = tone_msgs["subject"].format(company_name=company_name,due_amount=due_amount)
+        subject         = tone_msgs["subject"].format(company_name=company_name)
         greating        = tone_msgs["greating"]
-        reminder        = tone_msgs["reminder"].format(company_name=company_name, total_debt=total_debt,due_amount=due_amount)
+        reminder        = tone_msgs["reminder"].format(company_name=company_name)
         expired_msg     = tone_msgs["invoice_expired_msg"]
         expired_instr   = tone_msgs["invoice_expired_instruction"]
         to_expire       = tone_msgs["invoice_to_expire_msg"]
     elif tone is 2:
         tone_msgs = notif_msgs["expired_2_msgs"]
 
-        subject         = tone_msgs["subject"].format(company_name=company_name, due_amount=due_amount)
+        subject         = tone_msgs["subject"].format(company_name=company_name)
         greating        = tone_msgs["greating"]
         reminder        = tone_msgs["reminder"].format(company_name=company_name, oldest_unique_key=oldest_unique_key,oldest_invoice_date=oldest_invoice_date)
-        expired_msg     = tone_msgs["invoice_expired_msg"].format(due_amount=due_amount)
+        expired_msg     = tone_msgs["invoice_expired_msg"]
         expired_instr   = tone_msgs["invoice_expired_instruction"]
         to_expire       = tone_msgs["invoice_to_expire_msg"]
     elif tone is 3:
         tone_msgs = notif_msgs["expired_3_msgs"]
 
-        subject         = tone_msgs["subject"].format(company_name=company_name,due_amount=due_amount)
+        subject         = tone_msgs["subject"].format(company_name=company_name)
         greating        = tone_msgs["greating"]
-        reminder        = tone_msgs["reminder"].format(company_name=company_name, due_amount=due_amount)
+        reminder        = tone_msgs["reminder"].format(company_name=company_name)
         expired_msg     = tone_msgs["invoice_expired_msg"]
         expired_instr   = tone_msgs["invoice_expired_instruction"]
         to_expire       = tone_msgs["invoice_to_expire_msg"]
     elif tone is 4:
         tone_msgs = notif_msgs["expired_4_msgs"]
 
-        subject         = tone_msgs["subject"].format(due_amount=due_amount)
+        subject         = tone_msgs["subject"].format(company_name=company_name)
         greating        = tone_msgs["greating"]
         reminder        = tone_msgs["reminder"]
         expired_msg     = tone_msgs["invoice_expired_msg".format(company_name=company_name)]
-        expired_instr   = tone_msgs["invoice_expired_instruction"].format(due_amount=due_amount)
+        expired_instr   = tone_msgs["invoice_expired_instruction"]
         to_expire       = tone_msgs["invoice_to_expire_msg"]
 
 
