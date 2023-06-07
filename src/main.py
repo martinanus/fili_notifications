@@ -7,6 +7,7 @@ import trigger_logic as trig
 import internal_notif_build as inb
 import external_notif_build as enb
 import big_query as bq
+import drive_api as drive
 import utils
 import smtp
 
@@ -14,7 +15,8 @@ import smtp
 # ------------------------------------------------------------------------
 # Global variables
 # ------------------------------------------------------------------------
-key_path                    = "credentials.json"
+bq_key_path                 = "bq_credentials.json"
+drive_token_path            = "drive_token.json"
 internal_notif_msgs_path    = "internal_notif_msgs.json"
 external_notif_msgs_path    = "external_notif_msgs.json"
 smtp_sender                 = "soporte@somosfili.com"
@@ -22,8 +24,9 @@ smtp_password               = "ssoxfgtuaurhtopd"
 db_request                     = {'args' : {
                                     'company_name':'sandbox',
                                     'dataset_name': 'fili_sandbox',
+                                    'drive_folder_id': '1ahrNjgJfORm2fFpaXD2XnVWV-14R9I8G',
                                     'looker_config_link': 'https://lookerstudio.google.com/reporting/4b0c66d1-c215-483c-ba4f-bc03f4c93659/page/p_hsqtmpj82c'
-                                        }
+                                    }
                                 }
 
 # ------------------------------------------------------------------------
@@ -42,17 +45,20 @@ def main(request):
 
     company_name                = request_args["company_name"]
     dataset_name                = request_args["dataset_name"]
+    drive_folder_id             = request_args["drive_folder_id"]
     looker_config_link          = request_args["looker_config_link"]
     notif_table_id              = "fili-377220.{0}.bq_notification_config".format(dataset_name)
     invoice_table_id            = "fili-377220.{0}.invoices".format(dataset_name)
     print("\
-            company name          : {0} \n\
-            dataset               : {1} \n\
-            looker_config_link    : {2} \n"
-            .format(company_name, dataset_name, looker_config_link))
+            company name            : {0} \n\
+            dataset                 : {1} \n\
+            datdrive_folder_idaset  : {2} \n\
+            looker_config_link      : {3} \n"
+            .format(company_name, dataset_name, drive_folder_id, looker_config_link))
 
 
-    bq_client               = bq.get_client(key_path)
+    bq_client               = bq.get_client(bq_key_path)
+    drive_service             = drive.initialize_service(drive_token_path)
     df_config               = bq.get_configuration(notif_table_id, bq_client)
     df_inv                  = bq.get_pending_invoices(invoice_table_id, bq_client)
     internal_notif_msgs     = utils.read_json_file(internal_notif_msgs_path)
