@@ -37,7 +37,7 @@ def get_configuration(table_id, bq_client):
 def get_pending_invoices(table_id, bq_client):
 
     query = """
-    SELECT url_invoice, is_income, counterpart, amount, invoice_id, unique_key, due_date, contact_email, days_to_pay,
+    SELECT url_invoice, is_income, counterpart, currency, amount, invoice_id, unique_key, due_date, contact_email, days_to_pay,
             notification_status_int, notification_status_ext, installment_i, installment_total, is_invoice
     FROM `""" + table_id + """`
     WHERE status!='aprobada'"""
