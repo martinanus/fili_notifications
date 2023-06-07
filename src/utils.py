@@ -32,6 +32,7 @@ def get_df_as_internal_html_table(df):
     df['showable_url'] = '<a href="'+ df['url_invoice'].map(str) +'"> Click aquí</a>'
     df.loc[df['url_invoice'].isnull(), 'showable_url'] = '-'
 
+    df.loc[df['contact_email'].isnull(), 'contact_email'] = '-'
 
     html_table = df.to_html(columns=['counterpart', 'amount', 'invoice_id', 'due_date', 'contact_email', 'installment', 'showable_url'], justify='center', float_format='%.2f')
 
