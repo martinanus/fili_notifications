@@ -29,7 +29,20 @@ def get_df_as_internal_html_table(df):
     [amount_str.append("{:,.2f}".format(f)) for f in df['amount']]
     df['amount'] = amount_str
 
-    html_table = df.to_html(columns=['counterpart', 'amount', 'invoice_id', 'due_date', 'contact_email', 'installment'], justify='center', float_format='%.2f')
+    df['showable_url'] = '<a href="'+ df['url_invoice'].map(str) +'"> Click aquí</a>'
+    df.loc[df['url_invoice'].isnull(), 'showable_url'] = '-'
+
+    df.loc[df['contact_email'].isnull(), 'contact_email'] = '-'
+
+
+    df.loc[df['currency'] == "peso", 'currency']            = '$'
+    df.loc[df['currency'] == "dollar_official", 'currency'] = 'USD'
+    df['amount_currency'] = df['currency'].map(str) + ' ' + df['amount'].map(str)
+
+    html_table = df.to_html(columns=['counterpart', 'amount_currency', 'invoice_id', 'due_date', 'contact_email', 'installment', 'showable_url'], justify='center', float_format='%.2f')
+
+    html_table = html_table.replace('&lt;', '<')
+    html_table = html_table.replace('&gt;', '>')
 
     return html_table
 
@@ -50,7 +63,11 @@ def get_df_as_external_html_table(df):
     [amount_str.append("{:,.2f}".format(f)) for f in df['amount']]
     df['amount'] = amount_str
 
-    html_table = df.to_html(columns=['showable_inv_id', 'amount', 'due_date', 'days_to_pay', 'installment'], justify='center', float_format='%.2f')
+    df.loc[df['currency'] == "peso", 'currency']            = '$'
+    df.loc[df['currency'] == "dollar_official", 'currency'] = 'USD'
+    df['amount_currency'] = df['currency'].map(str) + ' ' + df['amount'].map(str)
+
+    html_table = df.to_html(columns=['showable_inv_id', 'amount_currency', 'due_date', 'days_to_pay', 'installment'], justify='center', float_format='%.2f')
 
     return html_table
 
@@ -60,12 +77,14 @@ def get_df_as_external_html_table(df):
 # ------------------------------------------------------------------------
 def format_html_table(table, ext_expired=False):
     table = table.replace('counterpart', 'Cliente')
-    table = table.replace('amount', 'Monto ($)')
+    table = table.replace('amount_currency', 'Monto')
     table = table.replace('invoice_id', 'ID')
     table = table.replace('showable_inv_id', 'ID factura')
     table = table.replace('due_date', 'Fecha de vencimiento')
     table = table.replace('contact_email', 'E-mail')
     table = table.replace('installment', 'N° de cuota')
+    table = table.replace('showable_url', 'Factura adjunta')
+
 
     if ext_expired:
         table = table.replace('days_to_pay', 'Días de atraso')
@@ -217,7 +236,6 @@ def get_to_expire_debt(df_client):
 #   get_oldest_unique_key()
 # ------------------------------------------------------------------------
 def get_oldest_unique_key(df_client):
-    df_client = df_client[(df_client.days_to_pay<0)]
     df_client = df_client.sort_values(by='days_to_pay', ascending=True).reset_index()
     oldest_unique_key = df_client.unique_key.values[0]
     return oldest_unique_key
@@ -227,9 +245,9 @@ def get_oldest_unique_key(df_client):
 #   get_oldest_invoice_date()
 # ------------------------------------------------------------------------
 def get_oldest_invoice_date(df_client):
-    df_client = df_client[(df_client.days_to_pay<0)]
     df_client = df_client.sort_values(by='days_to_pay', ascending=True).reset_index()
     oldest_invoice_date = df_client.due_date.values[0]
+    oldest_invoice_date = pd.to_datetime(oldest_invoice_date).strftime("%d-%m-%Y")
     return oldest_invoice_date
 
 

@@ -18,11 +18,11 @@ key_path                    = "credentials.json"
 internal_notif_msgs_path    = "internal_notif_msgs.json"
 external_notif_msgs_path    = "external_notif_msgs.json"
 smtp_sender                 = "soporte@somosfili.com"
-smtp_password               = "pauoevdyxnwxqbvq"
+smtp_password               = "ssoxfgtuaurhtopd"
 db_request                     = {'args' : {
                                     'company_name':'sandbox',
                                     'dataset_name': 'fili_sandbox',
-                                    'looker_config_link': 'https://lookerstudio.google.com/u/0/reporting/6d0fee52-f9c6-495c-b7a1-c778a83a29c0/page/p_hsqtmpj82c'
+                                    'looker_config_link': 'https://lookerstudio.google.com/reporting/4b0c66d1-c215-483c-ba4f-bc03f4c93659/page/p_hsqtmpj82c'
                                         }
                                 }
 
@@ -84,7 +84,7 @@ def main(request):
     for client in clients_to_notify:
         external_mail = enb.build_external_notif(external_notif_msgs, df_config, df_inv, client, inv_notified_ext, company_name)
         smtp.send_email_smtp(external_mail, smtp_sender, smtp_password)
-        print("\nExternal notification sent to ", client)
+        print("External notification sent to ", client)
 
     if inv_notified_ext:
         bq.update_notification_status_ext(invoice_table_id, bq_client, inv_notified_ext)
