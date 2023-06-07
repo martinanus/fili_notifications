@@ -38,16 +38,12 @@ def build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv
     if invoice_pre_exp_df.size:
         html_table      =  utils.get_df_as_internal_html_table(invoice_pre_exp_df)
         html_table      =  utils.format_html_table(html_table)
-        body            += receipts_msgs["invoice_to_expire_msg_1"]
-        body            += highest_notif_day
-        body            += receipts_msgs["invoice_to_expire_msg_2"]
+        body            += receipts_msgs["invoice_to_expire_msg"].format(highest_notif_day=highest_notif_day)
         body            += html_table
         body            += receipts_msgs["hint_invoice_to_expire_msg"]
         [inv_notified_int.append(id) for id in invoice_pre_exp_df.unique_key.values]
     else:
-        body            += receipts_msgs["no_invoice_to_expire_msg_1"]
-        body            += highest_notif_day
-        body            += receipts_msgs["no_invoice_to_expire_msg_2"]
+        body            += receipts_msgs["no_invoice_to_expire_msg"].format(highest_notif_day=highest_notif_day)
 
     return body
 
@@ -91,9 +87,7 @@ def build_internal_receipt_notif_expired(receipts_msgs, df_config, df_inv, inv_n
         html_table      =  utils.format_html_table(html_table)
         body            += receipts_msgs["invoice_expired_msg"]
         body            += html_table
-        body            += receipts_msgs["hint_invoice_expired_msg_1"]
-        body            += '<a href="'+ looker_config_link +'">'+ receipts_msgs["hint_invoice_expired_msg_2"] +'</a>'
-        body            += receipts_msgs["hint_invoice_expired_msg_3"]
+        body            += receipts_msgs["hint_invoice_expired_msg"].format(looker_config_link=looker_config_link)
         [inv_notified_int.append(id) for id in invoice_expired_df.unique_key.values]
     else:
         body            += receipts_msgs["no_invoice_expired_msg"]
@@ -187,16 +181,12 @@ def build_internal_payements_notif_to_expire(paymements_msgs, df_config, df_inv,
     if invoice_pre_exp_df.size:
         html_table      =  utils.get_df_as_internal_html_table(invoice_pre_exp_df)
         html_table      =  utils.format_html_table(html_table)
-        body            += paymements_msgs["invoice_to_expire_msg_1"]
-        body            += highest_notif_day
-        body            += paymements_msgs["invoice_to_expire_msg_2"]
+        body            += paymements_msgs["invoice_to_expire_msg"].format(highest_notif_day=highest_notif_day)
         body            += html_table
         body            += paymements_msgs["hint_invoice_to_expire_msg"]
         [inv_notified_int.append(id) for id in invoice_pre_exp_df.unique_key.values]
     else:
-        body            += paymements_msgs["no_invoice_to_expire_msg_1"]
-        body            += highest_notif_day
-        body            += paymements_msgs["no_invoice_to_expire_msg_2"]
+        body            += paymements_msgs["no_invoice_to_expire_msg"].format(highest_notif_day=highest_notif_day)
 
 
     return body
