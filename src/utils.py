@@ -207,6 +207,51 @@ def get_inv_in_days(df_inv, days, is_income, is_pre):
 
 # ------------------------------------------------------------------------
 # function:
+#   get_df_income()
+# ------------------------------------------------------------------------
+def get_df_income(df_in):
+    df_out = df_in[df_in.is_income==True].reset_index()
+    return df_out
+
+# ------------------------------------------------------------------------
+# function:
+#   get_df_outcome()
+# ------------------------------------------------------------------------
+def get_df_outcome(df_in):
+    df_out = df_in[df_in.is_income==False].reset_index()
+    return df_out
+
+# ------------------------------------------------------------------------
+# function:
+#   get_upcoming_invoices()
+# ------------------------------------------------------------------------
+def get_upcoming_invoices(df_in, limit_days):
+    df_out = df_in[(df_in.days_to_pay >= 0) &
+                   (df_in.days_to_pay <= limit_days)  ]
+
+    df_out = df_out.sort_values(by='days_to_pay', ascending=True).reset_index()
+
+    return df_out
+
+# ------------------------------------------------------------------------
+# function:
+#   get_periodicity_in_days()
+# ------------------------------------------------------------------------
+def get_periodicity_in_days(df_config, col):
+    periodicity = df_config[col].values[0]
+    if periodicity == "Semanalmente":
+        days = 7
+    elif periodicity == "Quincenalmente":
+        days = 15
+    elif periodicity == "Mensualmente":
+        days = 30
+    else:
+        days = -1
+
+    return days
+
+# ------------------------------------------------------------------------
+# function:
 #   get_total_debt()
 # ------------------------------------------------------------------------
 def get_total_debt(df_client):

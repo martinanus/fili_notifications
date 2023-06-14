@@ -36,7 +36,7 @@ def build_external_notif_expired(toned_msgs, df_client, inv_notified_ext):
 
     df_due      = utils.get_due_invoices(df_client)
 
-    if df_due.size:
+    if not df_due.empty:
         html_table      =  utils.get_df_as_external_html_table(df_due)
         html_table      =  utils.format_html_table(html_table, ext_expired=True)
         body            += toned_msgs["greating"]
@@ -59,7 +59,7 @@ def build_external_notif_to_expire(toned_msgs, df_client, inv_notified_ext):
 
     df_pre_exp  = utils.get_pre_exp_invoices(df_client)
 
-    if df_pre_exp.size:
+    if not df_pre_exp.empty:
         html_table      =  utils.get_df_as_external_html_table(df_pre_exp)
         html_table      =  utils.format_html_table(html_table)
         body            += toned_msgs["to_expire"]

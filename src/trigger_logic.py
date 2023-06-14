@@ -15,7 +15,7 @@ def trigger_receipt_notif(df_config, df_inv):
 
     df = df_inv[(df_inv.is_income==True) & (df_inv.days_to_pay.isin(internal_notif_days))]
 
-    return df.size
+    return not df.empty
 
 # ------------------------------------------------------------------------
 # function:
@@ -33,7 +33,7 @@ def trigger_payement_notif(df_config, df_inv):
 
     df = df_inv[(df_inv.is_income==False) & (df_inv.days_to_pay.isin(internal_notif_days))]
 
-    return df.size
+    return not df.empty
 
 # ------------------------------------------------------------------------
 # function:

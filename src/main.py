@@ -54,26 +54,22 @@ def main(request):
 
     bq_client               = bq.get_client(key_path)
     df_config               = bq.get_configuration(notif_table_id, bq_client)
+    if (df_config.empty):
+        return "No se encontró configuración para las notificaciones"
+
     df_inv                  = bq.get_pending_invoices(invoice_table_id, bq_client)
     internal_notif_msgs     = utils.read_json_file(internal_notif_msgs_path)
     external_notif_msgs     = utils.read_json_file(external_notif_msgs_path)
     inv_notified_int        = []
     inv_notified_ext        = []
 
-    if trig.trigger_receipt_notif(df_config, df_inv):
-        internal_receipt_mail = inb.build_internal_receipt_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int, looker_config_link)
-        smtp.send_email_smtp(internal_receipt_mail, smtp_sender, smtp_password)
-        print("Receipt notification triggered")
-    else:
-        print("Receipt notification not triggered")
+    internal_receipt_mail = inb.build_internal_receipt_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int, looker_config_link)
+    smtp.send_email_smtp(internal_receipt_mail, smtp_sender, smtp_password)
+    print("Receipt notification email sent")
 
-
-    if trig.trigger_payement_notif(df_config, df_inv):
-        internal_payements_mail  = inb.build_internal_payements_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int)
-        smtp.send_email_smtp(internal_payements_mail, smtp_sender, smtp_password)
-        print("Payement notification triggered")
-    else:
-        print("Payement notification not triggered")
+    internal_payements_mail  = inb.build_internal_payements_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int)
+    smtp.send_email_smtp(internal_payements_mail, smtp_sender, smtp_password)
+    print("Payement notification email sent")
 
     if inv_notified_int:
         bq.update_notification_status_int(invoice_table_id, bq_client, inv_notified_int)
