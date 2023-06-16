@@ -48,6 +48,6 @@ def validate_smtp_mail_address(mail_address_l):
         if str_len < 2:
             mail_address_l.remove(mail_address)
         else:
-            if (mail_address.count('@') != 1) or mail_address[0] is '@' or mail_address[str_len-1] is '@':
+            if (mail_address.count('@') != 1) or mail_address[0] == '@' or mail_address[str_len-1] == '@':
                 mail_address_l.remove(mail_address)
     return mail_address_l

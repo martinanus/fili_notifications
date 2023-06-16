@@ -25,7 +25,7 @@ def get_configuration(table_id, bq_client):
     query_job       = bq_client.query(query)  # Make an API request.
     result          = query_job.result()
     df              = result.to_dataframe()
-    df              = df.sort_values(by='timestamp', ascending=False)
+    df              = df.sort_values(by='timestamp', ascending=False).reset_index()
     df              = df.filter(items=[0], axis=0)
 
     return df

@@ -49,7 +49,7 @@ def build_internal_receipt_notif_expired(receipts_msgs, df_inv, inv_notified_int
 def build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv_notified_int):
     body = ''
 
-    limit_days       = utils.get_periodicity_in_days(df_config, "internal_pre_notif_collect")
+    limit_days       = utils.get_periodicity_in_days(df_config)
     if (limit_days < 0):
         return body
 
@@ -123,7 +123,7 @@ def build_internal_payements_notif_expired(paymements_msgs, df_config, df_inv, i
 def build_internal_payements_notif_to_expire(paymements_msgs, df_config, df_inv, inv_notified_int):
     body = ''
 
-    limit_days       = utils.get_periodicity_in_days(df_config, "internal_pre_notif_pay")
+    limit_days       = utils.get_periodicity_in_days(df_config)
     if (limit_days < 0):
         return body
 
