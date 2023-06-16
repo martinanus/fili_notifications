@@ -1,7 +1,6 @@
 # Library imports
 import functions_framework
 import requests
-from http import HTTPStatus
 
 # File imports
 import trigger_logic as trig
@@ -40,7 +39,7 @@ def main(request):
         request_args = request.get_json(silent=True)
         if request_args is None:
             print("No json arguments detected")
-            return HTTPStatus.BAD_REQUEST
+            return "BAD_REQUEST"
 
     company_name                = request_args["company_name"]
     dataset_name                = request_args["dataset_name"]
@@ -58,7 +57,7 @@ def main(request):
     df_config               = bq.get_configuration(notif_table_id, bq_client)
     if (df_config.empty):
         print("No se encontró configuración para las notificaciones")
-        return HTTPStatus.NO_CONTENT
+        return "NO_CONTENT"
 
     df_inv                  = bq.get_pending_invoices(invoice_table_id, bq_client)
     internal_notif_msgs     = utils.read_json_file(internal_notif_msgs_path)
@@ -96,7 +95,7 @@ def main(request):
         print("External notification status has been updated in BQ")
 
     print("Las notificaciones fueron enviadas!")
-    return HTTPStatus.OK
+    return "OK"
 
 
 # # ------------------------------------------------------------------------
