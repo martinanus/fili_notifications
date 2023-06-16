@@ -127,7 +127,7 @@ def build_internal_payements_notif_to_expire(paymements_msgs, df_config, df_inv,
     if (limit_days < 0):
         return body
 
-    df_out           = utils.get_df_income(df_inv)
+    df_out           = utils.get_df_outcome(df_inv)
     df_upcoming_out  = utils.get_upcoming_invoices(df_out, limit_days)
 
 
