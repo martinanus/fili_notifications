@@ -1,39 +1,32 @@
 import utils
 
-# ------------------------------------------------------------------------
-# function:
-#   trigger_receipt_notif()
-# ------------------------------------------------------------------------
-def trigger_receipt_notif(df_config, df_inv):
-
-    if utils.is_monday():
-        return True
-
-    internal_pre_notif_days      = utils.get_days_as_list(df_config, "internal_pre_notif_collect")
-    internal_post_notif_days     = utils.get_days_as_list(df_config, "internal_post_notif_collect", neg_list=True)
-    internal_notif_days          = internal_pre_notif_days + internal_post_notif_days
-
-    df = df_inv[(df_inv.is_income==True) & (df_inv.days_to_pay.isin(internal_notif_days))]
-
-    return df.size
 
 # ------------------------------------------------------------------------
 # function:
-#   trigger_payement_notif()
+#   send_receipt_notif()
 # ------------------------------------------------------------------------
-def trigger_payement_notif(df_config, df_inv):
+def send_receipt_notif(df_config):
+    notif_type = df_config["internal_notification_type"].values[0]
 
-    if utils.is_monday():
+    if (notif_type == "Cobros") or (notif_type == "Ambos"):
+
         return True
 
-    internal_pre_notif_days      = utils.get_days_as_list(df_config, "internal_pre_notif_pay")
-    internal_post_notif_days     = utils.get_days_as_list(df_config, "internal_post_notif_pay", neg_list=True)
+    return False
 
-    internal_notif_days         = internal_pre_notif_days + internal_post_notif_days
 
-    df = df_inv[(df_inv.is_income==False) & (df_inv.days_to_pay.isin(internal_notif_days))]
+# ------------------------------------------------------------------------
+# function:
+#   send_payement_notif()
+# ------------------------------------------------------------------------
+def send_payement_notif(df_config):
+    notif_type = df_config["internal_notification_type"].values[0]
 
-    return df.size
+    if (notif_type == "Pagos") or (notif_type == "Ambos"):
+        return True
+
+    return False
+
 
 # ------------------------------------------------------------------------
 # function:
@@ -41,8 +34,8 @@ def trigger_payement_notif(df_config, df_inv):
 # ------------------------------------------------------------------------
 def get_clients_to_notify(df_config, df_inv):
 
-    external_pre_notif_days      = utils.get_days_as_list(df_config, "external_pre_notif_collect")
-    external_post_notif_days     = utils.get_days_as_list(df_config, "external_post_notif_collect", neg_list=True)
+    external_pre_notif_days      = utils.get_days_as_list(df_config, "external_pre_notif")
+    external_post_notif_days     = utils.get_days_as_list(df_config, "external_post_notif", neg_list=True)
     external_notif_days          = external_pre_notif_days + external_post_notif_days
 
     df = df_inv[(df_inv.is_income==True) &

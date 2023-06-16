@@ -100,7 +100,7 @@ def format_html_table(table, ext_expired=False):
 # ------------------------------------------------------------------------
 def get_days_as_list(df_config, column, neg_list=False):
     vals            = df_config[column].values[-1]
-    if (vals is None) or (vals[0:7] is 'Ninguna'):
+    if (vals is None) or (vals[0:7] == 'Ninguna'):
         return []
     vals_trim       = re.sub("[^0-9,-]", "", vals)
     str_l           = re.split(',|-', vals_trim)
@@ -166,7 +166,7 @@ def is_monday():
     now      = datetime.datetime.now(tz)
     weekday  = now.weekday()
 
-    return (weekday is 0)
+    return (weekday == 0)
 
 # ------------------------------------------------------------------------
 # function:
@@ -204,6 +204,51 @@ def get_inv_in_days(df_inv, days, is_income, is_pre):
     df                  = df.sort_values(by='days_to_pay', ascending=True).reset_index()
 
     return df
+
+# ------------------------------------------------------------------------
+# function:
+#   get_df_income()
+# ------------------------------------------------------------------------
+def get_df_income(df_in):
+    df_out = df_in[df_in.is_income==True].reset_index()
+    return df_out
+
+# ------------------------------------------------------------------------
+# function:
+#   get_df_outcome()
+# ------------------------------------------------------------------------
+def get_df_outcome(df_in):
+    df_out = df_in[df_in.is_income==False].reset_index()
+    return df_out
+
+# ------------------------------------------------------------------------
+# function:
+#   get_upcoming_invoices()
+# ------------------------------------------------------------------------
+def get_upcoming_invoices(df_in, limit_days):
+    df_out = df_in[(df_in.days_to_pay >= 0) &
+                   (df_in.days_to_pay <= limit_days)  ]
+
+    df_out = df_out.sort_values(by='days_to_pay', ascending=True).reset_index()
+
+    return df_out
+
+# ------------------------------------------------------------------------
+# function:
+#   get_periodicity_in_days()
+# ------------------------------------------------------------------------
+def get_periodicity_in_days(df_config):
+    periodicity = df_config["internal_periodicity"].values[0]
+    if periodicity == "Semanalmente":
+        days = 7
+    elif periodicity == "Quincenalmente":
+        days = 15
+    elif periodicity == "Mensualmente":
+        days = 30
+    else:
+        days = -1
+
+    return days
 
 # ------------------------------------------------------------------------
 # function:
@@ -250,32 +295,13 @@ def get_oldest_invoice_date(df_client):
     oldest_invoice_date = pd.to_datetime(oldest_invoice_date).strftime("%d-%m-%Y")
     return oldest_invoice_date
 
-
-# ------------------------------------------------------------------------
-# function:
-#   get_clients_to_notify()
-# ------------------------------------------------------------------------
-def get_clients_to_notify(df_config, df_inv):
-    external_pre_notif_days      = get_days_as_list(df_config, "external_pre_notif_collect")
-    external_post_notif_days     = get_days_as_list(df_config, "external_post_notif_collect", neg_list=True)
-    external_notif_days          = external_pre_notif_days + external_post_notif_days
-
-    df = df_inv[(df_inv.is_income==True) &
-                (df_inv.days_to_pay.isin(external_notif_days)) &
-                (df_inv.notification_status_ext!='exclude')]
-
-    clients = df['counterpart'].unique()
-
-    return clients
-
-
 # ------------------------------------------------------------------------
 # function:
 #   get_external_inv_to_notify()
 # ------------------------------------------------------------------------
 def get_external_inv_to_notify(df_config, df_inv):
-    external_pre_notif_days      = get_days_as_list(df_config, "external_pre_notif_collect")
-    external_post_notif_days     = get_days_as_list(df_config, "external_post_notif_collect", neg_list=True)
+    external_pre_notif_days      = get_days_as_list(df_config, "external_pre_notif")
+    external_post_notif_days     = get_days_as_list(df_config, "external_post_notif", neg_list=True)
     external_notif_days         = external_pre_notif_days + external_post_notif_days
 
     df = df_inv[(df_inv.is_income==True) &
@@ -328,8 +354,8 @@ def get_total_amout(df_in):
 #   get_external_notification_days()
 # ------------------------------------------------------------------------
 def get_external_notification_days(df_config):
-    external_pre_notif_days      = get_days_as_list(df_config, "external_pre_notif_collect")
-    external_post_notif_days     = get_days_as_list(df_config, "external_post_notif_collect", neg_list=True)
+    external_pre_notif_days      = get_days_as_list(df_config, "external_pre_notif")
+    external_post_notif_days     = get_days_as_list(df_config, "external_post_notif", neg_list=True)
     external_notif_days          = external_pre_notif_days + external_post_notif_days
     return external_notif_days
 
@@ -338,7 +364,7 @@ def get_external_notification_days(df_config):
 #   get_max_day_pre_notif_config()
 # ------------------------------------------------------------------------
 def get_max_day_pre_notif_config(df_config):
-    external_pre_notif_days      = get_days_as_list(df_config, "external_pre_notif_collect")
+    external_pre_notif_days      = get_days_as_list(df_config, "external_pre_notif")
     max_day_pre_notif_config = get_highest_value_in_list(external_pre_notif_days)
     return max_day_pre_notif_config
 

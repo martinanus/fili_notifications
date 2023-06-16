@@ -36,7 +36,7 @@ def build_external_notif_expired(toned_msgs, df_client, inv_notified_ext):
 
     df_due      = utils.get_due_invoices(df_client)
 
-    if df_due.size:
+    if not df_due.empty:
         html_table      =  utils.get_df_as_external_html_table(df_due)
         html_table      =  utils.format_html_table(html_table, ext_expired=True)
         body            += toned_msgs["greating"]
@@ -59,7 +59,7 @@ def build_external_notif_to_expire(toned_msgs, df_client, inv_notified_ext):
 
     df_pre_exp  = utils.get_pre_exp_invoices(df_client)
 
-    if df_pre_exp.size:
+    if not df_pre_exp.empty:
         html_table      =  utils.get_df_as_external_html_table(df_pre_exp)
         html_table      =  utils.format_html_table(html_table)
         body            += toned_msgs["to_expire"]
@@ -97,7 +97,7 @@ def get_toned_msgs(tone, max_day_pre_notif_config, notif_msgs, company_name, df_
     oldest_unique_key           = utils.get_oldest_unique_key(df_client)
     oldest_invoice_date         = utils.get_oldest_invoice_date(df_client)
 
-    if tone is 0:
+    if tone == 0:
         tone_msgs       = notif_msgs["pre_exp_msgs"]
 
         subject         = tone_msgs["subject"].format(company_name=company_name, max_day_pre_notif_config=max_day_pre_notif_config)
@@ -106,7 +106,7 @@ def get_toned_msgs(tone, max_day_pre_notif_config, notif_msgs, company_name, df_
         expired_msg     = tone_msgs["invoice_expired_msg"]
         expired_instr   = tone_msgs["invoice_expired_instruction"]
         to_expire       = tone_msgs["invoice_to_expire_msg"]
-    elif tone is 1:
+    elif tone == 1:
         tone_msgs = notif_msgs["expired_1_msgs"]
 
         subject         = tone_msgs["subject"].format(company_name=company_name)
@@ -115,7 +115,7 @@ def get_toned_msgs(tone, max_day_pre_notif_config, notif_msgs, company_name, df_
         expired_msg     = tone_msgs["invoice_expired_msg"]
         expired_instr   = tone_msgs["invoice_expired_instruction"]
         to_expire       = tone_msgs["invoice_to_expire_msg"]
-    elif tone is 2:
+    elif tone == 2:
         tone_msgs = notif_msgs["expired_2_msgs"]
 
         subject         = tone_msgs["subject"].format(company_name=company_name)
@@ -124,7 +124,7 @@ def get_toned_msgs(tone, max_day_pre_notif_config, notif_msgs, company_name, df_
         expired_msg     = tone_msgs["invoice_expired_msg"]
         expired_instr   = tone_msgs["invoice_expired_instruction"]
         to_expire       = tone_msgs["invoice_to_expire_msg"]
-    elif tone is 3:
+    elif tone == 3:
         tone_msgs = notif_msgs["expired_3_msgs"]
 
         subject         = tone_msgs["subject"].format(company_name=company_name)
@@ -133,7 +133,7 @@ def get_toned_msgs(tone, max_day_pre_notif_config, notif_msgs, company_name, df_
         expired_msg     = tone_msgs["invoice_expired_msg"]
         expired_instr   = tone_msgs["invoice_expired_instruction"]
         to_expire       = tone_msgs["invoice_to_expire_msg"]
-    elif tone is 4:
+    elif tone == 4:
         tone_msgs = notif_msgs["expired_4_msgs"]
 
         subject         = tone_msgs["subject"].format(company_name=company_name)
