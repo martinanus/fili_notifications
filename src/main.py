@@ -39,7 +39,8 @@ def main(request):
     else:
         request_args = request.get_json(silent=True)
         if request_args is None:
-            return "Error 400 Bad request - No json arguments detected "
+            print("No json arguments detected")
+            return HTTPStatus.BAD_REQUEST
 
     company_name                = request_args["company_name"]
     dataset_name                = request_args["dataset_name"]
