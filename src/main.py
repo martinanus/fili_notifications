@@ -56,7 +56,7 @@ def main(request):
     bq_client               = bq.get_client(key_path)
     df_config               = bq.get_configuration(notif_table_id, bq_client)
     if (df_config.empty):
-        print("No se encontró configuración para las notificaciones")
+        print("No configuration found for this client")
         return "NO_CONTENT"
 
     df_inv                  = bq.get_pending_invoices(invoice_table_id, bq_client)
@@ -94,7 +94,7 @@ def main(request):
         bq.update_notification_status_ext(invoice_table_id, bq_client, inv_notified_ext)
         print("External notification status has been updated in BQ")
 
-    print("Las notificaciones fueron enviadas!")
+    print("Notification script run successfully")
     return "OK"
 
 
