@@ -19,6 +19,9 @@ internal_notif_msgs_path    = "internal_notif_msgs.json"
 external_notif_msgs_path    = "external_notif_msgs.json"
 smtp_sender                 = "soporte@somosfili.com"
 smtp_password               = "ssoxfgtuaurhtopd"
+project_name                = "fili-377220"
+config_table_name           = "c_01_notification_config_t"
+invoices_table_name         = "i_06_invoices_t"
 db_request                     = {'args' : {
                                     'company_name':'sandbox',
                                     'dataset_name': 'fili_sandbox',
@@ -44,8 +47,8 @@ def main(request):
     company_name                = request_args["company_name"]
     dataset_name                = request_args["dataset_name"]
     looker_config_link          = request_args["looker_config_link"]
-    notif_table_id              = "fili-377220.{0}.bq_notification_config".format(dataset_name)
-    invoice_table_id            = "fili-377220.{0}.invoices".format(dataset_name)
+    notif_table_id              = "{0}.{1}.{2}".format(project_name, dataset_name, config_table_name)
+    invoice_table_id            = "{0}.{1}.{2}".format(project_name, dataset_name, invoices_table_name)
     print("\
             company name          : {0} \n\
             dataset               : {1} \n\
