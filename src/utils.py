@@ -3,6 +3,7 @@ import re
 import datetime
 from pytz import timezone
 import pandas as pd
+import numpy as np
 
 # ------------------------------------------------------------------------
 # function:
@@ -39,6 +40,8 @@ def get_df_as_internal_html_table(df):
     df.loc[df['currency'] == "dollar_official", 'currency'] = 'USD'
     df['amount_currency'] = df['currency'].map(str) + ' ' + df['amount'].map(str)
 
+    df.index = np.arange(1, len(df) + 1)
+
     html_table = df.to_html(columns=['counterpart', 'amount_currency', 'invoice_id', 'due_date', 'contact_email', 'installment', 'showable_url'], justify='center', float_format='%.2f')
 
     html_table = html_table.replace('&lt;', '<')
@@ -66,6 +69,8 @@ def get_df_as_external_html_table(df):
     df.loc[df['currency'] == "peso", 'currency']            = '$'
     df.loc[df['currency'] == "dollar_official", 'currency'] = 'USD'
     df['amount_currency'] = df['currency'].map(str) + ' ' + df['amount'].map(str)
+
+    df.index = np.arange(1, len(df) + 1)
 
     html_table = df.to_html(columns=['showable_inv_id', 'amount_currency', 'due_date', 'days_to_pay', 'installment'], justify='center', float_format='%.2f')
 
