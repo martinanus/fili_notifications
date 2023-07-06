@@ -4,12 +4,12 @@ import utils
 # function:
 #   build_internal_receipt_notif()
 # ------------------------------------------------------------------------
-def build_internal_receipt_notif(notif_msgs, df_config, df_inv, inv_notified_int, looker_config_link):
+def build_internal_receipt_notif(notif_msgs, df_config, df_inv, inv_notified_int, looker_link):
     mail_data  = {}
     receipts_msgs       = notif_msgs["receipts_msgs"]
 
     mail_body  = notif_msgs["starting_msg"]
-    mail_body += build_internal_receipt_notif_expired(receipts_msgs, df_inv, inv_notified_int, looker_config_link)
+    mail_body += build_internal_receipt_notif_expired(receipts_msgs, df_inv, inv_notified_int, looker_link)
     mail_body += build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv_notified_int)
     mail_body += notif_msgs["ending_msg"]
 
@@ -24,7 +24,7 @@ def build_internal_receipt_notif(notif_msgs, df_config, df_inv, inv_notified_int
 # function:
 #   build_internal_receipt_notif_expired()
 # ------------------------------------------------------------------------
-def build_internal_receipt_notif_expired(receipts_msgs, df_inv, inv_notified_int, looker_config_link):
+def build_internal_receipt_notif_expired(receipts_msgs, df_inv, inv_notified_int, looker_link):
     body = ''
 
     df_inc      = utils.get_df_income(df_inv)
@@ -35,7 +35,7 @@ def build_internal_receipt_notif_expired(receipts_msgs, df_inv, inv_notified_int
         html_table      =  utils.format_html_table(html_table)
         body            += receipts_msgs["invoice_expired_msg"]
         body            += html_table
-        body            += receipts_msgs["hint_invoice_expired_msg"].format(looker_config_link=looker_config_link)
+        body            += receipts_msgs["hint_invoice_expired_msg"].format(looker_link=looker_link)
         [inv_notified_int.append(id) for id in df_due_inc.unique_key.values]
     else:
         body            += receipts_msgs["no_invoice_expired_msg"]
@@ -75,12 +75,12 @@ def build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv
 # function:
 #   build_internal_payements_notif()
 # ------------------------------------------------------------------------
-def build_internal_payements_notif(notif_msgs, df_config, df_inv, inv_notified_int):
+def build_internal_payements_notif(notif_msgs, df_config, df_inv, inv_notified_int, looker_link):
     mail_data = {}
     paymements_msgs         = notif_msgs["payements_msgs"]
 
     mail_body  = notif_msgs["starting_msg"]
-    mail_body += build_internal_payements_notif_expired(paymements_msgs, df_config, df_inv, inv_notified_int)
+    mail_body += build_internal_payements_notif_expired(paymements_msgs, df_inv, inv_notified_int, looker_link)
     mail_body += build_internal_payements_notif_to_expire(paymements_msgs, df_config, df_inv, inv_notified_int)
     mail_body += notif_msgs["ending_msg"]
 
@@ -96,7 +96,7 @@ def build_internal_payements_notif(notif_msgs, df_config, df_inv, inv_notified_i
 # function:
 #   build_internal_payements_notif_expired()
 # ------------------------------------------------------------------------
-def build_internal_payements_notif_expired(paymements_msgs, df_config, df_inv, inv_notified_int):
+def build_internal_payements_notif_expired(paymements_msgs, df_inv, inv_notified_int, looker_link):
     body = ''
 
     df_out      = utils.get_df_outcome(df_inv)
@@ -108,7 +108,7 @@ def build_internal_payements_notif_expired(paymements_msgs, df_config, df_inv, i
         html_table      =  utils.format_html_table(html_table)
         body            += paymements_msgs["invoice_expired_msg"]
         body            += html_table
-        body            += paymements_msgs["hint_invoice_expired_msg"]
+        body            += paymements_msgs["hint_invoice_expired_msg"].format(looker_link=looker_link)
         [inv_notified_int.append(id) for id in df_due_out.unique_key.values]
     else:
         body            += paymements_msgs["no_invoice_expired_msg"]

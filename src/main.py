@@ -25,7 +25,7 @@ invoices_table_name         = "i_06_invoices_t"
 db_request                     = {'args' : {
                                     'company_name':'sandbox',
                                     'dataset_name': 'fili_sandbox',
-                                    'looker_config_link': 'https://lookerstudio.google.com/reporting/4b0c66d1-c215-483c-ba4f-bc03f4c93659/page/p_hsqtmpj82c'
+                                    'looker_link': 'https://lookerstudio.google.com/reporting/e053c79e-bd08-4bce-9d54-0e9f9e33996c/page/p_qfmuypl13c'
                                         }
                                 }
 
@@ -46,14 +46,14 @@ def main(request):
 
     company_name                = request_args["company_name"]
     dataset_name                = request_args["dataset_name"]
-    looker_config_link          = request_args["looker_config_link"]
+    looker_link                 = request_args["looker_link"]
     notif_table_id              = "{0}.{1}.{2}".format(project_name, dataset_name, config_table_name)
     invoice_table_id            = "{0}.{1}.{2}".format(project_name, dataset_name, invoices_table_name)
     print("\
             company name          : {0} \n\
             dataset               : {1} \n\
-            looker_config_link    : {2} \n"
-            .format(company_name, dataset_name, looker_config_link))
+            looker_link           : {2} \n"
+            .format(company_name, dataset_name, looker_link))
 
 
     bq_client               = bq.get_client(key_path)
@@ -69,14 +69,14 @@ def main(request):
     inv_notified_ext        = []
 
     if trig.send_receipt_notif(df_config):
-        internal_receipt_mail = inb.build_internal_receipt_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int, looker_config_link)
+        internal_receipt_mail = inb.build_internal_receipt_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int, looker_link)
         smtp.send_email_smtp(internal_receipt_mail, smtp_sender, smtp_password)
         print("Receipt notification email sent")
     else:
         print("Receipt notification not configured")
 
     if trig.send_payement_notif(df_config):
-        internal_payement_mail  = inb.build_internal_payements_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int)
+        internal_payement_mail  = inb.build_internal_payements_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int, looker_link)
         smtp.send_email_smtp(internal_payement_mail, smtp_sender, smtp_password)
         print("Payement notification email sent")
     else:

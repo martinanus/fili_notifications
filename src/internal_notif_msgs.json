@@ -6,11 +6,11 @@
     "subject"                       : "PAGO - Recordatorio de vencimientos",
     "no_invoice_today_msg"          : "<u><b>NO</b></u> tiene cuentas por pagar que vencen HOY. <BR><BR>",
     "invoice_today_msg"             : "Le recordamos que las siguientes cuentas por pagar <u><b>vencen HOY</b></u>: <BR>",
-    "hint_invoice_today_msg"        : "Sugerimos comunicarse con sus proveedores para expresarles la intención de pago, el medio y la fecha esperada del mismo. <BR><BR>",
+    "hint_invoice_today_msg"        : "<BR>Sugerimos comunicarse con sus proveedores para expresarles la intención de pago, el medio y la fecha esperada del mismo. <BR><BR>",
 
     "no_invoice_expired_msg"        : "<u><b>NO</b></u> tiene facturas vencidas pendientes de pago. <BR><BR>",
     "invoice_expired_msg"           : "Las siguientes cuentas por pagar se encuentran <u><b>vencidas y pendientes de pago</b></u>: <BR>",
-    "hint_invoice_expired_msg"      : "Sugerimos comunicarse con sus proveedores para expresarles la intención de pago, el medio y la fecha esperada del mismo. <BR><BR>",
+    "hint_invoice_expired_msg"      : "<BR>Sugerimos comunicarse con sus proveedores para expresarles la intención de pago, el medio y la fecha esperada del mismo. <BR><BR> Si alguno de estos movimientos figura como atrasado, pero, ya está pago, accedé a <a href= {looker_link}>nuestra plataforma</a> y marcalo como tal en la tabla de Detalle de Egresos de la pestaña de Cuentas por Pagar. <BR><BR> ",
 
     "no_invoice_to_expire_msg"      : "<u><b>NO</b></u> tiene cuentas por pagar que vencen en los próximos {highest_notif_day} días <BR><BR>",
     "invoice_to_expire_msg"         : "Las siguientes cuentas por pagar <u><b>vencerán en los próximos {highest_notif_day} días </b></u>: <BR>",
@@ -26,10 +26,10 @@
 
     "no_invoice_expired_msg"        : "<u><b>NO</b></u> tiene cuentas por cobrar vencidas pendientes. <BR><BR>",
     "invoice_expired_msg"           : "Las siguientes cuentas por cobrar se encuentran <u><b>vencidas y pendientes de cobro</b></u>: <BR>",
-    "hint_invoice_expired_msg"      : "Aquí hay algunas recomendaciones para las cuentas por cobrar vencidas en base a su plazo: <BR>    &emsp; &#x2022; <u>Vencidas hace 10 a 30 días:</u> realizar un llamado a sus clientes expresando su preocupación por el atraso, el monto adeudado y un pedido de fecha de pago.<BR>       &emsp; &#x2022; <u>Vencidas hace 31 a 50 días:</u> repetir el llamado a sus clientes expresando su preocupación y un pedido de fecha estimada de pago. Considerar disponibilizar medios de pago a través de <a href= {looker_config_link}>nuestra plataforma</a>.<BR>   &emsp; &#x2022; <u>Vencidas hace 51 a 80 días:</u> planificar una reestructuración del pago para asegurar el cobro de una porción del monto y comunicárselo a sus clientes.<BR>       &emsp; &#x2022; <u>Vencidas hace 81 a 120 días:</u> comunicarse con sus clientes expresando la necesidad de pago para evitar el riesgo de iniciar acciones legales dada la importancia del cobro de las cuentas pendientes.<BR><BR>",
+    "hint_invoice_expired_msg"      : "<BR>Si alguno de estos movimientos figura como atrasado, pero, ya está cobrado, accedé a <a href= {looker_link}>nuestra plataforma</a> y marcalo como tal en la tabla de Detalle de Ingresos de la pestaña de Cuentas por Cobrar. <BR><BR> Disponibilizar nuevos medios de pago a través de <a href= {looker_link}>nuestra plataforma</a> podría ayudar a asegurar la cobranza de sus pendientes.<BR><BR>",
 
     "no_invoice_to_expire_msg"      : "<u><b>NO</b></u> tiene cuentas por cobrar que vencen en los próximos {highest_notif_day} días <BR><BR>",
-    "invoice_to_expire_msg"         : "Las siguientes cuentas por cobrar <u><b>vencerán en los próximos {highest_notif_day} días </b></u>: <BR>",
-    "hint_invoice_to_expire_msg"    : "Recomendamos utilizar las herramientas de notificación automática personalizable de Fili una vez llegado el día de vencimiento para evitar abrumar a su cliente. <BR><BR>"
+    "invoice_to_expire_msg"         : "Las siguientes cuentas por cobrar <u><b>vencerán en los próximos {highest_notif_day} días </b></u>: <BR><BR>",
+    "hint_invoice_to_expire_msg"    : "<BR>Recomendamos utilizar las herramientas de notificación automática personalizable de Fili una vez llegado el día de vencimiento para evitar abrumar a su cliente. <BR><BR>"
   }
 }
