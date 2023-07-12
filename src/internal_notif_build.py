@@ -10,7 +10,7 @@ def build_internal_receipt_notif(notif_msgs, df_config, df_inv, inv_notified_int
 
     mail_body  = notif_msgs["starting_msg"]
     mail_body += build_internal_receipt_notif_expired(receipts_msgs, df_inv, inv_notified_int, looker_link)
-    mail_body += build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv_notified_int)
+    mail_body += build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv_notified_int, looker_link)
     mail_body += notif_msgs["ending_msg"]
 
     mail_data["body"]       = mail_body
@@ -46,7 +46,7 @@ def build_internal_receipt_notif_expired(receipts_msgs, df_inv, inv_notified_int
 # function:
 #   build_internal_receipt_notif_to_expire()
 # ------------------------------------------------------------------------
-def build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv_notified_int):
+def build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv_notified_int, looker_link):
     body = ''
 
     limit_days       = utils.get_periodicity_in_days(df_config)
@@ -62,7 +62,7 @@ def build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv
         html_table      =  utils.format_html_table(html_table)
         body            += receipts_msgs["invoice_to_expire_msg"].format(highest_notif_day=limit_days)
         body            += html_table
-        body            += receipts_msgs["hint_invoice_to_expire_msg"]
+        body            += receipts_msgs["hint_invoice_to_expire_msg"].format(looker_link=looker_link)
         [inv_notified_int.append(id) for id in df_upcoming_inc.unique_key.values]
     else:
         body            += receipts_msgs["no_invoice_to_expire_msg"].format(highest_notif_day=limit_days)

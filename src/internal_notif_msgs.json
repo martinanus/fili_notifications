@@ -10,11 +10,11 @@
 
     "no_invoice_expired_msg"        : "<u><b>NO</b></u> tiene facturas vencidas pendientes de pago. <BR><BR>",
     "invoice_expired_msg"           : "Las siguientes cuentas por pagar se encuentran <u><b>vencidas y pendientes de pago</b></u>: <BR>",
-    "hint_invoice_expired_msg"      : "<BR>Sugerimos comunicarse con sus proveedores para expresarles la intención de pago, el medio y la fecha esperada del mismo. <BR><BR> Si alguno de estos movimientos figura como atrasado, pero, ya está pago, accedé a <a href= {looker_link}>nuestra plataforma</a> y marcalo como tal en la tabla de Detalle de Egresos de la pestaña de Cuentas por Pagar. <BR><BR> ",
+    "hint_invoice_expired_msg"      : "<BR>Sugerimos comunicarse con sus proveedores para expresarles la intención de pago, el medio y la fecha esperada del mismo. <BR><BR> Si alguno de estos movimientos figura como atrasado, cuando, en realidad, ya está pago, accedé a <a href= {looker_link}>nuestra plataforma</a> y marcalo como tal en la tabla de \"Detalle de Movimientos\" de la pestaña de \"Detalle de Pagos y Cobros\" tocando \"Pago realizado\". <BR><BR> ",
 
     "no_invoice_to_expire_msg"      : "<u><b>NO</b></u> tiene cuentas por pagar que vencen en los próximos {highest_notif_day} días <BR><BR>",
     "invoice_to_expire_msg"         : "Las siguientes cuentas por pagar <u><b>vencerán en los próximos {highest_notif_day} días </b></u>: <BR>",
-    "hint_invoice_to_expire_msg"    : "Recomendamos planificar el pago de estas cuentas y comunicárselo a sus proveedores. <BR><BR>"
+    "hint_invoice_to_expire_msg"    : "<BR>Recomendamos planificar el pago de estas cuentas y comunicárselo a sus proveedores. <BR><BR>"
   },
 
   "receipts_msgs" : {
@@ -22,14 +22,14 @@
 
     "no_invoice_today_msg"          : "<u><b>NO</b></u> tiene cuentas por cobrar que vencen HOY. <BR><BR>",
     "invoice_today_msg"             : "Le recordamos que las siguientes cuentas por cobrar <u><b>vencen HOY</b></u>: <BR>",
-    "hint_invoice_today_msg"        : "Sugerimos un seguimiento cercano por Whatsapp/SMS al contacto principal de estos clientes indagando por la fecha de cobro estimada. <BR><BR>",
+    "hint_invoice_today_msg"        : "<BR>Sugerimos un seguimiento cercano por Whatsapp/SMS al contacto principal de estos clientes indagando por la fecha de cobro estimada. <BR><BR>",
 
     "no_invoice_expired_msg"        : "<u><b>NO</b></u> tiene cuentas por cobrar vencidas pendientes. <BR><BR>",
     "invoice_expired_msg"           : "Las siguientes cuentas por cobrar se encuentran <u><b>vencidas y pendientes de cobro</b></u>: <BR>",
-    "hint_invoice_expired_msg"      : "<BR>Si alguno de estos movimientos figura como atrasado, pero, ya está cobrado, accedé a <a href= {looker_link}>nuestra plataforma</a> y marcalo como tal en la tabla de Detalle de Ingresos de la pestaña de Cuentas por Cobrar. <BR><BR> Disponibilizar nuevos medios de pago a través de <a href= {looker_link}>nuestra plataforma</a> podría ayudar a asegurar la cobranza de sus pendientes.<BR><BR>",
+    "hint_invoice_expired_msg"      : "<BR>Si alguno de estos movimientos figura como atrasado, cuando, en realidad, ya está cobrado, accedé a <a href= {looker_link}>nuestra plataforma</a> y marcalo como tal en la tabla de \"Detalle de Movimientos\" de la pestaña de \"Detalle de Pagos y Cobros\" tocando \"Cobro recibido\". <BR><BR> Disponibilizar nuevos medios de pago a través de <a href= {looker_link}>nuestra plataforma</a> podría ayudar a asegurar la cobranza de sus pendientes.<BR>",
 
     "no_invoice_to_expire_msg"      : "<u><b>NO</b></u> tiene cuentas por cobrar que vencen en los próximos {highest_notif_day} días <BR><BR>",
     "invoice_to_expire_msg"         : "Las siguientes cuentas por cobrar <u><b>vencerán en los próximos {highest_notif_day} días </b></u>: <BR><BR>",
-    "hint_invoice_to_expire_msg"    : "<BR>Recomendamos utilizar las herramientas de notificación automática personalizable de Fili una vez llegado el día de vencimiento para evitar abrumar a su cliente. <BR><BR>"
+    "hint_invoice_to_expire_msg"    : "<BR>Recomendamos utilizar las herramientas de notificación automática personalizable de <a href= {looker_link}>nuestra plataforma</a> para mandar recordatorios similares a sus clientes. <BR><BR>"
   }
 }

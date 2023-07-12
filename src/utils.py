@@ -81,7 +81,7 @@ def get_df_as_external_html_table(df):
 #   format_html_table()
 # ------------------------------------------------------------------------
 def format_html_table(table, ext_expired=False):
-    table = table.replace('counterpart', 'Cliente')
+    table = table.replace('counterpart', 'Contraparte')
     table = table.replace('amount_currency', 'Monto')
     table = table.replace('invoice_id', 'ID')
     table = table.replace('showable_inv_id', 'ID factura')
