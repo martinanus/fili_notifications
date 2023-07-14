@@ -175,6 +175,28 @@ def is_monday():
 
 # ------------------------------------------------------------------------
 # function:
+#   is_thursday()
+# ------------------------------------------------------------------------
+def is_thursday():
+    tz       = timezone('America/Argentina/Buenos_Aires')
+    now      = datetime.datetime.now(tz)
+    weekday  = now.weekday()
+
+    return (weekday == 4)
+
+# ------------------------------------------------------------------------
+# function:
+#   days_left_in_week()
+# ------------------------------------------------------------------------
+def days_left_in_week():
+    tz       = timezone('America/Argentina/Buenos_Aires')
+    now      = datetime.datetime.now(tz)
+    weekday  = now.weekday()
+
+    return (7 - weekday)
+
+# ------------------------------------------------------------------------
+# function:
 #   append_two_prev_days()
 # ------------------------------------------------------------------------
 def append_two_prev_days(day_l, neg_list=False):
@@ -324,6 +346,14 @@ def get_inv_to_notify_by_client(df_inv, client, external_notif_days):
                 (df_inv.counterpart==client) &
                 (df_inv.notification_status_ext!='exclude') &
                 ((df_inv.days_to_pay.isin(external_notif_days)) | (df_inv.notification_status_ext!='non_notified'))]
+    return df_client
+
+# ------------------------------------------------------------------------
+# function:
+#   get_inv_to_notify_by_client()
+# ------------------------------------------------------------------------
+def get_inv_by_client(df_inv, client):
+    df_client = df_inv[(df_inv.counterpart==client)]
     return df_client
 
 
