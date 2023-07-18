@@ -1,11 +1,10 @@
 import utils
-import numpy as np
 
 # ------------------------------------------------------------------------
 # function:
 #   builf_external_notif()
 # ------------------------------------------------------------------------
-def build_external_notif(notif_msgs, df_config, df_inv, client, inv_notified_ext, company_name):
+def build_external_notif(notif_msgs, df_config, df_inv, client, inv_notified_ext, company_name, fili_web_url):
     mail_data  = {}
 
     df_inc                = utils.get_df_income(df_inv)
@@ -21,7 +20,6 @@ def build_external_notif(notif_msgs, df_config, df_inv, client, inv_notified_ext
 
 
     internal_email = df_config["internal_email"].values[0]
-    fili_web_url   = "www.somosfili.com" #TODO - add fili web URL with campaign
 
     mail_body += notif_msgs["no_response_warning"].format(internal_email=internal_email,company_name=company_name)
     mail_body += notif_msgs["ending_msg"].format(fili_web_url=fili_web_url)
@@ -97,7 +95,6 @@ def build_payment_methods(notif_msgs, df_config):
         bank                = df_config.payment_bank[0]
         account_owner       = df_config.payment_account_owner[0]
         alias               = df_config.payment_alias[0]
-
         body            += notif_msgs["payment_link_msg"].format(bank=bank, account_owner=account_owner, alias=alias)
         paymment_confirmation_msg = True
 
