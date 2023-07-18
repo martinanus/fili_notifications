@@ -96,6 +96,7 @@ def format_html_table(table, ext_expired=False):
     else:
         table = table.replace('days_to_pay', 'Días hasta el vencimiento')
 
+    table += "<BR>"
 
     return table
 

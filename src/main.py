@@ -51,6 +51,7 @@ def main(request):
     notif_table_id              = "{0}.{1}.{2}".format(project_name, dataset_name, config_table_name)
     invoice_table_id            = "{0}.{1}.{2}".format(project_name, dataset_name, invoices_table_name)
     dataset_hash                = utils.hash_str(dataset_name)
+    looker_link                 = utils.add_utm_to_link(looker_link, "int_notif", "mail", dataset_hash)
     print("\
             company name          : {0} \n\
             dataset_name / _hash  : {1} /  {2} \n\
@@ -68,7 +69,6 @@ def main(request):
     external_notif_msgs     = utils.read_json_file(external_notif_msgs_path)
     inv_notified_int        = []
     inv_notified_ext        = []
-    looker_link             = utils.add_utm_to_link(looker_link, "int_notif", "mail", dataset_hash)
 
     if trig.send_receipt_notif(df_config):
         internal_receipt_mail = inb.build_internal_receipt_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int, looker_link)

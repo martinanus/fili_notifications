@@ -9,7 +9,7 @@ def build_external_notif(notif_msgs, df_config, df_inv, client, inv_notified_ext
 
     df_inc                = utils.get_df_income(df_inv)
     df_client             = utils.get_inv_by_client(df_inc, client)
-
+    internal_email        = df_config["internal_email"].values[0]
     msgs                  = get_msgs(notif_msgs, company_name)
 
     mail_body  = notif_msgs["starting_msg"].format(client=client)
@@ -17,9 +17,6 @@ def build_external_notif(notif_msgs, df_config, df_inv, client, inv_notified_ext
     mail_body += build_external_notif_expired(msgs, df_client, inv_notified_ext)
     mail_body += build_external_notif_to_expire(msgs, df_client, inv_notified_ext)
     mail_body += build_payment_methods(notif_msgs, df_config)
-
-
-    internal_email = df_config["internal_email"].values[0]
 
     mail_body += notif_msgs["no_response_warning"].format(internal_email=internal_email,company_name=company_name)
     mail_body += notif_msgs["ending_msg"].format(fili_web_url=fili_web_url)
@@ -35,7 +32,7 @@ def build_external_notif(notif_msgs, df_config, df_inv, client, inv_notified_ext
 # function:
 #   build_external_notif_expired()
 # ------------------------------------------------------------------------
-def build_external_notif_expired(toned_msgs, df_client, inv_notified_ext):
+def build_external_notif_expired(msgs, df_client, inv_notified_ext):
     body = ''
 
     df_due      = utils.get_due_invoices(df_client)
@@ -43,12 +40,11 @@ def build_external_notif_expired(toned_msgs, df_client, inv_notified_ext):
     if not df_due.empty:
         html_table      =  utils.get_df_as_external_html_table(df_due)
         html_table      =  utils.format_html_table(html_table, ext_expired=True)
-        body            += toned_msgs["greating"]
-        body            += toned_msgs["reminder"]
-        body            += toned_msgs["expired_msg"]
+        body            += msgs["greating"]
+        body            += msgs["reminder"]
+        body            += msgs["expired_msg"]
         body            += html_table
-        body            += "<BR>"
-        body            += toned_msgs["expired_instr"]
+        body            += msgs["expired_instr"]
 
         [inv_notified_ext.append(id) for id in df_due.unique_key.values]
 
@@ -58,19 +54,19 @@ def build_external_notif_expired(toned_msgs, df_client, inv_notified_ext):
 # function:
 #   build_external_notif_to_expire()
 # ------------------------------------------------------------------------
-def build_external_notif_to_expire(toned_msgs, df_client, inv_notified_ext):
+def build_external_notif_to_expire(msgs, df_client, inv_notified_ext):
     body = ''
 
-    df_pre_exp  = utils.get_pre_exp_invoices(df_client)
+    limit_days          = utils.days_left_in_week()
+    df_upcoming_inc     = utils.get_upcoming_invoices(df_client, limit_days)
 
-    if not df_pre_exp.empty:
-        html_table      =  utils.get_df_as_external_html_table(df_pre_exp)
+    if not df_upcoming_inc.empty:
+        html_table      =  utils.get_df_as_external_html_table(df_upcoming_inc)
         html_table      =  utils.format_html_table(html_table)
-        body            += toned_msgs["to_expire"]
+        body            += msgs["to_expire"]
         body            += html_table
-        body            += "<BR>"
 
-        [inv_notified_ext.append(id) for id in df_pre_exp.unique_key.values]
+        [inv_notified_ext.append(id) for id in df_upcoming_inc.unique_key.values]
 
     return body
 
@@ -122,12 +118,11 @@ def get_msgs(notif_msgs, company_name):
     expired_instr   = day_msgs["invoice_expired_instruction"]
     to_expire       = day_msgs["invoice_to_expire_msg"]
 
-    toned_dict = {  "subject"       : subject,
+    msgs_dict = {  "subject"       : subject,
                     "greating"      : greating,
                     "reminder"      : reminder,
                     "expired_msg"   : expired_msg,
                     "expired_instr" : expired_instr,
                     "to_expire"     : to_expire}
 
-
-    return toned_dict
+    return msgs_dict
