@@ -105,7 +105,7 @@ def format_html_table(table, ext_expired=False):
 #   get_days_as_list()
 # ------------------------------------------------------------------------
 def get_days_as_list(df_config, column, neg_list=False):
-    vals            = df_config[column].values[-1]
+    vals            = df_config[column][0]
     if (vals is None) or (vals[0:7] == 'Ninguna'):
         return []
     vals_trim       = re.sub("[^0-9,-]", "", vals)
@@ -129,7 +129,7 @@ def get_days_as_list(df_config, column, neg_list=False):
 #   get_internal_mails_as_list()
 # ------------------------------------------------------------------------
 def get_internal_mails_as_list(df_config):
-    vals            = df_config["internal_email"].values[-1]
+    vals            = df_config["internal_email"][0]
     if (vals is None) or ('@' not in vals) or ('.' not in vals):
         return []
     str_l           = vals.split(',')
@@ -142,7 +142,7 @@ def get_internal_mails_as_list(df_config):
 #   get_contact_mail_as_list()
 # ------------------------------------------------------------------------
 def get_contact_mail_as_list(df_client):
-    vals            = df_client["contact_email"].values[-1]
+    vals            = df_client["contact_email"][0]
     if (vals is None) or ('@' not in vals) or ('.' not in vals):
         return []
     str_l           = vals.split(',')
@@ -266,7 +266,7 @@ def get_upcoming_invoices(df_in, limit_days):
 #   get_periodicity_in_days()
 # ------------------------------------------------------------------------
 def get_periodicity_in_days(df_config):
-    periodicity = df_config["internal_periodicity"].values[0]
+    periodicity = df_config["internal_periodicity"][0]
     if periodicity == "Semanalmente":
         days = 7
     elif periodicity == "Quincenalmente":
@@ -310,7 +310,7 @@ def get_to_expire_debt(df_client):
 # ------------------------------------------------------------------------
 def get_oldest_unique_key(df_client):
     df_client = df_client.sort_values(by='days_to_pay', ascending=True).reset_index()
-    oldest_unique_key = df_client.unique_key.values[0]
+    oldest_unique_key = df_client.unique_key[0]
     return oldest_unique_key
 
 # ------------------------------------------------------------------------
@@ -319,7 +319,7 @@ def get_oldest_unique_key(df_client):
 # ------------------------------------------------------------------------
 def get_oldest_invoice_date(df_client):
     df_client = df_client.sort_values(by='days_to_pay', ascending=True).reset_index()
-    oldest_invoice_date = df_client.due_date.values[0]
+    oldest_invoice_date = df_client.due_date[0]
     oldest_invoice_date = pd.to_datetime(oldest_invoice_date).strftime("%d-%m-%Y")
     return oldest_invoice_date
 
@@ -448,3 +448,23 @@ def add_utm_to_link(link, source, medium, campaign, content=False):
 # ------------------------------------------------------------------------
 def hash_str(str_to_hash):
     return str(sum([ord(i) for i in str_to_hash]))
+
+
+# ------------------------------------------------------------------------
+# function:
+#   get_clients_to_notify()
+# ------------------------------------------------------------------------
+def get_clients_to_notify(df_inv):
+
+    df_inc              = get_df_income(df_inv)
+    df_due_inc          = get_due_invoices(df_inc)
+
+    limit_days          = days_left_in_week()
+    df_upcoming_inc     = get_upcoming_invoices(df_inc, limit_days)
+
+
+    df      = df_due_inc.append(df_upcoming_inc)
+
+    clients = df['counterpart'].unique()
+
+    return clients

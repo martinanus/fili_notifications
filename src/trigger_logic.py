@@ -3,13 +3,13 @@ import utils
 
 # ------------------------------------------------------------------------
 # function:
-#   send_receipt_notif()
+#   send_internal_receipt_notif()
 # ------------------------------------------------------------------------
-def send_receipt_notif(df_config):
-    notif_type = df_config["internal_notification_type"].values[0]
+def send_internal_receipt_notif(df_config):
+    notif_type = df_config["internal_notification_type"][0]
 
     if (notif_type == "Cobros") or (notif_type == "Ambos"):
-        if utils.is_monday() is True:
+        if utils.is_monday():
             return True
 
     return False
@@ -17,13 +17,13 @@ def send_receipt_notif(df_config):
 
 # ------------------------------------------------------------------------
 # function:
-#   send_payement_notif()
+#   send_internal_payement_notif()
 # ------------------------------------------------------------------------
-def send_payement_notif(df_config):
-    notif_type = df_config["internal_notification_type"].values[0]
+def send_internal_payement_notif(df_config):
+    notif_type = df_config["internal_notification_type"][0]
 
     if (notif_type == "Pagos") or (notif_type == "Ambos"):
-        if utils.is_monday() is True:
+        if utils.is_monday():
             return True
 
     return False
@@ -31,19 +31,13 @@ def send_payement_notif(df_config):
 
 # ------------------------------------------------------------------------
 # function:
-#   get_clients_to_notify()
+#   send_external_notif()
 # ------------------------------------------------------------------------
-def get_clients_to_notify(df_inv):
+def send_external_notif(df_config):
+    enable = df_config["external_notif_enable"][0]
 
-    df_inc              = utils.get_df_income(df_inv)
-    df_due_inc          = utils.get_due_invoices(df_inc)
+    if enable:
+        if (utils.is_monday()) or (utils.is_thursday()):
+            return True
 
-    limit_days          = utils.days_left_in_week()
-    df_upcoming_inc     = utils.get_upcoming_invoices(df_inc, limit_days)
-
-
-    df      = df_due_inc.append(df_upcoming_inc)
-
-    clients = df['counterpart'].unique()
-
-    return clients
+    return False
