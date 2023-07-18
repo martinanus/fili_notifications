@@ -394,3 +394,26 @@ def format_date_column(df_inv, col):
     df_inv[col] = df_inv[col].str.replace('-12-', '-Dic-')
 
     return df_inv
+
+# ------------------------------------------------------------------------
+# function:
+#   add_utm_to_link()
+# ------------------------------------------------------------------------
+def add_utm_to_link(link, source, medium, campaign, content=False):
+
+
+    url_with_utm = link+"?utm_source="+source+"&utm_medium="+medium+"&utm_campaign="+campaign
+
+    if content is not False:
+        url_with_utm += "&utm_content="+content
+
+    url_with_utm_no_space = url_with_utm.replace(" ", "_")
+
+    return url_with_utm_no_space
+
+# ------------------------------------------------------------------------
+# function:
+#   hash_str()
+# ------------------------------------------------------------------------
+def hash_str(str_to_hash):
+    return str(sum([ord(i) for i in str_to_hash]))

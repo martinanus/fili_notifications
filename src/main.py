@@ -49,6 +49,8 @@ def main(request):
     looker_link                 = request_args["looker_link"]
     notif_table_id              = "{0}.{1}.{2}".format(project_name, dataset_name, config_table_name)
     invoice_table_id            = "{0}.{1}.{2}".format(project_name, dataset_name, invoices_table_name)
+    dataset_hash                = utils.hash_str(dataset_name)
+    looker_link                 = utils.add_utm_to_link(looker_link, "int_notif", "mail", dataset_hash)
     print("\
             company name          : {0} \n\
             dataset               : {1} \n\
