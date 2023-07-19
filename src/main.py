@@ -85,7 +85,7 @@ def main(request):
         print("Payement notification not triggered")
 
     if inv_notified_int:
-        bq.update_notification_status_int(invoice_table_id, bq_client, inv_notified_int)
+        bq.update_notification_status(invoice_table_id, "notification_status_int", bq_client, inv_notified_int)
         print("Internal notification status has been updated in BQ")
 
 
@@ -100,7 +100,7 @@ def main(request):
             print("External notification sent to ", client)
 
         if inv_notified_ext:
-            bq.update_notification_status_ext(invoice_table_id, bq_client, inv_notified_ext)
+            bq.update_notification_status(invoice_table_id, "notification_status_ext", bq_client, inv_notified_ext)
             print("External notification status has been updated in BQ")
 
     print("Notification script run successfully")

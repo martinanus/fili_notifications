@@ -6,7 +6,7 @@ import utils
 #   send_internal_receipt_notif()
 # ------------------------------------------------------------------------
 def send_internal_receipt_notif(df_config):
-    notif_type = df_config["internal_notification_type"][0]
+    notif_type = df_config["internal_notification_type"].values[0]
 
     if (notif_type == "Cobros") or (notif_type == "Ambos"):
         if utils.is_monday():
@@ -20,7 +20,7 @@ def send_internal_receipt_notif(df_config):
 #   send_internal_payement_notif()
 # ------------------------------------------------------------------------
 def send_internal_payement_notif(df_config):
-    notif_type = df_config["internal_notification_type"][0]
+    notif_type = df_config["internal_notification_type"].values[0]
 
     if (notif_type == "Pagos") or (notif_type == "Ambos"):
         if utils.is_monday():
@@ -34,7 +34,7 @@ def send_internal_payement_notif(df_config):
 #   send_external_notif()
 # ------------------------------------------------------------------------
 def send_external_notif(df_config):
-    enable = df_config["external_notif_enable"][0]
+    enable = df_config["external_notif_enable"].values[0]
 
     if enable:
         if (utils.is_monday()) or (utils.is_thursday()):

@@ -9,7 +9,7 @@ def build_external_notif(notif_msgs, df_config, df_inv, client, inv_notified_ext
 
     df_inc                = utils.get_df_income(df_inv)
     df_client             = utils.get_inv_by_client(df_inc, client)
-    internal_email        = df_config["internal_email"][0]
+    internal_email        = df_config["internal_email"].values[0]
     msgs                  = get_msgs(notif_msgs, company_name)
 
     mail_body  = notif_msgs["starting_msg"].format(client=client)
@@ -81,16 +81,16 @@ def build_payment_methods(notif_msgs, df_config):
     paymment_confirmation_msg = False
 
 
-    if df_config["payment_gateway_interest"][0] is True:
-        payment_link    = df_config["payment_link"][0]
+    if df_config["payment_gateway_interest"].values[0] is True:
+        payment_link    = df_config["payment_link"].values[0]
         body            += notif_msgs["payment_link_msg"].format(payment_link=payment_link)
         paymment_confirmation_msg = True
 
 
-    if df_config["payment_transfer_interest"][0] is True:
-        bank                = df_config["payment_bank"][0]
-        account_owner       = df_config["payment_account_owner"][0]
-        alias               = df_config["payment_alias"][0]
+    if df_config["payment_transfer_interest"].values[0] is True:
+        bank                = df_config["payment_bank"].values[0]
+        account_owner       = df_config["payment_account_owner"].values[0]
+        alias               = df_config["payment_alias"].values[0]
         body                += notif_msgs["payment_link_msg"].format(bank=bank, account_owner=account_owner, alias=alias)
         paymment_confirmation_msg = True
 

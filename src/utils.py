@@ -105,7 +105,7 @@ def format_html_table(table, ext_expired=False):
 #   get_days_as_list()
 # ------------------------------------------------------------------------
 def get_days_as_list(df_config, column, neg_list=False):
-    vals            = df_config[column][0]
+    vals            = df_config[column].values[0]
     if (vals is None) or (vals[0:7] == 'Ninguna'):
         return []
     vals_trim       = re.sub("[^0-9,-]", "", vals)
@@ -129,7 +129,7 @@ def get_days_as_list(df_config, column, neg_list=False):
 #   get_internal_mails_as_list()
 # ------------------------------------------------------------------------
 def get_internal_mails_as_list(df_config):
-    vals            = df_config["internal_email"][0]
+    vals            = df_config["internal_email"].values[0]
     if (vals is None) or ('@' not in vals) or ('.' not in vals):
         return []
     str_l           = vals.split(',')
@@ -142,7 +142,7 @@ def get_internal_mails_as_list(df_config):
 #   get_contact_mail_as_list()
 # ------------------------------------------------------------------------
 def get_contact_mail_as_list(df_client):
-    vals            = df_client["contact_email"][0]
+    vals            = df_client["contact_email"].values[0]
     if (vals is None) or ('@' not in vals) or ('.' not in vals):
         return []
     str_l           = vals.split(',')
@@ -266,7 +266,7 @@ def get_upcoming_invoices(df_in, limit_days):
 #   get_periodicity_in_days()
 # ------------------------------------------------------------------------
 def get_periodicity_in_days(df_config):
-    periodicity = df_config["internal_periodicity"][0]
+    periodicity = df_config["internal_periodicity"].values[0]
     if periodicity == "Semanalmente":
         days = 7
     elif periodicity == "Quincenalmente":
