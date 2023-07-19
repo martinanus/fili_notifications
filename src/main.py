@@ -102,6 +102,8 @@ def main(request):
         if inv_notified_ext:
             bq.update_notification_status(invoice_table_id, "notification_status_ext", bq_client, inv_notified_ext)
             print("External notification status has been updated in BQ")
+    else:
+        print("External notification not triggered")
 
     print("Notification script run successfully")
     return "OK"
