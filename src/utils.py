@@ -447,7 +447,7 @@ def add_utm_to_link(link, source, medium, campaign, content=False):
 #   hash_str()
 # ------------------------------------------------------------------------
 def hash_str(str_to_hash):
-    return str(sum([ord(i) for i in str_to_hash]))
+    return str(sum([ord(c) for c in str_to_hash])*ord(str_to_hash[0]))
 
 
 # ------------------------------------------------------------------------
