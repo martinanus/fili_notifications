@@ -2,7 +2,7 @@
   "starting_msg"                  : "Buen día {client},<BR><BR>",
   "ending_msg"                    : "Saludos,<BR>El equipo de Fili<BR><a href= {fili_web_url}>somosfili.com</a>",
 
-  "bank_information"              : "Aquí se encuentra la información de la cuenta bancaria a la que enviar las transferencias:<BR>    &emsp; &#x2022; Banco: {bank} <BR>    &emsp; &#x2022; Titular de la cuenta: {account_owner} <BR>    &emsp; &#x2022; Alias: {alias}   <BR> <BR>",
+  "bank_information"              : "Aquí se encuentra la información de la cuenta bancaria a la que enviar las transferencias:<BR>    &emsp; &#x2022; Banco: {bank} <BR>    &emsp; &#x2022; Titular de la cuenta: {account_owner} <BR>    &emsp; &#x2022; Alias/CBU: {alias_cbu}   <BR> <BR>",
   "payment_link_msg"              : "Además, en este link hay medios de pago adicionales para pagar sus cuentas:<BR> <a href='{payment_link}'>{payment_link} </a> <BR> <BR>",
   "payment_confirmation_msg"      : "Por favor, envíe el comprobante de pago al canal de comunicación utilizado habitualmente.<BR><BR><BR>",
   "no_response_warning"           : "<b><u>No responda a este correo, ante cualquier eventualidad, haga <a href= https://mail.google.com/mail/?fs=1&to={internal_email}&tf=cm>click aquí</a> para comunicarse con {company_name}.</u></b><BR><BR>",

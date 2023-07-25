@@ -80,21 +80,20 @@ def build_payment_methods(notif_msgs, df_config):
 
     paymment_confirmation_msg = False
 
-
-    if df_config["payment_gateway_interest"].values[0] is True:
+    if df_config["payment_gateway_interest"].values[0]:
         payment_link    = df_config["payment_link"].values[0]
         body            += notif_msgs["payment_link_msg"].format(payment_link=payment_link)
         paymment_confirmation_msg = True
 
 
-    if df_config["payment_transfer_interest"].values[0] is True:
+    if df_config["payment_transfer_interest"].values[0]:
         bank                = df_config["payment_bank"].values[0]
         account_owner       = df_config["payment_account_owner"].values[0]
-        alias               = df_config["payment_alias"].values[0]
-        body                += notif_msgs["payment_link_msg"].format(bank=bank, account_owner=account_owner, alias=alias)
+        alias_cbu           = df_config["payment_alias_cbu"].values[0]
+        body                += notif_msgs["bank_information"].format(bank=bank, account_owner=account_owner, alias_cbu=alias_cbu)
         paymment_confirmation_msg = True
 
-    if paymment_confirmation_msg is True:
+    if paymment_confirmation_msg:
         body            += notif_msgs["payment_confirmation_msg"]
 
     return body
