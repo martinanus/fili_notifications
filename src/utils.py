@@ -38,6 +38,9 @@ def get_df_as_internal_html_table(df):
 
     df.loc[df['currency'] == "peso", 'currency']            = '$'
     df.loc[df['currency'] == "dollar_official", 'currency'] = 'USD'
+    df.loc[df['currency'] == "dollar_blue", 'currency']     = 'USD'
+    df.loc[df['currency'] == "dollar_mep", 'currency']      = 'USD'
+
     df['amount_currency'] = df['currency'].map(str) + ' ' + df['amount'].map(str)
 
     df.index = np.arange(1, len(df) + 1)
