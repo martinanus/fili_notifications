@@ -17,6 +17,7 @@ import smtp
 key_path                    = "credentials.json"
 internal_notif_msgs_path    = "internal_notif_msgs.json"
 external_notif_msgs_path    = "external_notif_msgs.json"
+fili_web_base_url           = "https://www.somosfili.com"
 smtp_sender                 = "soporte@somosfili.com"
 smtp_password               = "ssoxfgtuaurhtopd"
 project_name                = "fili-377220"
@@ -53,10 +54,9 @@ def main(request):
     looker_link                 = utils.add_utm_to_link(looker_link, "int_notif", "mail", dataset_hash)
     print("\
             company name          : {0} \n\
-            dataset               : {1} \n\
-            looker_link           : {2} \n"
-            .format(company_name, dataset_name, looker_link))
-
+            dataset_name / _hash  : {1} /  {2} \n\
+            looker_link           : {3} \n"
+            .format(company_name, dataset_name, dataset_hash, looker_link))
 
     bq_client               = bq.get_client(key_path)
     df_config               = bq.get_configuration(notif_table_id, bq_client)
@@ -70,34 +70,40 @@ def main(request):
     inv_notified_int        = []
     inv_notified_ext        = []
 
-    if trig.send_receipt_notif(df_config):
+    if trig.send_internal_receipt_notif(df_config):
         internal_receipt_mail = inb.build_internal_receipt_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int, looker_link)
         smtp.send_email_smtp(internal_receipt_mail, smtp_sender, smtp_password)
         print("Receipt notification email sent")
     else:
-        print("Receipt notification not configured")
+        print("Receipt notification not triggered")
 
-    if trig.send_payement_notif(df_config):
+    if trig.send_internal_payement_notif(df_config):
         internal_payement_mail  = inb.build_internal_payements_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int, looker_link)
         smtp.send_email_smtp(internal_payement_mail, smtp_sender, smtp_password)
         print("Payement notification email sent")
     else:
-        print("Payement notification not configured")
+        print("Payement notification not triggered")
 
     if inv_notified_int:
-        bq.update_notification_status_int(invoice_table_id, bq_client, inv_notified_int)
+        bq.update_notification_status(invoice_table_id, "notification_status_int", bq_client, inv_notified_int)
         print("Internal notification status has been updated in BQ")
 
 
-    clients_to_notify = trig.get_clients_to_notify(df_config, df_inv)
-    for client in clients_to_notify:
-        external_mail = enb.build_external_notif(external_notif_msgs, df_config, df_inv, client, inv_notified_ext, company_name)
-        smtp.send_email_smtp(external_mail, smtp_sender, smtp_password)
-        print("External notification sent to ", client)
+    if trig.send_external_notif(df_config):
+        clients_to_notify = utils.get_clients_to_notify(df_inv)
 
-    if inv_notified_ext:
-        bq.update_notification_status_ext(invoice_table_id, bq_client, inv_notified_ext)
-        print("External notification status has been updated in BQ")
+        for client in clients_to_notify:
+            client_hash     = utils.hash_str(client)
+            fili_web_url    = utils.add_utm_to_link(fili_web_base_url, "ext_notif", "mail", dataset_hash, client_hash)
+            external_mail   = enb.build_external_notif(external_notif_msgs, df_config, df_inv, client, inv_notified_ext, company_name, fili_web_url)
+            smtp.send_email_smtp(external_mail, smtp_sender, smtp_password)
+            print("External notification sent to ", client)
+
+        if inv_notified_ext:
+            bq.update_notification_status(invoice_table_id, "notification_status_ext", bq_client, inv_notified_ext)
+            print("External notification status has been updated in BQ")
+    else:
+        print("External notification not triggered")
 
     print("Notification script run successfully")
     return "OK"
