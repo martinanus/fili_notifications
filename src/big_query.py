@@ -49,46 +49,18 @@ def get_pending_invoices(table_id, bq_client):
 
     return df
 
-
 # ------------------------------------------------------------------------
 # function:
-#   update_notification_status_int()
+#   update_notification_status()
 # ------------------------------------------------------------------------
-def update_notification_status_int(table_id, bq_client, inv_notified_int):
+def update_notification_status(table_id, field, bq_client, inv_notified):
 
-    invoices_id = ','.join([("'"+(str(i))+"'") for i in inv_notified_int])
+    invoices_id = ','.join([("'"+(str(i))+"'") for i in inv_notified])
 
     query = """
     UPDATE `""" + table_id + """`
-    SET   notification_status_int='notified'
-    WHERE unique_key in (""" + invoices_id + """)"""
-
-    query_job       = bq_client.query(query)
-    query_job.result()
-
-# ------------------------------------------------------------------------
-# function:
-#   update_notification_status_ext()
-# ------------------------------------------------------------------------
-def update_notification_status_ext(table_id, bq_client, inv_notified_ext):
-
-    invoices_id = ','.join([("'"+(str(i))+"'") for i in inv_notified_ext])
-
-    query = """
-    UPDATE `""" + table_id + """`
-    SET
-    notification_status_ext =
-        CASE
-            WHEN days_to_pay >  -1                        THEN "notified_0"
-            WHEN days_to_pay <   0 AND days_to_pay > -21  THEN "notified_1"
-            WHEN days_to_pay < -20 AND days_to_pay > -51  THEN "notified_2"
-            WHEN days_to_pay < -50 AND days_to_pay > -81  THEN "notified_3"
-            WHEN days_to_pay < -80                        THEN "notified_4"
-        ELSE
-            notification_status_ext
-        END
-    WHERE
-    unique_key in  (""" + invoices_id + """);"""
+    SET     """ + field    +""" = 'notified'
+    WHERE   unique_key in  (""" + invoices_id + """);"""
 
     query_job       = bq_client.query(query)
     query_job.result()
