@@ -36,7 +36,7 @@ def build_internal_receipt_notif_expired(receipts_msgs, df_inv, inv_notified_int
         body            += receipts_msgs["invoice_expired_msg"]
         body            += html_table
         body            += receipts_msgs["hint_invoice_expired_msg"].format(looker_link=looker_link)
-        [inv_notified_int.append(id) for id in df_due_inc.unique_key.values]
+        [inv_notified_int.append(id) for id in df_due_inc.invoice_unique_key.values]
     else:
         body            += receipts_msgs["no_invoice_expired_msg"]
 
@@ -63,7 +63,7 @@ def build_internal_receipt_notif_to_expire(receipts_msgs, df_config, df_inv, inv
         body            += receipts_msgs["invoice_to_expire_msg"].format(highest_notif_day=limit_days)
         body            += html_table
         body            += receipts_msgs["hint_invoice_to_expire_msg"].format(looker_link=looker_link)
-        [inv_notified_int.append(id) for id in df_upcoming_inc.unique_key.values]
+        [inv_notified_int.append(id) for id in df_upcoming_inc.invoice_unique_key.values]
     else:
         body            += receipts_msgs["no_invoice_to_expire_msg"].format(highest_notif_day=limit_days)
 
@@ -109,7 +109,7 @@ def build_internal_payements_notif_expired(paymements_msgs, df_inv, inv_notified
         body            += paymements_msgs["invoice_expired_msg"]
         body            += html_table
         body            += paymements_msgs["hint_invoice_expired_msg"].format(looker_link=looker_link)
-        [inv_notified_int.append(id) for id in df_due_out.unique_key.values]
+        [inv_notified_int.append(id) for id in df_due_out.invoice_unique_key.values]
     else:
         body            += paymements_msgs["no_invoice_expired_msg"]
 
@@ -137,7 +137,7 @@ def build_internal_payements_notif_to_expire(paymements_msgs, df_config, df_inv,
         body            += paymements_msgs["invoice_to_expire_msg"].format(highest_notif_day=limit_days)
         body            += html_table
         body            += paymements_msgs["hint_invoice_to_expire_msg"]
-        [inv_notified_int.append(id) for id in df_upcoming_out.unique_key.values]
+        [inv_notified_int.append(id) for id in df_upcoming_out.invoice_unique_key.values]
     else:
         body            += paymements_msgs["no_invoice_to_expire_msg"].format(highest_notif_day=limit_days)
 

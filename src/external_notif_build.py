@@ -46,7 +46,7 @@ def build_external_notif_expired(msgs, df_client, inv_notified_ext):
         body            += html_table
         body            += msgs["expired_instr"]
 
-        [inv_notified_ext.append(id) for id in df_due.unique_key.values]
+        [inv_notified_ext.append(id) for id in df_due.invoice_unique_key.values]
 
     return body
 
@@ -66,7 +66,7 @@ def build_external_notif_to_expire(msgs, df_client, inv_notified_ext):
         body            += msgs["to_expire"]
         body            += html_table
 
-        [inv_notified_ext.append(id) for id in df_upcoming_inc.unique_key.values]
+        [inv_notified_ext.append(id) for id in df_upcoming_inc.invoice_unique_key.values]
 
     return body
 

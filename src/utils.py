@@ -309,12 +309,12 @@ def get_to_expire_debt(df_client):
 
 # ------------------------------------------------------------------------
 # function:
-#   get_oldest_unique_key()
+#   get_oldest_invoice_unique_key()
 # ------------------------------------------------------------------------
-def get_oldest_unique_key(df_client):
+def get_oldest_invoice_unique_key(df_client):
     df_client = df_client.sort_values(by='days_to_pay', ascending=True).reset_index()
-    oldest_unique_key = df_client.unique_key[0]
-    return oldest_unique_key
+    oldest_invoice_unique_key = df_client.invoice_unique_key[0]
+    return oldest_invoice_unique_key
 
 # ------------------------------------------------------------------------
 # function:
