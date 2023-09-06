@@ -1,5 +1,20 @@
 import utils
 
+# ------------------------------------------------------------------------
+# function:
+#   send_daily_due_notification()
+# ------------------------------------------------------------------------
+def send_daily_due_notification(df_config, df_inv):
+    # TODO - read this configuration from BQ
+    #enable = df_config["daily_due_notification_enable"].values[0]
+    enable = True
+
+    if enable:
+        df_today_due_inv = utils.get_today_due_invoices(df_inv)
+        if not df_today_due_inv.empty:
+            return True
+
+    return False
 
 # ------------------------------------------------------------------------
 # function:

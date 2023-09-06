@@ -2,6 +2,18 @@
   "starting_msg"                  : "Estimado/a, <BR><BR>",
   "ending_msg"                    : "Saludos, <BR> El equipo de Fili <BR>",
 
+  "daily_due_msgs" : {
+    "subject"                       : "Recordatorio vencimientos de HOY",
+
+    "invoice_payment_msg"           : "Le recordamos que las siguientes cuentas por pagar <u><b>vencen HOY</b></u>: <BR>",
+    "hint_invoice_payment_msg"      : "Sugerimos comunicarse con sus proveedores para expresarles la intención de pago, el medio y la fecha esperada del mismo. <BR><BR>",
+
+    "invoice_receipt_msg"           : "Le recordamos que las siguientes cuentas por cobrar <u><b>vencen HOY</b></u>: <BR>",
+    "hint_invoice_receipt_msg"      : "Sugerimos un seguimiento cercano por Whatsapp/SMS al contacto principal de estos clientes indagando por la fecha de cobro estimada. <BR><BR>",
+
+    "looker_referal_msg"            : "Si alguno de estas facturas ya se encuentra pago/cobrado, accedé al Portal de Carga desde <a href= {looker_link}>nuestra plataforma</a> en la pestaña de \"Carga de Datos\" y registrá la transacción correspondiente. <BR><BR>"
+  },
+
   "payements_msgs" : {
     "subject"                       : "PAGO - Recordatorio de vencimientos",
     "no_invoice_today_msg"          : "<u><b>NO</b></u> tiene cuentas por pagar que vencen HOY. <BR><BR>",

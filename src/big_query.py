@@ -51,6 +51,22 @@ def get_pending_invoices(table_id, bq_client):
 
 # ------------------------------------------------------------------------
 # function:
+#   get_crm()
+# ------------------------------------------------------------------------
+def get_crm(table_id, bq_client):
+
+    query = """
+    SELECT counterpart, payment_bank, payment_alias_cbu, cuit, contact_email
+    FROM `""" + table_id + """` """
+
+    query_job       = bq_client.query(query)
+    result          = query_job.result()
+    df              = result.to_dataframe()
+
+    return df
+
+# ------------------------------------------------------------------------
+# function:
 #   update_notification_status()
 # ------------------------------------------------------------------------
 def update_notification_status(table_id, field, bq_client, inv_notified):
