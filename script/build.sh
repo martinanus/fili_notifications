@@ -1,1 +1,1 @@
-zip -j ../fili_notification.zip ../src/*
+zip -j ../fili_notification.zip ../src/* -x test_plain.py

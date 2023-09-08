@@ -22,7 +22,9 @@ smtp_sender                 = "soporte@somosfili.com"
 smtp_password               = "ssoxfgtuaurhtopd"
 project_name                = "fili-377220"
 config_table_name           = "c_01_notification_config_t"
-invoices_table_name         = "i_06_invoices_t"
+invoices_table_name         = "ip_01_invoices_and_payments_t"
+status_update_table_name    = "i_06_invoices_t"
+crm_table_name              = "i_00_crm_t"
 db_request                     = {'args' : {
                                     'company_name':'sandbox',
                                     'dataset_name': 'fili_sandbox',
@@ -50,6 +52,8 @@ def main(request):
     looker_link                 = request_args["looker_link"]
     notif_table_id              = "{0}.{1}.{2}".format(project_name, dataset_name, config_table_name)
     invoice_table_id            = "{0}.{1}.{2}".format(project_name, dataset_name, invoices_table_name)
+    status_update_table_id      = "{0}.{1}.{2}".format(project_name, dataset_name, status_update_table_name)
+    crm_table_id                = "{0}.{1}.{2}".format(project_name, dataset_name, crm_table_name)
     dataset_hash                = utils.hash_str(dataset_name)
     looker_link                 = utils.add_utm_to_link(looker_link, "int_notif", "mail", dataset_hash)
     print("\
@@ -70,6 +74,16 @@ def main(request):
     inv_notified_int        = []
     inv_notified_ext        = []
 
+    # Internal daily notification on dues
+    if trig.send_daily_due_notification(df_config, df_inv):
+        df_crm         = bq.get_crm(crm_table_id, bq_client)
+        daily_due_mail = inb.build_daily_due_notif(internal_notif_msgs, df_config, df_inv, df_crm, inv_notified_int, looker_link)
+        smtp.send_email_smtp(daily_due_mail, smtp_sender, smtp_password)
+        print("Daily due notification email sent")
+    else:
+        print("Daily due notification not triggered")
+
+    # Internal periodic summary notification
     if trig.send_internal_receipt_notif(df_config):
         internal_receipt_mail = inb.build_internal_receipt_notif(internal_notif_msgs, df_config, df_inv, inv_notified_int, looker_link)
         smtp.send_email_smtp(internal_receipt_mail, smtp_sender, smtp_password)
@@ -85,10 +99,11 @@ def main(request):
         print("Payement notification not triggered")
 
     if inv_notified_int:
-        bq.update_notification_status(invoice_table_id, "notification_status_int", bq_client, inv_notified_int)
+        bq.update_notification_status(status_update_table_id, "notification_status_int", bq_client, inv_notified_int)
         print("Internal notification status has been updated in BQ")
 
 
+    # External periodic summary notification
     if trig.send_external_notif(df_config):
         clients_to_notify = utils.get_clients_to_notify(df_inv)
 
@@ -100,7 +115,7 @@ def main(request):
             print("External notification sent to ", client)
 
         if inv_notified_ext:
-            bq.update_notification_status(invoice_table_id, "notification_status_ext", bq_client, inv_notified_ext)
+            bq.update_notification_status(status_update_table_id, "notification_status_ext", bq_client, inv_notified_ext)
             print("External notification status has been updated in BQ")
     else:
         print("External notification not triggered")

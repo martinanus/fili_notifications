@@ -38,10 +38,26 @@ def get_configuration(table_id, bq_client):
 def get_pending_invoices(table_id, bq_client):
 
     query = """
-    SELECT url_invoice, is_income, counterpart, currency, amount, invoice_id, unique_key, due_date, contact_email, days_to_pay,
+    SELECT url_invoice, is_income, counterpart, currency, amount, invoice_id, invoice_unique_key, due_date, contact_email, days_to_pay,
             notification_status_int, notification_status_ext, installment_i, installment_total, is_invoice
     FROM `""" + table_id + """`
-    WHERE status!='aprobada'"""
+    WHERE invoice_payment_relation='invoice' """
+
+    query_job       = bq_client.query(query)
+    result          = query_job.result()
+    df              = result.to_dataframe()
+
+    return df
+
+# ------------------------------------------------------------------------
+# function:
+#   get_crm()
+# ------------------------------------------------------------------------
+def get_crm(table_id, bq_client):
+
+    query = """
+    SELECT counterpart, payment_bank, payment_alias_cbu, cuit, contact_email
+    FROM `""" + table_id + """` """
 
     query_job       = bq_client.query(query)
     result          = query_job.result()

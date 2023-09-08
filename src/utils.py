@@ -19,9 +19,34 @@ def read_json_file(path):
 
 # ------------------------------------------------------------------------
 # function:
-#   get_df_as_internal_html_table()s
+#   merge_crm_data()s
 # ------------------------------------------------------------------------
-def get_df_as_internal_html_table(df):
+def merge_crm_data(df_inv, df_crm):
+    return pd.merge(df_inv, df_crm, on=["counterpart"], suffixes=('_inv', ''))
+
+
+
+# ------------------------------------------------------------------------
+# function:
+#   preformat_df_to_html_table()
+# ------------------------------------------------------------------------
+def preformat_df_to_html_table(df):
+    df.loc[df['currency'] == "peso", 'currency']            = '$'
+    df.loc[df['currency'] == "dollar_official", 'currency'] = 'USD'
+    df.loc[df['currency'] == "dollar_blue", 'currency']     = 'USD'
+    df.loc[df['currency'] == "dollar_mep", 'currency']      = 'USD'
+
+    df['amount_currency'] = df['currency'].map(str) + ' ' + df['amount'].map(str)
+
+    df['showable_url'] = '<a href="'+ df['url_invoice'].map(str) +'"> Click aquí</a>'
+
+    df.loc[df['url_invoice'].isnull(), 'showable_url'] = '-'
+    df.loc[df['payment_bank'].isnull(), 'payment_bank'] = '-'
+    df.loc[df['payment_alias_cbu'].isnull(), 'payment_alias_cbu'] = '-'
+    df.loc[df['cuit'].isnull(), 'cuit'] = '-'
+    df.loc[df['contact_email'].isnull(), 'contact_email'] = '-'
+
+    df.index = np.arange(1, len(df) + 1)
 
     df['installment'] = df['installment_i'].map(str) + ' / ' + df['installment_total'].map(str)
     df = format_date_column(df, 'due_date')
@@ -30,22 +55,56 @@ def get_df_as_internal_html_table(df):
     [amount_str.append("{:,.2f}".format(f)) for f in df['amount']]
     df['amount'] = amount_str
 
-    df['showable_url'] = '<a href="'+ df['url_invoice'].map(str) +'"> Click aquí</a>'
-    df.loc[df['url_invoice'].isnull(), 'showable_url'] = '-'
-
-    df.loc[df['contact_email'].isnull(), 'contact_email'] = '-'
+    df['days_to_pay'] = df['days_to_pay'].abs().astype({'days_to_pay':'int'})
 
 
-    df.loc[df['currency'] == "peso", 'currency']            = '$'
-    df.loc[df['currency'] == "dollar_official", 'currency'] = 'USD'
-    df.loc[df['currency'] == "dollar_blue", 'currency']     = 'USD'
-    df.loc[df['currency'] == "dollar_mep", 'currency']      = 'USD'
+    return df
 
-    df['amount_currency'] = df['currency'].map(str) + ' ' + df['amount'].map(str)
 
-    df.index = np.arange(1, len(df) + 1)
+# ------------------------------------------------------------------------
+# function:
+#   get_df_as_daily_due_payment_html_table()s
+# ------------------------------------------------------------------------
+def get_df_as_daily_due_payment_html_table(df):
 
-    html_table = df.to_html(columns=['counterpart', 'amount_currency', 'invoice_id', 'due_date', 'contact_email', 'installment', 'showable_url'], justify='center', float_format='%.2f')
+    df_formatted = preformat_df_to_html_table(df)
+
+    html_table = df_formatted.to_html(columns=['counterpart', 'amount_currency', 'payment_bank',
+                                     'payment_alias_cbu', 'cuit', 'contact_email',
+                                      'showable_url' ], justify='center', float_format='%.2f')
+
+    html_table = html_table.replace('&lt;', '<')
+    html_table = html_table.replace('&gt;', '>')
+
+    return html_table
+
+# ------------------------------------------------------------------------
+# function:
+#   get_df_as_daily_due_receipt_html_table()
+# ------------------------------------------------------------------------
+def get_df_as_daily_due_receipt_html_table(df):
+
+    df_formatted = preformat_df_to_html_table(df)
+
+
+    html_table = df_formatted.to_html(columns=['counterpart', 'amount_currency', 'contact_email',
+                                      'showable_url' ], justify='center', float_format='%.2f')
+
+    html_table = html_table.replace('&lt;', '<')
+    html_table = html_table.replace('&gt;', '>')
+
+    return html_table
+
+
+# ------------------------------------------------------------------------
+# function:
+#   get_df_as_internal_html_table()s
+# ------------------------------------------------------------------------
+def get_df_as_internal_html_table(df):
+
+    df_formatted = preformat_df_to_html_table(df)
+
+    html_table = df_formatted.to_html(columns=['counterpart', 'amount_currency', 'invoice_id', 'due_date', 'contact_email', 'installment', 'showable_url'], justify='center', float_format='%.2f')
 
     html_table = html_table.replace('&lt;', '<')
     html_table = html_table.replace('&gt;', '>')
@@ -57,25 +116,13 @@ def get_df_as_internal_html_table(df):
 #   get_df_as_external_html_table()
 # ------------------------------------------------------------------------
 def get_df_as_external_html_table(df):
-    df['days_to_pay'] = df['days_to_pay'].abs().astype({'days_to_pay':'int'})
-    df['installment'] = df['installment_i'].map(str) + ' / ' + df['installment_total'].map(str)
+    df_formatted = preformat_df_to_html_table(df)
 
-    df['showable_inv_id'] = df['invoice_id'].map(str)
-    df.loc[df['is_invoice'] == False, 'showable_inv_id'] = '-'
 
-    df = format_date_column(df, 'due_date')
+    df_formatted = format_date_column(df, 'due_date')
 
-    amount_str = []
-    [amount_str.append("{:,.2f}".format(f)) for f in df['amount']]
-    df['amount'] = amount_str
 
-    df.loc[df['currency'] == "peso", 'currency']            = '$'
-    df.loc[df['currency'] == "dollar_official", 'currency'] = 'USD'
-    df['amount_currency'] = df['currency'].map(str) + ' ' + df['amount'].map(str)
-
-    df.index = np.arange(1, len(df) + 1)
-
-    html_table = df.to_html(columns=['showable_inv_id', 'amount_currency', 'due_date', 'days_to_pay', 'installment'], justify='center', float_format='%.2f')
+    html_table = df_formatted.to_html(columns=['showable_inv_id', 'amount_currency', 'due_date', 'days_to_pay', 'installment'], justify='center', float_format='%.2f')
 
     return html_table
 
@@ -92,6 +139,9 @@ def format_html_table(table, ext_expired=False):
     table = table.replace('contact_email', 'E-mail')
     table = table.replace('installment', 'N° de cuota')
     table = table.replace('showable_url', 'Factura adjunta')
+    table = table.replace('payment_bank', 'Banco')
+    table = table.replace('payment_alias_cbu', 'Alias/CBU')
+    table = table.replace('cuit', 'CUIT')
 
 
     if ext_expired:
@@ -266,6 +316,14 @@ def get_upcoming_invoices(df_in, limit_days):
 
 # ------------------------------------------------------------------------
 # function:
+#   get_today_due_invoices()
+# ------------------------------------------------------------------------
+def get_today_due_invoices(df_in):
+    df_out = get_upcoming_invoices(df_in, 0)
+    return df_out
+
+# ------------------------------------------------------------------------
+# function:
 #   get_periodicity_in_days()
 # ------------------------------------------------------------------------
 def get_periodicity_in_days(df_config):
@@ -309,12 +367,12 @@ def get_to_expire_debt(df_client):
 
 # ------------------------------------------------------------------------
 # function:
-#   get_oldest_unique_key()
+#   get_oldest_invoice_unique_key()
 # ------------------------------------------------------------------------
-def get_oldest_unique_key(df_client):
+def get_oldest_invoice_unique_key(df_client):
     df_client = df_client.sort_values(by='days_to_pay', ascending=True).reset_index()
-    oldest_unique_key = df_client.unique_key[0]
-    return oldest_unique_key
+    oldest_invoice_unique_key = df_client.invoice_unique_key[0]
+    return oldest_invoice_unique_key
 
 # ------------------------------------------------------------------------
 # function:
