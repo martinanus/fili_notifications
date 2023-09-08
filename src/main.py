@@ -81,7 +81,7 @@ def main(request):
         smtp.send_email_smtp(daily_due_mail, smtp_sender, smtp_password)
         print("Daily due notification email sent")
     else:
-        print("Daily due notification email sent")
+        print("Daily due notification not triggered")
 
     # Internal periodic summary notification
     if trig.send_internal_receipt_notif(df_config):
