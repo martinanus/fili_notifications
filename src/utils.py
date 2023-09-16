@@ -30,7 +30,7 @@ def merge_crm_data(df_inv, df_crm):
 # function:
 #   preformat_df_to_html_table()
 # ------------------------------------------------------------------------
-def preformat_df_to_html_table(df):
+def preformat_df_to_html_table(df, crm_data):
     df.loc[df['currency'] == "peso", 'currency']            = '$'
     df.loc[df['currency'] == "dollar_official", 'currency'] = 'USD'
     df.loc[df['currency'] == "dollar_blue", 'currency']     = 'USD'
@@ -41,10 +41,14 @@ def preformat_df_to_html_table(df):
     df['showable_url'] = '<a href="'+ df['url_invoice'].map(str) +'"> Click aquí</a>'
 
     df.loc[df['url_invoice'].isnull(), 'showable_url'] = '-'
-    df.loc[df['payment_bank'].isnull(), 'payment_bank'] = '-'
-    df.loc[df['payment_alias_cbu'].isnull(), 'payment_alias_cbu'] = '-'
-    df.loc[df['cuit'].isnull(), 'cuit'] = '-'
     df.loc[df['contact_email'].isnull(), 'contact_email'] = '-'
+
+    if crm_data:
+        df.loc[df['payment_bank'].isnull(), 'payment_bank'] = '-'
+        df.loc[df['payment_alias_cbu'].isnull(), 'payment_alias_cbu'] = '-'
+        df.loc[df['cuit'].isnull(), 'cuit'] = '-'
+
+
 
     df.index = np.arange(1, len(df) + 1)
 
@@ -67,7 +71,7 @@ def preformat_df_to_html_table(df):
 # ------------------------------------------------------------------------
 def get_df_as_daily_due_payment_html_table(df):
 
-    df_formatted = preformat_df_to_html_table(df)
+    df_formatted = preformat_df_to_html_table(df, crm_data=True)
 
     html_table = df_formatted.to_html(columns=['counterpart', 'amount_currency', 'payment_bank',
                                      'payment_alias_cbu', 'cuit', 'contact_email',
@@ -84,7 +88,7 @@ def get_df_as_daily_due_payment_html_table(df):
 # ------------------------------------------------------------------------
 def get_df_as_daily_due_receipt_html_table(df):
 
-    df_formatted = preformat_df_to_html_table(df)
+    df_formatted = preformat_df_to_html_table(df, crm_data=True)
 
 
     html_table = df_formatted.to_html(columns=['counterpart', 'amount_currency', 'contact_email',
@@ -102,7 +106,7 @@ def get_df_as_daily_due_receipt_html_table(df):
 # ------------------------------------------------------------------------
 def get_df_as_internal_html_table(df):
 
-    df_formatted = preformat_df_to_html_table(df)
+    df_formatted = preformat_df_to_html_table(df, crm_data=False)
 
     html_table = df_formatted.to_html(columns=['counterpart', 'amount_currency', 'invoice_id', 'due_date', 'contact_email', 'installment', 'showable_url'], justify='center', float_format='%.2f')
 
@@ -116,7 +120,7 @@ def get_df_as_internal_html_table(df):
 #   get_df_as_external_html_table()
 # ------------------------------------------------------------------------
 def get_df_as_external_html_table(df):
-    df_formatted = preformat_df_to_html_table(df)
+    df_formatted = preformat_df_to_html_table(df, crm_data=False)
 
 
     df_formatted = format_date_column(df, 'due_date')
